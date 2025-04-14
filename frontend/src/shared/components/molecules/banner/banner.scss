@@ -1,0 +1,47 @@
+@import "@styles";
+
+:host {
+  width: 100%;
+  height: 60%;
+  background-color: rgb(118, 118, 118);
+
+  display: block;
+  position: relative;
+
+  padding: 60px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.banner {
+  &__content {
+    margin-top: 60px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  &__title {
+    font-size: $text-size--big;
+  }
+
+  &__rating {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+  }
+
+  &__description {
+    width: 500px;
+  }
+
+  &__genre {
+    display: flex;
+
+    gap: 20px;
+  }
+}

@@ -10,12 +10,14 @@
   box-sizing: border-box;
   padding: 5px;
 
-  position: sticky;
-  top: 0%;
+  position: absolute;
+  top: 0px;
 
   display: flex;
   flex-direction: row;
   gap: 25px;
+
+  z-index: 9999;
 }
 
 base-button:first-of-type {

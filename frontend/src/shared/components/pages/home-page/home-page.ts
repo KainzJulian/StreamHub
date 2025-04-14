@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { HomeTemplate } from '../../templates/home-template/home-template';
-import { MediaCard } from '../../molecules/media-card/media-card';
+import { MediaCard } from '../../atoms/media-card/media-card';
 import { Media } from '../../../types/media';
+import { Banner } from '../../molecules/banner/banner';
 
 @Component({
   selector: 'home-page',
   standalone: true,
-  imports: [HomeTemplate, MediaCard],
+  imports: [HomeTemplate, MediaCard, Banner],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })

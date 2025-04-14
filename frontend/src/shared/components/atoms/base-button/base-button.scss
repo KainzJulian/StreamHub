@@ -1,3 +1,5 @@
+@import "@styles";
+
 :host(.header__button) {
   button {
     background-color: rgba(0, 0, 0, 0);
@@ -27,6 +29,25 @@
     width: 50px;
     &:hover {
       background-color: black;
+    }
+  }
+}
+
+:host(.banner__button) {
+  button {
+    cursor: pointer;
+    background-color: black;
+    width: auto;
+    height: auto;
+
+    border: none;
+
+    padding: 12px;
+
+    border-radius: $radius--small;
+
+    &:hover {
+      background-color: rgb(36, 36, 36);
     }
   }
 }
