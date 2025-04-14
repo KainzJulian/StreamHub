@@ -1,0 +1,36 @@
+:host(.header__button) {
+  button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+
+    height: 100%;
+    width: auto;
+
+    &:hover {
+      background-color: black;
+    }
+  }
+}
+
+:host(.header__icon) {
+  button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+
+    height: 100%;
+    width: 50px;
+    &:hover {
+      background-color: black;
+    }
+  }
+}
+
+button {
+  border-radius: 4px;
+}
