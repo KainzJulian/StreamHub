@@ -1,4 +1,4 @@
-import { Genre } from './Genre';
+import { Genre } from './genre';
 
 export class Media {
   id: string | null;
@@ -7,9 +7,12 @@ export class Media {
   duration: number | null;
   genreList: Genre[] | null;
   pathMedia: string | null;
+
+  isComplete: boolean = false;
+
   rating: number | null;
 
-  isEpisode: boolean | null;
+  isSeries: boolean | null;
   season: number | null;
   episode: number | null;
 
@@ -22,8 +25,13 @@ export class Media {
     this.pathMedia = data.pathMedia ?? null;
     this.rating = data.rating ?? null;
 
-    this.isEpisode = data.isEpisode ?? null;
+    this.isSeries = data.isSeries ?? null;
     this.season = data.season ?? null;
     this.episode = data.episode ?? null;
+    this.isComplete = data.isComplete ?? false;
+  }
+
+  public getMediaType(): string {
+    return this.isSeries ? 'Series' : 'Movie';
   }
 }

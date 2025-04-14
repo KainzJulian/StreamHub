@@ -1,4 +1,4 @@
-import { Media } from './Media';
+import { Media } from './media';
 
 export class CurrentMedia {
   currentMedia: Media | null;
