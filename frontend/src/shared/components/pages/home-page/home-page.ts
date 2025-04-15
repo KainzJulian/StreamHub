@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { HomeTemplate } from '../../templates/home-template/home-template';
-import { MediaCard } from '../../atoms/media-card/media-card';
 import { Media } from '../../../types/media';
 import { Banner } from '../../molecules/banner/banner';
+import { Genre } from '../../../types/genre';
 
 @Component({
   selector: 'home-page',
   standalone: true,
-  imports: [HomeTemplate, MediaCard, Banner],
+  imports: [HomeTemplate, Banner],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })
@@ -19,7 +19,7 @@ export class HomePage {
       description:
         'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
       duration: 148,
-      genreList: [],
+      genreList: Object.values(Genre),
       pathMedia: '/assets/media/inception.jpg',
       rating: 90,
       isSeries: false,

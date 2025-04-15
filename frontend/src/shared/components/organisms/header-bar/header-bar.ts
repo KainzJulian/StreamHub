@@ -9,4 +9,20 @@ import { Icon } from '../../atoms/icon/icon';
   templateUrl: './header-bar.html',
   styleUrl: './header-bar.scss',
 })
-export class HeaderBar {}
+export class HeaderBar {
+  openSearch() {
+    throw new Error('Method not implemented.');
+  }
+
+  openSeriesPage() {
+    throw new Error('Method not implemented.');
+  }
+
+  openMoviesPage() {
+    throw new Error('Method not implemented.');
+  }
+
+  openHomePage() {
+    throw new Error('Method not implemented.');
+  }
+}

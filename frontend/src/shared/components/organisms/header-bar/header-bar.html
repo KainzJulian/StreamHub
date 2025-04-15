@@ -1,12 +1,12 @@
-<base-button class="header__button">
+<base-button (onClick)="this.openHomePage()" class="header__button">
   <p class="button__text">Home</p>
 </base-button>
-<base-button class="header__button">
+<base-button (onClick)="this.openMoviesPage()" class="header__button">
   <p class="button__text">Movies</p>
 </base-button>
-<base-button class="header__button">
+<base-button (onClick)="this.openSeriesPage()" class="header__button">
   <p class="button__text">Series</p>
 </base-button>
-<base-button class="header__icon">
+<base-button (onClick)="this.openSearch()" class="header__icon">
   <icon iconName="search" alt="Search" />
 </base-button>

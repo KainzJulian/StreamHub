@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseButton } from '../../atoms/base-button/base-button';
+import { Media } from '../../../types/media';
+import { CommonModule } from '@angular/common';
+import { Genre } from '../../atoms/genre/genre';
 
 @Component({
   selector: 'banner',
   standalone: true,
-  imports: [BaseButton],
+  imports: [BaseButton, CommonModule, Genre],
   templateUrl: './banner.html',
   styleUrl: './banner.scss',
 })
-export class Banner {}
+export class Banner {
+  playMedia() {
+    throw new Error('Method not implemented.');
+  }
+  @Input() media?: Media;
+}
