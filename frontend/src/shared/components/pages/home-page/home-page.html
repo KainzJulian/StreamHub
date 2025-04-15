@@ -1,5 +1,18 @@
 <home-template>
-  <!-- <media-card [media]="this.getMedia()"></media-card> -->
-
   <banner [media]="this.getMedia()"></banner>
+
+  <media-card-list
+    class="grid"
+    [mediaList]="this.getMediaList()"
+    title="Recently Watched"
+  ></media-card-list>
+  <media-card-list
+    class="list"
+    [mediaList]="this.getMediaList()"
+    title="Highest Rated"
+  ></media-card-list>
+  <media-card-list
+    class="list"
+    [mediaList]="this.getMediaList()"
+  ></media-card-list>
 </home-template>

@@ -1,0 +1,9 @@
+<p class="media-list__title" [innerText]="this.title"></p>
+
+<div class="media-list">
+  @for (media of this.mediaList; track $index) {
+  <div class="media-list__item">
+    <media-card [media]="media"></media-card>
+  </div>
+  }
+</div>

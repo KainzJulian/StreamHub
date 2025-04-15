@@ -13,8 +13,8 @@
   </div>
 </div>
 
-<div *ngIf="this.media?.isComplete" class="circle banner__complete"></div>
+<div *ngIf="!this.media?.isComplete" class="circle banner__complete"></div>
 
 <div class="banner__rating">
-  <p [innerText]="this.media?.rating">100</p>
+  <p [innerText]="this.media?.rating"></p>
 </div>

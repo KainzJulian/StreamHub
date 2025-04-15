@@ -1,0 +1,50 @@
+@import "@styles";
+
+:host {
+  height: auto;
+}
+
+:host(.list) {
+  .media-list {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    width: 100%;
+
+    padding: $padding--small $padding--big $padding--big $padding--big;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+:host(.grid) {
+  .media-list {
+    display: grid;
+    width: 100%;
+
+    box-sizing: border-box;
+
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: auto;
+
+    gap: 4px;
+    row-gap: $padding--vbig;
+
+    padding: $padding--small $padding--big $padding--big $padding--big;
+  }
+}
+
+.media-list {
+  &__title {
+    font-size: $text-size--big;
+    padding-top: $padding--vbig;
+    padding-left: $padding--big;
+    padding-bottom: $padding--small;
+  }
+
+  &__item {
+    margin: auto;
+  }
+}
