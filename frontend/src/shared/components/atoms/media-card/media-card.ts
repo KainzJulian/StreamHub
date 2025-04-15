@@ -10,5 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './media-card.scss',
 })
 export class MediaCard {
-  @Input() media?: Media;
+  @Input() media: Media | null = null;
 }

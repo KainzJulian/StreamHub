@@ -12,8 +12,9 @@ import { Genre } from '../../atoms/genre/genre';
   styleUrl: './banner.scss',
 })
 export class Banner {
+  @Input() media: Media | null = null;
+
   playMedia() {
     throw new Error('Method not implemented.');
   }
-  @Input() media?: Media;
 }
