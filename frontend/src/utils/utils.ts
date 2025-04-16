@@ -1,20 +1,42 @@
 import { Genre } from '../shared/types/genre';
 import { Media } from '../shared/types/media';
+import { Movie } from '../shared/types/movie';
+import { Episode, Series } from '../shared/types/series';
 
 export const getMedia = (isSeries: boolean = false): Media => {
-  return new Media({
-    id: '1',
+  if (!isSeries)
+    return new Movie({
+      title: 'The Matrix',
+      description:
+        'A computer hacker learns about the true nature of his reality and his role in the war against its controllers.',
+      genreList: [Genre.ACTION, Genre.SCIFI],
+      rating: 87,
+      duration: 144,
+      pathMedia: 'This is the path',
+      isComplete: true,
+    });
+
+  return new Series({
     title: 'Inception',
     description:
       'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
-    duration: 148,
     genreList: Object.values(Genre),
-    pathMedia: '/assets/media/inception.jpg',
     rating: 90,
-    isSeries: isSeries,
-    season: null,
-    episode: null,
     isComplete: false,
+    episodeList: [
+      [
+        new Episode({ title: 'the Episode1 S1' }),
+        new Episode({ title: 'the Episode2 S1' }),
+      ],
+      [
+        new Episode({ title: 'the Episode 1 S2' }),
+        new Episode({ title: 'the Episode 2 S2' }),
+      ],
+      [
+        new Episode({ title: 'the Episode1 S3' }),
+        new Episode({ title: 'the Episode2 S3' }),
+      ],
+    ],
   });
 };
 

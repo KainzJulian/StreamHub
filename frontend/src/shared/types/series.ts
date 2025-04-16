@@ -1,19 +1,24 @@
 import { Media } from './media';
 
-export class Series {
-  id: string;
-  mediaIDList: Media[];
+export class Series extends Media {
+  episodeList: Episode[][] = [];
 
-  constructor(data: Series) {
-    this.id = data.id;
-    this.mediaIDList = data.mediaIDList;
+  constructor(data: Partial<Series>) {
+    super(data);
+    this.episodeList = data.episodeList ?? [];
   }
 
-  addMedia(media: Media) {
-    if (this.mediaIDList.find((m) => m.id === media.id)) {
-      return;
-    }
+  public override getMediaType(): string {
+    return 'Series';
+  }
+}
 
-    this.mediaIDList.push(media);
+export class Episode {
+  title: string | null;
+  pathMedia: string | null;
+
+  constructor(data: Partial<Episode>) {
+    this.title = data.title ?? null;
+    this.pathMedia = data.pathMedia ?? null;
   }
 }

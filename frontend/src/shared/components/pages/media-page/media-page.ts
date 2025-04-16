@@ -11,6 +11,7 @@ import {
 } from '../../../../utils/utils';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Series } from '../../../types/series';
 
 @Component({
   selector: 'media-page',
@@ -21,7 +22,7 @@ import { CommonModule } from '@angular/common';
 })
 export class MediaPage implements OnInit {
   public mediaList = signal<Media[]>([]);
-  public media = signal<Media>(new Media({}));
+  public media = signal<Media>(new Series({}));
 
   constructor(private route: ActivatedRoute) {}
 
