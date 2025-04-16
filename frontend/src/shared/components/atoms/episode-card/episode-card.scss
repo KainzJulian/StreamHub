@@ -1,0 +1,24 @@
+@import "@styles";
+
+$scale-factor: 50;
+$base-width: 3px;
+$base-height: 5px;
+
+:host {
+  width: $base-width * $scale-factor;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  width: $base-width * $scale-factor;
+  height: $base-height * $scale-factor;
+
+  background-color: black;
+
+  &:hover {
+    background-color: wheat;
+  }
+}

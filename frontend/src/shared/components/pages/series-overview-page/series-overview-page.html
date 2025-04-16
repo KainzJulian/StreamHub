@@ -1,0 +1,18 @@
+<home-template>
+  <banner [media]="getMedia()" class="hide-button"></banner>
+
+  <div>
+    <ng-container
+      *ngFor="let i of this.getSeries().getEpisodeArray(); let seasonIndex = index"
+    >
+      <p class="season__title">Season {{seasonIndex + 1}}</p>
+      <div class="episode__list">
+        <ng-container *ngFor="let j of i">
+          <div class="episode__list__item">
+            <episode-card [episode]="j"></episode-card>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</home-template>
