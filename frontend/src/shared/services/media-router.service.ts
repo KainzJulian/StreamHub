@@ -13,19 +13,19 @@ export class MediaRouterService {
 
   constructor(private router: Router) {}
 
-  openMediaPlayer(media: Media) {
+  public openMediaPlayer(media: Media) {
     this.checkMedia(media);
     this.mediaID = media.id;
 
     this.router.navigate([this.route, this.mediaID]);
   }
 
-  checkMedia(media: Media) {
+  private checkMedia(media: Media) {
     if (media instanceof Series) this.route = '/series';
     if (media instanceof Movie) this.route = '/player';
   }
 
-  openPlayer(id: string) {
+  public openPlayer(id: string) {
     this.router.navigate(['/player', id]);
   }
 }

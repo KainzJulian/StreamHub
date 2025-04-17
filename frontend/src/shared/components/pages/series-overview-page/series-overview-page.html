@@ -5,11 +5,11 @@
     <ng-container
       *ngFor="let i of this.getSeries().getEpisodeArray(); let seasonIndex = index"
     >
-      <p class="season__title">Season {{seasonIndex + 1}}</p>
+      <p class="season__title">Season {{i[0].season}}</p>
       <div class="episode__list">
         <ng-container *ngFor="let j of i">
           <div class="episode__list__item">
-            <episode-card [episode]="j"></episode-card>
+            <episode-card class="mouse-pointer" [episode]="j"></episode-card>
           </div>
         </ng-container>
       </div>

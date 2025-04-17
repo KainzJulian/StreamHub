@@ -54,7 +54,7 @@ img {
   &__genre {
     display: flex;
 
-    gap: 20px;
+    gap: 8px;
   }
 
   &__complete {
@@ -62,5 +62,12 @@ img {
 
     bottom: 18px;
     left: 18px;
+  }
+
+  &__group {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }

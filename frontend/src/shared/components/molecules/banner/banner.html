@@ -2,14 +2,16 @@
   <p class="banner__title" [innerText]="this.media?.title"></p>
   <p class="banner__description" [innerText]="this.media?.description"></p>
 
-  <base-button (onClick)="this.playMedia()" class="banner__button">
-    <p>Play</p></base-button
-  >
+  <div class="banner__group">
+    <base-button (onClick)="this.playMedia()" class="banner__button">
+      <p>Play</p></base-button
+    >
 
-  <div class="banner__genre">
-    @for (item of this.media?.genreList; track $index) {
-    <genre [genreType]="item"></genre>
-    }
+    <div class="banner__genre">
+      @for (item of this.media?.genreList; track $index) {
+      <genre [genreType]="item"></genre>
+      }
+    </div>
   </div>
 </div>
 

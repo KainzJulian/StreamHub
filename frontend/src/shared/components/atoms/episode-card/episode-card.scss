@@ -13,12 +13,65 @@ $base-height: 5px;
 }
 
 .card {
+  border-radius: 8px;
   width: $base-width * $scale-factor;
   height: $base-height * $scale-factor;
 
-  background-color: black;
+  background-color: rgb(32, 32, 32);
+
+  padding: $padding--mid;
+
+  &__episode {
+    width: 30px;
+    height: 30px;
+
+    text-align: center;
+
+    border-radius: 8px;
+
+    background-color: rgba(0, 0, 0, 0.33);
+
+    display: flex;
+
+    &__text {
+      margin: auto;
+      display: block;
+    }
+  }
+
+  &__title {
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+
+    visibility: hidden;
+
+    margin-top: 12px;
+
+    text-wrap: wrap;
+
+    &:hover {
+      visibility: visible;
+    }
+
+    &__text {
+      text-align: center;
+
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 8;
+
+      line-clamp: 8;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 
   &:hover {
-    background-color: wheat;
+    background-color: rgb(22, 22, 22);
+
+    .card__title {
+      visibility: visible;
+    }
   }
 }

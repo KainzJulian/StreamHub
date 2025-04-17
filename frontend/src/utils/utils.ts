@@ -4,66 +4,33 @@ import { Movie } from '../shared/types/movie';
 import { Episode, Series } from '../shared/types/series';
 
 export const getMedia = (isSeries: boolean = false): Media => {
-  if (!isSeries)
+  if (!isSeries) {
+    const title = movieTitles[getRandomInt(0, movieTitles.length)];
+
     return new Movie({
-      id: 'The Matrix',
-      title: 'The Matrix',
+      id: title,
+      title: title,
       description:
         'A computer hacker learns about the true nature of his reality and his role in the war against its controllers.',
-      genreList: [Genre.ACTION, Genre.SCIFI],
+      genreList: getRandomGenres(),
       rating: 87,
       duration: 144,
       pathMedia: 'This is the path',
       isComplete: true,
     });
+  }
+
+  const title = movieTitles[getRandomInt(0, movieTitles.length)];
 
   return new Series({
-    id: 'the Matrix',
-    title: 'Inception',
+    id: title,
+    title: title,
     description:
       'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
-    genreList: Object.values(Genre),
+    genreList: getRandomGenres(),
     rating: 90,
     isComplete: false,
-    episodeList: [
-      new Episode({ season: 1, episode: 1, title: 'the Episode1 S1' }),
-      new Episode({ season: 1, episode: 2, title: 'the Episode2 S1' }),
-      new Episode({ season: 1, episode: 3, title: 'the Episode2 S1' }),
-      new Episode({ season: 1, episode: 4, title: 'the Episode2 S1' }),
-      new Episode({ season: 1, episode: 5, title: 'the Episode2 S1' }),
-      new Episode({ season: 1, episode: 6, title: 'the Episode2 S1' }),
-      new Episode({ season: 1, episode: 7, title: 'the Episode 1 S2' }),
-      new Episode({ season: 1, episode: 8, title: 'the Episode 2 S2' }),
-      new Episode({ season: 1, episode: 9, title: 'the Episode 1 S2' }),
-      new Episode({ season: 1, episode: 10, title: 'the Episode 2 S2' }),
-      new Episode({ season: 1, episode: 11, title: 'the Episode 1 S2' }),
-      new Episode({ season: 1, episode: 12, title: 'the Episode 2 S2' }),
-      new Episode({ season: 1, episode: 13, title: 'the Episode 1 S2' }),
-      new Episode({ season: 1, episode: 14, title: 'the Episode 2 S2' }),
-      new Episode({ season: 1, episode: 15, title: 'the Episode1 S3' }),
-      new Episode({ season: 1, episode: 16, title: 'the Episode2 S3' }),
-      new Episode({ season: 2, episode: 1, title: 'the Episode1 S3' }),
-      new Episode({ season: 2, episode: 2, title: 'the Episode2 S3' }),
-      new Episode({ season: 2, episode: 3, title: 'the Episode1 S3' }),
-      new Episode({ season: 2, episode: 4, title: 'the Episode2 S3' }),
-      new Episode({ season: 2, episode: 5, title: 'the Episode1 S3' }),
-      new Episode({ season: 2, episode: 6, title: 'the Episode2 S3' }),
-      new Episode({ season: 2, episode: 7, title: 'the Episode1 S3' }),
-      new Episode({ season: 2, episode: 8, title: 'the Episode2 S3' }),
-      new Episode({ season: 2, episode: 9, title: 'the Episode1 S3' }),
-      new Episode({ season: 2, episode: 10, title: 'the Episode2 S3' }),
-      new Episode({ season: 2, episode: 11, title: 'the Episode1 S3' }),
-      new Episode({ season: 2, episode: 12, title: 'the Episode2 S3' }),
-      new Episode({ season: 2, episode: 13, title: 'the Episode1 S3' }),
-      new Episode({ season: 2, episode: 14, title: 'the Episode2 S3' }),
-      new Episode({ season: 3, episode: 1, title: 'the Episode1 S3' }),
-      new Episode({ season: 3, episode: 2, title: 'the Episode2 S3' }),
-      new Episode({ season: 3, episode: 3, title: 'the Episode1 S3' }),
-      new Episode({ season: 3, episode: 4, title: 'the Episode2 S3' }),
-      new Episode({ season: 3, episode: 5, title: 'the Episode1 S3' }),
-      new Episode({ season: 3, episode: 6, title: 'the Episode2 S3' }),
-      new Episode({ season: 4, episode: 1, title: 'the Episode2 S3' }),
-    ],
+    episodeList: getRandomEpisodes(4, 5, 20),
   });
 };
 
@@ -94,4 +61,116 @@ export const getMediaList = (
   }
 
   return list;
+};
+
+const getRandomEpisodes = (
+  seasons: number,
+  episodesMin: number,
+  episodesMax: number
+): Episode[] => {
+  const episodes: Episode[] = [];
+
+  for (let i = 0; i < seasons; i++) {
+    for (let j = 0; j < getRandomInt(episodesMin, episodesMax); j++) {
+      const episodeName = episodeTitles[getRandomInt(0, episodeTitles.length)];
+      episodes.push(
+        new Episode({
+          id: episodeName,
+          episode: j + 1,
+          season: i + 1,
+          title: episodeName,
+        })
+      );
+    }
+  }
+
+  return episodes;
+};
+
+const getRandomGenres = (): Genre[] => {
+  const genres = Object.values(Genre);
+  const randomGenres: Genre[] = [];
+
+  const numberOfGenres = getRandomInt(1, genres.length);
+
+  for (let i = 0; i < numberOfGenres; i++) {
+    const randomGenre = genres[getRandomInt(0, genres.length - 1)];
+    if (!randomGenres.includes(randomGenre)) {
+      randomGenres.push(randomGenre);
+    }
+  }
+
+  return randomGenres;
+};
+
+const movieTitles: string[] = [
+  'The Matrix',
+  'Inception',
+  'Interstellar',
+  'The Dark Knight',
+  'Pulp Fiction',
+  'The Shawshank Redemption',
+  'Fight Club',
+  'Forrest Gump',
+  'The Godfather',
+  'The Lord of the Rings',
+  'The Empire Strikes Back',
+  'The Avengers',
+  'Jurassic Park',
+  'The Lion King',
+  'Titanic',
+  'Gladiator',
+  'The Silence of the Lambs',
+  "Schindler's List",
+  'The Departed',
+  'The Prestige',
+  'The Social Network',
+  'The Grand Budapest Hotel',
+  'Mad Max: Fury Road',
+  'The Revenant',
+  'The Wolf of Wall Street',
+  'Django Unchained',
+  'The Hateful Eight',
+  'The Irishman',
+  'Parasite',
+  'Everything Everywhere All At Once',
+];
+
+const episodeTitles: string[] = [
+  'The Beginning',
+  'A New Dawn',
+  'Shadows Rising',
+  'The Lost Artifact',
+  'Echoes of the Past',
+  'The Reckoning',
+  'Into the Abyss',
+  'The Final Stand',
+  'Whispers in the Dark',
+  'The Betrayal',
+  'The Forgotten Realm',
+  'Rise of the Phoenix',
+  'The Silent Watcher',
+  'The Crimson Tide',
+  'The Shattered Crown',
+  'The Eternal Flame',
+  'The Hidden Truth',
+  'The Last Hope',
+  'The Iron Fortress',
+  'The Frozen Wasteland',
+  'The Golden Compass',
+  'The Dark Prophecy',
+  'The Mystic Forest',
+  'The Celestial Gate',
+  'The Endless Journey',
+  'The Fallen Star',
+  'The Secret Alliance',
+  'The Storm Within',
+  'The Vanishing Point',
+  'The Final Hour',
+];
+
+const getRandomInt = (min: number, max: number): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
