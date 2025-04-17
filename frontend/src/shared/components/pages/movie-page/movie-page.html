@@ -1,0 +1,16 @@
+<home-template>
+  <media-template>
+    <div class="movie__title" header>
+      <p>{{this.media?.title}}</p>
+    </div>
+    <div class="movie__info" info>
+      <div>
+        <genre-list [genres]="this.media?.genreList"></genre-list>
+        <p class="rating">{{this.media?.rating}}</p>
+      </div>
+      <div class="movie__description">
+        <p>{{this.media?.description}}</p>
+      </div>
+    </div>
+  </media-template>
+</home-template>

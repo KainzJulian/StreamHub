@@ -8,7 +8,7 @@ import { Movie } from '../types/movie';
   providedIn: 'root',
 })
 export class MediaRouterService {
-  private route: '/player' | '/series' = '/player';
+  private route: '/movie/player' | '/series' = '/movie/player';
   private mediaID: string = '';
 
   constructor(private router: Router) {}
@@ -22,10 +22,11 @@ export class MediaRouterService {
 
   private checkMedia(media: Media) {
     if (media instanceof Series) this.route = '/series';
-    if (media instanceof Movie) this.route = '/player';
+    if (media instanceof Movie) this.route = '/movie/player';
   }
 
-  public openPlayer(id: string) {
-    this.router.navigate(['/player', id]);
+  public openPlayer(id: string, isSeries: boolean = false) {
+    if (isSeries) this.router.navigate(['/series/player', id]);
+    else this.router.navigate(['/movie/player', id]);
   }
 }

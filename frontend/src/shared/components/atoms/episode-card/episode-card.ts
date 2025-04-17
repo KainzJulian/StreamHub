@@ -15,6 +15,6 @@ export class EpisodeCard {
   constructor(private mediaRouterService: MediaRouterService) {}
 
   openPlayer() {
-    if (this.episode) this.mediaRouterService.openPlayer(this.episode.id);
+    if (this.episode) this.mediaRouterService.openPlayer(this.episode.id, true);
   }
 }

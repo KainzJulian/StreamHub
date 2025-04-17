@@ -1,4 +1,4 @@
-export enum Genre {
+export enum MediaGenre {
   ACTION = 'Action',
   ADVENTURE = 'Adventure',
   ANIMATION = 'Animation',

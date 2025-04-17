@@ -1,4 +1,4 @@
-import { Genre } from '../shared/types/genre';
+import { MediaGenre } from '../shared/types/genre';
 import { Media } from '../shared/types/media';
 import { Movie } from '../shared/types/movie';
 import { Episode, Series } from '../shared/types/series';
@@ -87,9 +87,9 @@ const getRandomEpisodes = (
   return episodes;
 };
 
-const getRandomGenres = (): Genre[] => {
-  const genres = Object.values(Genre);
-  const randomGenres: Genre[] = [];
+const getRandomGenres = (): MediaGenre[] => {
+  const genres = Object.values(MediaGenre);
+  const randomGenres: MediaGenre[] = [];
 
   const numberOfGenres = getRandomInt(1, genres.length);
 

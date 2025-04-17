@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Genre as GenreType } from '../../../types/genre';
+import { MediaGenre } from '../../../types/genre';
 
 @Component({
   selector: 'genre',
@@ -9,5 +9,5 @@ import { Genre as GenreType } from '../../../types/genre';
   styleUrl: './genre.scss',
 })
 export class Genre {
-  @Input() genreType?: GenreType;
+  @Input() genre?: MediaGenre;
 }

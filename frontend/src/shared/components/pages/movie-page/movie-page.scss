@@ -1,0 +1,40 @@
+@import "@styles";
+
+media-template {
+  padding: 80px;
+
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.movie {
+  &__title {
+    text-align: center;
+
+    p {
+      font-size: $text-size--big;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      display: flex;
+    }
+  }
+
+  &__description {
+    width: 50%;
+    height: auto;
+
+    margin: 32px auto 64px auto;
+  }
+}
+
+.rating {
+  margin-left: auto;
+  padding-left: 8px;
+}

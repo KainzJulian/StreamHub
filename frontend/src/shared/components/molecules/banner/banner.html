@@ -7,11 +7,7 @@
       <p>Play</p></base-button
     >
 
-    <div class="banner__genre">
-      @for (item of this.media?.genreList; track $index) {
-      <genre [genreType]="item"></genre>
-      }
-    </div>
+    <genre-list [genres]="this.media?.genreList"></genre-list>
   </div>
 </div>
 

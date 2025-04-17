@@ -1,10 +1,10 @@
-import { Genre } from './genre';
+import { MediaGenre } from './genre';
 
 export abstract class Media {
   id: string = '';
   title: string | null;
   description: string | null;
-  genreList: Genre[] | null;
+  genreList: MediaGenre[] | null;
 
   isComplete: boolean = false;
 
