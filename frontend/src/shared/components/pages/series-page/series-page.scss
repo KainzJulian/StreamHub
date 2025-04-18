@@ -1,0 +1,47 @@
+@import "@styles";
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__series {
+    font-size: $text-size--big;
+  }
+
+  &__season {
+    margin-top: 8px;
+  }
+
+  &__episode {
+    margin-top: 24px;
+  }
+
+  &__episode-title {
+    margin-top: 4px;
+  }
+}
+
+.season-selection {
+  margin: 32px auto 32px auto;
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  &__button {
+    margin: auto;
+  }
+}
+
+.dropdown__content {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+
+  position: absolute;
+
+  margin-top: 4px;
+
+  border-radius: $radius--big;
+}

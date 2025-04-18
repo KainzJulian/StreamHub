@@ -1,1 +1,46 @@
-<p>series-page works!</p>
+<home-template>
+  <media-template class="full-width">
+    <div class="title" header>
+      <p class="title__series">{{this.media?.title}}</p>
+      <p class="title__season">Season {{this.currentSeason()}}</p>
+      <p class="title__episode">Episode {{this.currentEpisode()?.episode}}</p>
+      <p class="title__episode-title">{{this.currentEpisode()?.title}}</p>
+    </div>
+    <div info>
+      <div class="season-selection">
+        <div
+          (onClickOutside)="this.hideDropdownContent()"
+          class="season-selection__button"
+        >
+          <base-button
+            (onClick)="this.switchDropdownContent()"
+            class="dropdown__button"
+          >
+            <div style="display: flex">
+              <p>Season</p>
+              <p style="margin-left: auto">{{this.currentSeason()}}</p>
+            </div>
+          </base-button>
+
+          <div #dropdownContent class="dropdown__content">
+            @for (season of this.currentSeries?.getSeasons(); track $index) {
+            <base-button
+              (onClick)="this.setSeason(season)"
+              class="dropdown__button season-selection__button"
+            >
+              <div style="display: flex">
+                <p>Season</p>
+                <p style="margin-left: auto">{{season}}</p>
+              </div>
+            </base-button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="episode-selection">
+        <episode-list [episodeList]="this.getEpisodeList()"></episode-list>
+      </div>
+    </div>
+  </media-template>
+</home-template>

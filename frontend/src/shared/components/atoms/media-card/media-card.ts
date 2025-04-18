@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Media } from '../../../types/media';
 import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
+import { MediaService } from '../../../services/media.service';
 
 @Component({
   selector: 'media-card',
@@ -13,9 +14,15 @@ import { MediaRouterService } from '../../../services/media-router.service';
 export class MediaCard {
   @Input() media: Media | null = null;
 
-  constructor(private mediaRouterService: MediaRouterService) {}
+  constructor(
+    private mediaRouterService: MediaRouterService,
+    private mediaService: MediaService
+  ) {}
 
   openPlayer() {
-    if (this.media) this.mediaRouterService.openMediaPlayer(this.media);
+    if (this.media) {
+      this.mediaService.currentMedia.set(this.media);
+      this.mediaRouterService.openMediaPlayer(this.media);
+    }
   }
 }

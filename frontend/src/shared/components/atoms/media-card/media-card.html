@@ -1,12 +1,12 @@
 <div (click)="this.openPlayer()" class="card__thumbnail mouse-pointer">
   <div class="card__thumbnail__container">
     <div class="card__rating">
-      <p [innerText]="this.media?.rating"></p>
+      <p>{{this.media?.rating}}</p>
     </div>
   </div>
 
   <div class="card__media-type">
-    <p [innerText]="this.media?.getMediaType()"></p>
+    <p>{{this.media?.getMediaType()}}</p>
   </div>
   <div *ngIf="!this.media?.isComplete" class="card__complete circle"></div>
   <div class="card__progress"></div>
@@ -14,5 +14,5 @@
 </div>
 
 <div class="card__content">
-  <p class="card__title" [innerText]="this.media?.title"></p>
+  <p class="card__title">{{this.media?.title}}</p>
 </div>

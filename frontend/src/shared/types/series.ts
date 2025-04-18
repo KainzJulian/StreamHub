@@ -8,6 +8,10 @@ export class Series extends Media {
     this.episodeList = data.episodeList ?? [];
   }
 
+  getSeasons(): number[] {
+    return Array.from(new Set(this.episodeList.map((item) => item.season)));
+  }
+
   getEpisodeArray(): Episode[][] {
     const array: Episode[][] = [];
 
@@ -29,6 +33,14 @@ export class Series extends Media {
   public override getMediaType(): string {
     return 'Series';
   }
+
+  getFirstEpisodeOfSeason(season: number): Episode {
+    const episodeArray = this.getEpisodeArray();
+
+    return episodeArray[season - 1][0];
+  }
+
+  //TODO: Add Previous and Next button to series-page
 }
 
 export class Episode {

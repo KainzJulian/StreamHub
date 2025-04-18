@@ -4,9 +4,13 @@
   button {
     background-color: rgba(0, 0, 0, 0);
     border: none;
+
     color: white;
     font-size: 20px;
     cursor: pointer;
+
+    padding-left: 16px;
+    padding-right: 16px;
 
     height: 100%;
     width: auto;
@@ -21,6 +25,7 @@
   button {
     background-color: rgba(0, 0, 0, 0);
     border: none;
+
     color: white;
     font-size: 20px;
     cursor: pointer;
@@ -29,6 +34,26 @@
     width: 50px;
     &:hover {
       background-color: black;
+    }
+  }
+}
+
+:host(.dropdown__button) {
+  button {
+    background-color: rgb(0, 0, 0);
+
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+
+    height: 100%;
+    width: 300px;
+
+    padding: $padding--small $padding--big $padding--small $padding--big;
+
+    &:hover {
+      background-color: rgb(32, 32, 32);
     }
   }
 }
@@ -42,9 +67,7 @@
 
     border: none;
 
-    padding: 12px;
-
-    border-radius: $radius--small;
+    padding: $padding--mid;
 
     &:hover {
       background-color: rgb(36, 36, 36);
@@ -53,5 +76,5 @@
 }
 
 button {
-  border-radius: 4px;
+  border-radius: $radius--small;
 }

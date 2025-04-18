@@ -1,6 +1,6 @@
 <div class="banner__content">
-  <p class="banner__title" [innerText]="this.media?.title"></p>
-  <p class="banner__description" [innerText]="this.media?.description"></p>
+  <p class="banner__title">{{this.media?.title}}</p>
+  <p class="banner__description">{{this.media?.description}}</p>
 
   <div class="banner__group">
     <base-button (onClick)="this.playMedia()" class="banner__button">
@@ -14,5 +14,5 @@
 <div *ngIf="!this.media?.isComplete" class="circle banner__complete"></div>
 
 <div class="banner__rating">
-  <p [innerText]="this.media?.rating"></p>
+  <p>{{this.media?.rating}}</p>
 </div>

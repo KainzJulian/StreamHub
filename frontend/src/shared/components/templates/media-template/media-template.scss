@@ -1,5 +1,16 @@
 :host {
   margin-bottom: 32px;
+  padding: 80px;
+
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+:host(.full-width) {
+  .info {
+    width: 100%;
+  }
 }
 
 .videoPlayer {

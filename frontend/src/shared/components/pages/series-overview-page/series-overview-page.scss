@@ -6,24 +6,3 @@
   padding-left: $padding--big;
   padding-bottom: $padding--small;
 }
-
-.episode__list {
-  display: grid;
-
-  width: 100%;
-  height: auto;
-
-  box-sizing: border-box;
-
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: auto;
-
-  gap: 4px;
-  row-gap: $padding--vbig;
-
-  padding: $padding--small $padding--big $padding--big $padding--big;
-}
-
-.episode__list__item {
-  margin: auto;
-}

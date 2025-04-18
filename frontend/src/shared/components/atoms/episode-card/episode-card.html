@@ -1,8 +1,8 @@
-<div (click)="this.openPlayer()" class="card">
+<div (click)="openPlayer()" class="card">
   <div class="card__episode">
-    <p class="card__episode__text" [innerText]="this.episode?.episode"></p>
+    <p class="card__episode__text">{{this.episode?.episode}}</p>
   </div>
   <div class="card__title">
-    <p class="card__title__text" [innerText]="this.episode?.title"></p>
+    <p class="card__title__text">{{this.episode?.title}}</p>
   </div>
 </div>

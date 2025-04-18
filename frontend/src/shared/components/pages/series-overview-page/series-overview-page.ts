@@ -2,27 +2,25 @@ import { Component } from '@angular/core';
 import { HomeTemplate } from '../../templates/home-template/home-template';
 import { Banner } from '../../molecules/banner/banner';
 import { Media } from '../../../types/media';
-import { getMedia, getMediaList, getSeries } from '../../../../utils/utils';
-import { EpisodeCard } from '../../atoms/episode-card/episode-card';
 import { CommonModule } from '@angular/common';
+import { EpisodeList } from '../../molecules/episode-list/episode-list';
+import { MediaService } from '../../../services/media.service';
+import { Series } from '../../../types/series';
 
 @Component({
   selector: 'series-overview-page',
   standalone: true,
-  imports: [CommonModule, HomeTemplate, Banner, EpisodeCard],
+  imports: [CommonModule, HomeTemplate, Banner, EpisodeList],
   templateUrl: './series-overview-page.html',
   styleUrl: './series-overview-page.scss',
 })
 export class SeriesOverviewPage {
-  getSeries() {
-    return getSeries();
-  }
+  public media: Media | null = null;
+  public series: Series | null = null;
 
-  getMedia(): Media {
-    return getMedia(true);
-  }
+  constructor(mediaService: MediaService) {
+    this.media = mediaService.currentMedia();
 
-  getMediaList(): Media[] {
-    return getMediaList(23, true);
+    if (this.media instanceof Series) this.series = this.media;
   }
 }
