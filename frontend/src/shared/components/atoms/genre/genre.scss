@@ -1,15 +1,15 @@
 @import "@styles";
 
 :host {
-  border-radius: 50px;
-  padding: 4px 8px 4px 8px;
+  border-radius: $radius--large;
+  padding: $gap--xsmall $gap--small $gap--xsmall $gap--small;
 
-  border: 1px solid rgba(0, 0, 0, 0.33);
+  border: 1px solid $color-accent--transparent;
 
   width: auto;
   height: auto;
 
-  background-color: rgb(40, 40, 40);
+  background-color: $color-accent;
 }
 
 p {

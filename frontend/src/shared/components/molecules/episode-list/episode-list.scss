@@ -13,10 +13,10 @@
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-template-rows: auto;
 
-  gap: 4px;
-  row-gap: $padding--vbig;
+  gap: $gap--xsmall;
+  row-gap: $gap--xlarge;
 
-  padding: $padding--small $padding--big $padding--big $padding--big;
+  padding: $gap--small $gap--large $gap--large $gap--large;
 }
 
 .list__item {

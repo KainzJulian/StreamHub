@@ -1,5 +1,7 @@
+@import "@styles";
+
 :host {
-  margin-bottom: 32px;
+  margin-bottom: $gap--xlarge;
   padding: 80px;
 
   width: 100%;
@@ -22,8 +24,8 @@
   margin-left: auto;
   margin-right: auto;
 
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-top: $gap--xlarge;
+  margin-bottom: $gap--large;
 }
 
 .info {

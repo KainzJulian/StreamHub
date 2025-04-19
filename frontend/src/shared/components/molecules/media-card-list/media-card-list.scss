@@ -8,11 +8,11 @@
   .media-list {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    gap: $gap--small;
 
     width: 100%;
 
-    padding: $padding--small $padding--big $padding--big $padding--big;
+    padding: $gap--small $gap--large $gap--large $gap--large;
 
     overflow-x: auto;
     overflow-y: hidden;
@@ -29,19 +29,19 @@
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: auto;
 
-    gap: 4px;
-    row-gap: $padding--vbig;
+    gap: $gap--xsmall;
+    row-gap: $gap--xlarge;
 
-    padding: $padding--small $padding--big $padding--big $padding--big;
+    padding: $gap--small $gap--large $gap--large $gap--large;
   }
 }
 
 .media-list {
   &__title {
     font-size: $text-size--big;
-    padding-top: $padding--vbig;
-    padding-left: $padding--big;
-    padding-bottom: $padding--small;
+    padding-top: $gap--xlarge;
+    padding-left: $gap--large;
+    padding-bottom: $gap--small;
   }
 
   &__item {

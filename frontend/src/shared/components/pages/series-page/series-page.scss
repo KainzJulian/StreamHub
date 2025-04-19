@@ -10,20 +10,20 @@
   }
 
   &__season {
-    margin-top: 8px;
+    margin-top: $gap--small;
   }
 
   &__episode {
-    margin-top: 24px;
+    margin-top: $gap--xlarge;
   }
 
   &__episode-title {
-    margin-top: 4px;
+    margin-top: $gap--xsmall;
   }
 }
 
 .season-selection {
-  margin: 32px auto 32px auto;
+  margin: $gap--xlarge auto $gap--xlarge auto;
   display: flex;
   flex-direction: column;
 
@@ -37,18 +37,18 @@
 .dropdown__content {
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: $color-accent;
 
   position: absolute;
 
-  margin-top: 4px;
+  margin-top: $gap--xsmall;
 
-  border-radius: $radius--big;
+  border-radius: $radius--large;
 }
 
 .episode-next-prev {
   display: flex;
-  gap: 8px;
+  gap: $gap--small;
 
   justify-content: center;
 }
@@ -57,5 +57,5 @@
   display: flex;
   justify-content: center;
 
-  margin-top: 32px;
+  margin-top: $gap--xlarge;
 }

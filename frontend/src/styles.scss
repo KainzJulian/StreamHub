@@ -1,19 +1,38 @@
-$radius--big: 32px;
+$radius--large: 32px;
 $radius--mid: 16px;
 $radius--small: 8px;
 
-$padding--vbig: 32px;
-$padding--big: 16px;
-$padding--mid: 12px;
-$padding--small: 8px;
-$padding--vsmall: 6px;
-
-$text-color--light: #ececec;
-$text-color--dark: #131313;
+$gap--xxlarge: 64px;
+$gap--xlarge: 32px;
+$gap--large: 16px;
+$gap--mid: 12px;
+$gap--small: 8px;
+$gap--xsmall: 4px;
 
 $text-size--big: 24px;
 $text-size--mid: 16px;
 $text-size--small: 12px;
+
+$text-color--light: rgb(239, 239, 239);
+$text-color--dark: rgb(24, 24, 24);
+
+$downlight: rgb(0, 0, 0);
+$downlight--transparent: rgba(0, 0, 0, 0.333);
+
+$highlight: rgb(239, 239, 239);
+$highlight--transparent: rgba(239, 239, 239, 0.333);
+
+$color-primary: rgb(70, 15, 157);
+$color-secondary: rgb(57, 108, 48);
+$color-accent: rgb(5, 174, 213);
+
+$color-primary--transparent: rgba(70, 15, 157, 0.333);
+$color-secondary--transparent: rgba(57, 108, 48, 0.333);
+$color-accent--transparent: rgba(5, 175, 213, 0.333);
+
+$color-primary--hover: rgba(60, 5, 147);
+$color-secondary--hover: rgb(47, 98, 38);
+$color-accent--hover: rgba(0, 155, 193);
 
 p {
   margin: 0;
@@ -22,8 +41,8 @@ p {
 
 html,
 body {
-  background-color: rgb(85, 85, 85);
-  color: white;
+  background-color: $color-primary;
+  color: #efefef;
 
   width: 100vw;
   height: 100vh;
@@ -32,6 +51,7 @@ body {
 
   margin: 0;
   padding: 0;
+
   &::-webkit-scrollbar-track {
     border-radius: $radius--mid;
   }
@@ -49,9 +69,9 @@ body {
 }
 
 .circle {
-  background-color: rgb(227, 0, 0);
+  background-color: $color-accent;
 
-  border: 1px solid rgba(0, 0, 0, 0.33);
+  border: 1px solid $color-secondary--transparent;
   border-radius: 50%;
 
   width: 10px;

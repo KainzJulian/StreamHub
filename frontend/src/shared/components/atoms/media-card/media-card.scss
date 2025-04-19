@@ -18,16 +18,16 @@ $base-height: 5px;
 
     width: $base-width * $scale-factor;
     height: $base-height * $scale-factor;
-    background-color: rgba(0, 0, 0, 0.738);
+    background-color: $color-secondary;
 
     border-radius: $radius--small;
 
-    padding: $padding--mid;
+    padding: $gap--mid;
 
     overflow: hidden;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.327);
+      background-color: $color-secondary--hover;
     }
 
     &__container {
@@ -42,12 +42,12 @@ $base-height: 5px;
     display: flex;
     flex-direction: column;
 
-    gap: $padding--mid;
+    gap: $gap--mid;
   }
 
   &__title {
     font-size: $text-size--mid;
-    margin-top: 4px;
+    margin-top: $gap--xsmall;
 
     overflow: hidden;
     white-space: nowrap;
@@ -58,18 +58,32 @@ $base-height: 5px;
 
   &__rating {
     position: absolute;
+
+    background-color: $downlight--transparent;
+    width: $gap--xlarge;
+    height: $gap--xlarge;
+
+    display: flex;
+
+    flex-direction: column;
+    text-align: center;
+
+    justify-content: center;
+
+    border-radius: $radius--small;
+
     right: 0px;
     bottom: 0px;
   }
 
   &__media-type {
-    background-color: purple;
+    background-color: $downlight--transparent;
     position: absolute;
     top: 0px;
     left: 0px;
 
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: $gap--mid;
+    padding-right: $gap--mid;
 
     display: inline-block;
   }
@@ -77,19 +91,20 @@ $base-height: 5px;
   &__complete {
     position: absolute;
 
-    top: 10px;
-    right: 10px;
+    top: $gap--small;
+    right: $gap--small;
   }
 
   &__progress {
-    background-color: white;
+    background-color: $color-accent;
 
     position: absolute;
     bottom: 0px;
     left: 0px;
 
-    height: 5px;
-    width: 10%;
+    height: $gap--xsmall;
+
+    width: 60%; // this is where the progress can be changed
 
     z-index: 2;
 

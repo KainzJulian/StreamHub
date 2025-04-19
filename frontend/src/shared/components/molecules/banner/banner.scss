@@ -3,12 +3,14 @@
 :host {
   width: 100%;
   height: 60%;
-  background-color: rgb(118, 118, 118);
+  background-color: $color-secondary;
 
   display: block;
   position: relative;
 
-  padding: 60px;
+  padding: $gap--xxlarge;
+
+  box-shadow: inset 0 0 200px $downlight;
 }
 
 :host(.hide-button) {
@@ -26,7 +28,7 @@ img {
 
 .banner {
   &__content {
-    padding-top: 60px;
+    padding-top: $gap--xxlarge;
     position: relative;
 
     width: 100%;
@@ -34,7 +36,7 @@ img {
 
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: $gap--large;
   }
 
   &__title {
@@ -43,8 +45,8 @@ img {
 
   &__rating {
     position: absolute;
-    right: 18px;
-    bottom: 18px;
+    right: $gap--large;
+    bottom: $gap--large;
   }
 
   &__description {
@@ -54,14 +56,15 @@ img {
   &__complete {
     position: absolute;
 
-    bottom: 18px;
-    left: 18px;
+    bottom: $gap--large;
+    left: $gap--large;
   }
 
   &__group {
     margin-top: auto;
+
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: $gap--large;
   }
 }

@@ -22,11 +22,11 @@
     width: 50%;
     height: auto;
 
-    margin: 32px auto 64px auto;
+    margin: $gap--xlarge auto $gap--xxlarge auto;
   }
 }
 
 .rating {
   margin-left: auto;
-  padding-left: 8px;
+  padding-left: $gap--small;
 }

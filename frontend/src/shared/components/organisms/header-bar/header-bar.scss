@@ -1,21 +1,21 @@
 @import "@styles";
 
 :host {
-  background-color: rgba(0, 0, 0, 0.232);
+  background-color: $downlight--transparent;
   backdrop-filter: blur(5px);
 
   width: 100%;
-  height: 60px;
+  height: $gap--xxlarge;
 
   box-sizing: border-box;
-  padding: 5px;
+  padding: $gap--xsmall;
 
   position: absolute;
   top: 0px;
 
   display: flex;
   flex-direction: row;
-  gap: 25px;
+  gap: $gap--xlarge;
 
   z-index: 9999;
 }
@@ -28,7 +28,6 @@ base-button:first-of-type {
 
 base-button:last-of-type {
   margin-left: auto;
-  margin-right: 120px;
 
   height: 100%;
 }
@@ -38,6 +37,5 @@ base-button:last-of-type {
 }
 
 p {
-  // font-size: $text-size--big;
-  font-size: 20px;
+  font-size: $text-size--big;
 }

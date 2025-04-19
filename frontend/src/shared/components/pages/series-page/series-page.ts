@@ -76,7 +76,10 @@ export class SeriesPage {
     this.currentSeason.set(season);
 
     const episode = this.currentSeries?.getFirstEpisodeOfSeason(season);
-    if (episode) this.currentEpisode.set(episode);
+    if (episode) {
+      this.currentEpisode.set(episode);
+      this.mediaRouterService.openPlayer(episode?.id, true);
+    }
 
     this.hideDropdownContent();
   }

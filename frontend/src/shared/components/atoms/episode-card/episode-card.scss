@@ -17,19 +17,19 @@ $base-height: 5px;
   width: $base-width * $scale-factor;
   height: $base-height * $scale-factor;
 
-  background-color: rgb(32, 32, 32);
+  background-color: $color-secondary;
 
-  padding: $padding--mid;
+  padding: $gap--mid;
 
   &__episode {
-    width: 30px;
-    height: 30px;
+    width: $gap--xlarge;
+    height: $gap--xlarge;
 
     text-align: center;
 
-    border-radius: 8px;
+    border-radius: $radius--small;
 
-    background-color: rgba(0, 0, 0, 0.33);
+    background-color: $downlight--transparent;
 
     display: flex;
 
@@ -45,7 +45,7 @@ $base-height: 5px;
 
     visibility: hidden;
 
-    margin-top: 12px;
+    margin-top: $gap--mid;
 
     text-wrap: wrap;
 
@@ -64,7 +64,11 @@ $base-height: 5px;
   }
 
   &:hover {
-    background-color: rgb(22, 22, 22);
+    background-color: rgb(
+      22,
+      22,
+      22
+    ); // TODO use another div that is an overlay to change background-color
 
     .card__title,
     .card__episode {

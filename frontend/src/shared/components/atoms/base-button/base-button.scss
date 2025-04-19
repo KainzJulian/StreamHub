@@ -16,7 +16,7 @@
     width: auto;
 
     &:hover {
-      background-color: black;
+      background-color: $downlight;
     }
   }
 }
@@ -32,28 +32,29 @@
 
     height: 100%;
     width: 50px;
+
     &:hover {
-      background-color: black;
+      background-color: $downlight;
     }
   }
 }
 
 :host(.dropdown__button) {
   button {
-    background-color: rgb(0, 0, 0);
+    background-color: $color-accent;
 
     border: none;
-    color: white;
-    font-size: 20px;
+    color: $text-color--light;
+
     cursor: pointer;
 
     height: 100%;
     width: 300px;
 
-    padding: $padding--small $padding--big $padding--small $padding--big;
+    padding: $gap--small $gap--large $gap--small $gap--large;
 
     &:hover {
-      background-color: rgb(32, 32, 32);
+      background-color: $color-accent--hover;
     }
   }
 }
@@ -61,16 +62,16 @@
 :host(.banner__button) {
   button {
     cursor: pointer;
-    background-color: black;
+    background-color: $color-accent;
     width: auto;
     height: auto;
 
     border: none;
 
-    padding: $padding--mid;
+    padding: $gap--mid;
 
     &:hover {
-      background-color: rgb(36, 36, 36);
+      background-color: $color-accent--hover;
     }
   }
 }
