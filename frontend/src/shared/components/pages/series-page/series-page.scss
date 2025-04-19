@@ -45,3 +45,17 @@
 
   border-radius: $radius--big;
 }
+
+.episode-next-prev {
+  display: flex;
+  gap: 8px;
+
+  justify-content: center;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 32px;
+}

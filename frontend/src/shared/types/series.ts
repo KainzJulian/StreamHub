@@ -25,8 +25,6 @@ export class Series extends Media {
       );
     });
 
-    console.log(array);
-
     return array;
   }
 
@@ -39,8 +37,6 @@ export class Series extends Media {
 
     return episodeArray[season - 1][0];
   }
-
-  //TODO: Add Previous and Next button to series-page
 }
 
 export class Episode {

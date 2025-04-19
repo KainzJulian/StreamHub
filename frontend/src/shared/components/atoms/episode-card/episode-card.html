@@ -1,4 +1,10 @@
-<div (click)="openPlayer()" class="card">
+<div
+  #card
+  (click)="openPlayer()"
+  class="card"
+  [ngStyle]="{'box-shadow': this.isSelected?'0 0 20px rgba(0,0,0,0.9)': 'none'}"
+  [ngClass]="{'show-info':this.isSelected}"
+>
   <div class="card__episode">
     <p class="card__episode__text">{{this.episode?.episode}}</p>
   </div>

@@ -49,10 +49,6 @@ $base-height: 5px;
 
     text-wrap: wrap;
 
-    &:hover {
-      visibility: visible;
-    }
-
     &__text {
       text-align: center;
 
@@ -70,8 +66,16 @@ $base-height: 5px;
   &:hover {
     background-color: rgb(22, 22, 22);
 
-    .card__title {
+    .card__title,
+    .card__episode {
       visibility: visible;
     }
+  }
+}
+
+.show-info {
+  .card__title,
+  .card__episode {
+    visibility: visible;
   }
 }

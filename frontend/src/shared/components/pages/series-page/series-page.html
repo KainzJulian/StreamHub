@@ -7,6 +7,23 @@
       <p class="title__episode-title">{{this.currentEpisode()?.title}}</p>
     </div>
     <div info>
+      <div class="episode-next-prev">
+        <base-button
+          (onClick)="navigateToAdjacentEpisode(-1)"
+          class="dropdown__button"
+        >
+          <p>Previous Episode</p>
+        </base-button>
+        <base-button
+          (onClick)="navigateToAdjacentEpisode(1)"
+          class="dropdown__button"
+        >
+          <p>Next Episode</p>
+        </base-button>
+      </div>
+
+      <div class="status"><p>Status: {{getStatus()}}</p></div>
+
       <div class="season-selection">
         <div
           (onClickOutside)="this.hideDropdownContent()"
@@ -22,10 +39,14 @@
             </div>
           </base-button>
 
-          <div #dropdownContent class="dropdown__content">
+          <div
+            style="visibility: hidden"
+            #dropdownContent
+            class="dropdown__content"
+          >
             @for (season of this.currentSeries?.getSeasons(); track $index) {
             <base-button
-              (onClick)="this.setSeason(season)"
+              (onClick)="this. setSeason(season)"
               class="dropdown__button season-selection__button"
             >
               <div style="display: flex">

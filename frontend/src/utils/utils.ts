@@ -5,10 +5,10 @@ import { Episode, Series } from '../shared/types/series';
 
 export const getMedia = (isSeries: boolean = false): Media => {
   if (!isSeries) {
-    const title = movieTitles[getRandomInt(0, movieTitles.length)];
+    const title = movieTitles[getRandomInt(0, movieTitles.length - 1)];
 
     return new Movie({
-      id: title,
+      id: crypto.randomUUID().toString(),
       title: title,
       description:
         'A computer hacker learns about the true nature of his reality and his role in the war against its controllers.',
@@ -20,10 +20,10 @@ export const getMedia = (isSeries: boolean = false): Media => {
     });
   }
 
-  const title = movieTitles[getRandomInt(0, movieTitles.length)];
+  const title = movieTitles[getRandomInt(0, movieTitles.length - 1)];
 
   return new Series({
-    id: title,
+    id: crypto.randomUUID().toString(),
     title: title,
     description:
       'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
@@ -72,10 +72,11 @@ const getRandomEpisodes = (
 
   for (let i = 0; i < seasons; i++) {
     for (let j = 0; j < getRandomInt(episodesMin, episodesMax); j++) {
-      const episodeName = episodeTitles[getRandomInt(0, episodeTitles.length)];
+      const episodeName =
+        episodeTitles[getRandomInt(0, episodeTitles.length - 1)];
       episodes.push(
         new Episode({
-          id: episodeName,
+          id: crypto.randomUUID().toString(),
           episode: j + 1,
           season: i + 1,
           title: episodeName,
