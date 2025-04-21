@@ -16,7 +16,8 @@
     width: auto;
 
     &:hover {
-      background-color: $downlight;
+      transition: all $transition--fast;
+      background-color: $highlight--transparent;
     }
   }
 }
@@ -34,14 +35,15 @@
     width: 50px;
 
     &:hover {
-      background-color: $downlight;
+      transition: all $transition--fast;
+      background-color: $highlight--transparent;
     }
   }
 }
 
 :host(.dropdown__button) {
   button {
-    background-color: $color-accent;
+    background-color: $downlight--transparent;
 
     border: none;
     color: $text-color--light;
@@ -54,7 +56,29 @@
     padding: $gap--small $gap--large $gap--small $gap--large;
 
     &:hover {
-      background-color: $color-accent--hover;
+      transition: background-color $transition--fast;
+      background-color: $highlight--transparent;
+    }
+  }
+}
+
+:host(.dropdown__list__button) {
+  button {
+    background-color: rgba(0, 0, 0, 0);
+
+    border: none;
+    color: $text-color--light;
+
+    cursor: pointer;
+
+    height: 100%;
+    width: 300px;
+
+    padding: $gap--small $gap--large $gap--small $gap--large;
+
+    &:hover {
+      transition: background-color $transition--fast;
+      background-color: $highlight--transparent;
     }
   }
 }
@@ -63,6 +87,7 @@
   button {
     cursor: pointer;
     background-color: $color-accent;
+
     width: auto;
     height: auto;
 

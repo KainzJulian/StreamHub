@@ -10,6 +10,13 @@ $base-height: 5px;
 
   display: flex;
   flex-direction: column;
+
+  &:hover {
+    .card__thumbnail::before {
+      transition: filter 0.2s;
+      filter: brightness(110%) contrast(110%);
+    }
+  }
 }
 
 .card {
@@ -18,16 +25,22 @@ $base-height: 5px;
 
     width: $base-width * $scale-factor;
     height: $base-height * $scale-factor;
-    background-color: $color-secondary;
 
     border-radius: $radius--small;
 
-    padding: $gap--mid;
-
     overflow: hidden;
 
-    &:hover {
-      background-color: $color-secondary--hover;
+    &::before {
+      content: "";
+      background-image: url("/images/testImage.jpg");
+      background-size: cover;
+      background-position: center;
+
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+
+      filter: brightness(70%);
     }
 
     &__container {
@@ -60,6 +73,8 @@ $base-height: 5px;
     position: absolute;
 
     background-color: $downlight--transparent;
+    backdrop-filter: $blur--mid;
+
     width: $gap--xlarge;
     height: $gap--xlarge;
 
@@ -78,6 +93,8 @@ $base-height: 5px;
 
   &__media-type {
     background-color: $downlight--transparent;
+    backdrop-filter: $blur--mid;
+
     position: absolute;
     top: 0px;
     left: 0px;
@@ -114,4 +131,14 @@ $base-height: 5px;
       z-index: 1;
     }
   }
+}
+
+.content {
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+
+  padding: $gap--mid;
 }

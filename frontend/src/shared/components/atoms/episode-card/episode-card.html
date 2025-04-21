@@ -4,13 +4,12 @@
   class="card"
   [ngClass]="{'show-info':this.isSelected}"
 >
-  <!-- [ngStyle]="{'box-shadow': this.isSelected?'0 0 20px rgba(0,0,0,0.9)': 'none'}"
-  TODO Rework selection styling for the episodes
-  -->
-  <div class="card__episode">
-    <p class="card__episode__text">{{this.episode?.episode}}</p>
-  </div>
-  <div class="card__title">
-    <p class="card__title__text">{{this.episode?.title}}</p>
+  <div class="content">
+    <div class="card__episode">
+      <p class="card__episode__text">{{this.episode?.episode}}</p>
+    </div>
+    <div class="card__title">
+      <p class="card__title__text">{{this.episode?.title}}</p>
+    </div>
   </div>
 </div>

@@ -4,15 +4,16 @@
   border-radius: $radius--large;
   padding: $gap--xsmall $gap--small $gap--xsmall $gap--small;
 
-  border: 1px solid $color-accent--transparent;
+  border: 1px solid rgba(0, 0, 0, 0.25);
 
   width: auto;
   height: auto;
 
-  background-color: $color-accent;
+  background-color: $highlight--transparent;
 }
 
 p {
   font-size: $text-size--small;
   word-break: keep-all;
+  font-weight: bold;
 }

@@ -37,13 +37,16 @@
 .dropdown__content {
   display: flex;
   flex-direction: column;
-  background-color: $color-accent;
+
+  background-color: $downlight--transparent;
+  backdrop-filter: $blur--small;
 
   position: absolute;
+  z-index: 999;
 
   margin-top: $gap--xsmall;
 
-  border-radius: $radius--large;
+  border-radius: $radius--small;
 }
 
 .episode-next-prev {

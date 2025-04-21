@@ -21,6 +21,22 @@ $base-height: 5px;
 
   padding: $gap--mid;
 
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    background-image: url("/images/testImage.jpg");
+    background-size: cover;
+    background-position: center;
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    filter: brightness(70%);
+  }
+
   &__episode {
     width: $gap--xlarge;
     height: $gap--xlarge;
@@ -42,6 +58,13 @@ $base-height: 5px;
   &__title {
     overflow-y: hidden;
     text-overflow: ellipsis;
+
+    backdrop-filter: $blur--small;
+    background-color: $downlight--transparent;
+
+    padding: $gap--small;
+
+    border-radius: $radius--small;
 
     visibility: hidden;
 
@@ -74,6 +97,13 @@ $base-height: 5px;
     .card__episode {
       visibility: visible;
     }
+
+    &.card::before {
+      transition: all 0.2s;
+      filter: brightness(110%) contrast(110%);
+
+      // box-shadow: inset 0px 50px 100px black;
+    }
   }
 }
 
@@ -82,4 +112,9 @@ $base-height: 5px;
   .card__episode {
     visibility: visible;
   }
+}
+
+.content {
+  z-index: 100;
+  position: relative;
 }

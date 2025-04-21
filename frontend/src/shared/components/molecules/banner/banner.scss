@@ -1,16 +1,29 @@
 @import "@styles";
 
 :host {
+  z-index: 100;
+
   width: 100%;
-  height: 60%;
-  background-color: $color-secondary;
+  height: 80%;
 
   display: block;
   position: relative;
 
   padding: $gap--xxlarge;
 
-  box-shadow: inset 0 0 200px $downlight;
+  &::before {
+    content: "";
+    background-image: url("/images/testImage.jpg");
+    background-size: cover;
+    background-position: center;
+
+    box-shadow: inset 0px 0px 1000px black;
+
+    position: absolute;
+    inset: 0;
+
+    filter: brightness(60%);
+  }
 }
 
 :host(.hide-button) {
@@ -19,11 +32,6 @@
       visibility: hidden;
     }
   }
-}
-
-img {
-  width: 100%;
-  height: 100%;
 }
 
 .banner {
@@ -67,4 +75,9 @@ img {
     flex-direction: column;
     gap: $gap--large;
   }
+}
+
+.button__text {
+  color: $color-primary;
+  font-weight: bolder;
 }
