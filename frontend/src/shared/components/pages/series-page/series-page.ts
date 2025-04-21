@@ -49,14 +49,18 @@ export class SeriesPage {
   }
 
   showDropdownContent() {
+    if (this.dropdownContent === undefined) return;
     this.dropdownContent.nativeElement.style.visibility = 'visible';
   }
 
   hideDropdownContent() {
+    if (this.dropdownContent === undefined) return;
     this.dropdownContent.nativeElement.style.visibility = 'hidden';
   }
 
   switchDropdownContent() {
+    if (this.dropdownContent === undefined) return;
+
     if (this.dropdownContent.nativeElement.style.visibility == 'hidden')
       this.showDropdownContent();
     else this.hideDropdownContent();

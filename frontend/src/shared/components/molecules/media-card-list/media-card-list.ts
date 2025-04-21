@@ -13,5 +13,5 @@ import { CommonModule } from '@angular/common';
 export class MediaCardList {
   @Input() mediaList: Media[] | null = null;
 
-  @Input() title: string = '';
+  @Input() mediaListTitle: string = '';
 }

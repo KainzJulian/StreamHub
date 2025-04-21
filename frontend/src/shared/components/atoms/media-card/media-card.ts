@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { Media } from '../../../types/media';
 import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
@@ -16,7 +16,9 @@ export class MediaCard {
 
   constructor(
     private mediaRouterService: MediaRouterService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private host: ElementRef,
+    private renderer: Renderer2
   ) {}
 
   openPlayer() {
