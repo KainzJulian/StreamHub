@@ -2,12 +2,12 @@
   <div class="content">
     <div class="card__thumbnail__container">
       <div class="card__rating">
-        <p>{{this.media?.rating}}</p>
+        <p class="prevent-select">{{this.media?.rating}}</p>
       </div>
     </div>
 
     <div class="card__media-type">
-      <p>{{this.media?.getMediaType()}}</p>
+      <p class="prevent-select">{{this.media?.getMediaType()}}</p>
     </div>
     <div *ngIf="!this.media?.isComplete" class="card__complete circle"></div>
     <div class="card__progress"></div>

@@ -55,6 +55,19 @@
     position: absolute;
     right: $gap--large;
     bottom: $gap--large;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    justify-content: center;
+
+    background-color: $downlight--transparent;
+    backdrop-filter: $blur--small;
+    border-radius: $radius--small;
   }
 
   &__description {

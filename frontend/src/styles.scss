@@ -90,3 +90,7 @@ body {
 .mouse-default {
   cursor: default;
 }
+
+.prevent-select {
+  user-select: none;
+}
