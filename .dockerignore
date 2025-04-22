@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log
+
+dist/
+coverage/
+
+.vscode/
+.idea/
+
+.DS_Store
+Thumbs.db
+
+Dockerfile
+.dockerignore
+
+.env
