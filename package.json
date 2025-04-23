@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "frontend": "cd ./frontend && ng serve",
-    "backend": "docker-compose up mongo backend --build",
-    "app": "docker-compose up mongo backend frontend --build"
+    "backend": "cd ./backend && npm run start",
+    "mongo": "docker-compose up mongo --build",
+    "app": "npm run frontend & npm run backend & npm run mongo"
   },
   "private": true
 }

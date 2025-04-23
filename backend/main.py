@@ -1,5 +1,10 @@
-from fastapi import *
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from utils import loadFiles
+from routes.fileRoute import fileRouter
+import pymongo
+
+from utils.get_env import getENV
 
 app = FastAPI()
 
@@ -11,7 +16,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-routes = []
+
+app.add_event_handler("startup", loadFiles)
+
+print("Docs: http://127.0.0.1:8000/docs#/")
+
+routes = [fileRouter]
 
 for route in routes:
-    app.include_router(route)
+    app.include_router(route, prefix="/api")
+
+
+import database

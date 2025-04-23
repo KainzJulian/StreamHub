@@ -1,24 +1,4 @@
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "4200:80"
-    depends_on:
-      - backend
-    networks:
-      - app-network
-
-  backend:
-    build: ./backend
-    ports:
-      - "8000:8000"
-    environment:
-      - MONGO_URL=mongodb://mongo:27018/streamhub
-    depends_on:
-      - mongo
-    networks:
-      - app-network
-
   mongo:
     image: mongo:7.0
     container_name: mongo

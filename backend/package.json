@@ -2,8 +2,29 @@
   "name": "stream-hub",
   "version": "0.0.0",
   "scripts": {
-    "backend": "uvicorn main:app --reload",
+    "start": "uvicorn main:app --reload",
     "test": "pytest -s"
   },
-  "private": true
+  "private": true,
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": false,
+    "printWidth": 80
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "no-console": "warn",
+      "quotes": [
+        "error",
+        "single"
+      ]
+    }
+  }
 }
