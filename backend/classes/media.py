@@ -9,9 +9,6 @@ class Media(BaseModel):
     title: str = ""
     description: str = ""
 
-    # path to the folder of the media media/series/AOT or media/movies/Avatar
-    path: str = ""
-
     genreList: list[MediaGenre] = []
 
     # When there will be more episodes in the future

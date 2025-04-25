@@ -35,7 +35,10 @@ def getAllEpisodesBySeriesID(series_id: str):
 
 @episodeRouter.post("/add")
 def addEpisode(episode: Episode):
-    return {"episode": episode}
+    try:
+        episodesCollection.insert_one(episode.model_dump())
+    except Exception as e:
+        print(e)
 
 
 # to display the episode card with the thumbnail (downscaled image for better performance)

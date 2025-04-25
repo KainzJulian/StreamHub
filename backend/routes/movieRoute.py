@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from database import movieCollection
 from classes.movie import Movie
 
 movieRouter = APIRouter(prefix="/movie", tags=["movie"])
@@ -7,6 +8,19 @@ movieRouter = APIRouter(prefix="/movie", tags=["movie"])
 @movieRouter.get("/{movie_id}")
 def getMovieByID(movie_id: str):
     return {"id": movie_id}
+
+
+@movieRouter.get("/exists/{movie_id}")
+def exists(movie_id: str) -> bool:
+    try:
+        movie = movieCollection.find_one({"id": movie_id})
+        if movie == None:
+            return False
+
+    except Exception as e:
+        print(e)
+
+    return True
 
 
 @movieRouter.get("/all", tags=["movie"])
@@ -36,7 +50,10 @@ def getPercentWatched(movie_id: str):
 
 @movieRouter.post("/add")
 def addMovie(movie: Movie):
-    return {"movie": movie}
+    try:
+        movieCollection.insert_one(movie.model_dump())
+    except Exception as e:
+        print(e)
 
 
 @movieRouter.get("/search/{query}")
