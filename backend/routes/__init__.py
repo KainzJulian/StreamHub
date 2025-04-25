@@ -1,4 +1,3 @@
-from .fileRoute import fileRouter
-
-
-__all__ = ["fileRouter"]
+from .seriesRoute import seriesRouter
+from .episodeRoute import episodeRouter
+from .movieRoute import movieRouter

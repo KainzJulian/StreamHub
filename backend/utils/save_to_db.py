@@ -1,8 +1,14 @@
+from pymediainfo import MediaInfo
 import os
-from uuid import uuid4
+import subprocess
+from uuid import NAMESPACE_DNS, uuid4, uuid5
+import uuid
 from moviepy.editor import VideoFileClip
-import re
+from re import search
+import scandir
 
+from routes import episodeRoute
+from routes import seriesRoute
 from classes.episode import Episode
 from classes.series import Series
 from classes.movie import Movie
@@ -10,10 +16,12 @@ from classes.movie import Movie
 
 def saveMoviesToDB(path: str):
 
+    defaultThumbnailPath = os.path.basename(path) + ".jpg"
+
     validExtensions = ".mp4"
     movies: list[Movie] = []
 
-    for root, _, files in os.walk(path):
+    for root, _, files in scandir.walk(path):
 
         relPath = root.replace("\\", "/")
         relativePath = relPath.split("/")
@@ -28,11 +36,16 @@ def saveMoviesToDB(path: str):
 
             mediaPath = "/".join(pth)
 
+            thumbnailPath = getThumbnailPath(relPath, mediaPath)
+
+            if thumbnailPath == None:
+                thumbnailPath = defaultThumbnailPath
+
             movies.append(
                 Movie(
                     _id=str(uuid4()),
                     mediaPath=mediaPath,
-                    thumbnailPath=getThumbnailPath(relativePath, mediaPath),
+                    thumbnailPath=thumbnailPath,
                     duration=getVideoLengthInSeconds(relPath + "/" + file),
                 )
             )
@@ -40,52 +53,84 @@ def saveMoviesToDB(path: str):
     print(movies)
 
 
-def saveSeriesToDB(path: str):
+def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
 
-    series: list[Series] = []
-    thumbnailPath = ""
+    print(seriesName)
 
-    validExtensions = ".mp4"
+    relativePath: list[str] = []
+    relativePath.append(fullPath.split("/")[-1])
+    relativePath.append(seriesName)
+    print(relativePath)
+    relativePathString = "/".join(relativePath)
 
-    for root, _, files in os.walk(path):
+    for root, _, files in scandir.walk(fullPath + "/" + seriesName):
 
-        episodeList: list[Episode] = []
+        if len(files) == 0:
+            continue
 
-        relPath = root.replace("\\", "/")
-        relativePath = relPath.split("/")
-
-        print(relativePath)
+        season = root.replace("\\", "/").split("/")[-1]
 
         for file in files:
 
-            print(file)
-
-            if not file.endswith(validExtensions):
+            if not file.endswith(".mp4"):
                 continue
 
-            episode = getEpisodeSeasonNumber(relPath, file)
-            season = getEpisodeSeasonNumber(relPath, relativePath[-1])
+            episodeName = os.path.splitext(file)[0]
+            mediaPathString = f"{relativePathString}/{season}/{episodeName}"
+            mediaPath = mediaPathString.split("/")
 
-            duration = getVideoLengthInSeconds(relPath + "/" + file)
+            print(mediaPath)
+            print(mediaPathString)
 
-            episodeList.append(
+            episode = int(mediaPath[-1])
+            thumbnailPath = mediaPathString + ".jpg"
+
+            if not os.path.exists(f"{fullPath}/{episode}.jpg"):
+                thumbnailPath = None
+
+            seriesID = str(uuid5(uuid.NAMESPACE_DNS, mediaPathString))
+
+            print(root)
+            print(get_duration_fast(f"{root}/{mediaPath[-1]}.mp4"))
+
+            episodeRoute.addEpisode(
                 Episode(
-                    _id=str(uuid4()),
-                    mediaPath="",
-                    thumbnailPath="",
+                    _id=seriesID,
+                    mediaPath=mediaPathString + ".mp4",
+                    thumbnailPath=thumbnailPath,
                     episode=episode,
                     season=season,
-                    duration=duration,
+                    duration=get_duration_fast(f"{root}/{mediaPath[-1]}.mp4"),
+                    seriesID=seriesID,
                 )
             )
 
-        series.append(
-            Series(_id=str(uuid4()), thumbnailPath=thumbnailPath, episodeList=[])
+    pass
+
+
+def createSeriesFromPath(path) -> None:
+    paths = scandir.listdir(path)
+    print(paths)
+
+    for i in paths:
+        id = str(uuid5(uuid.NAMESPACE_DNS, i))
+        exists = seriesRoute.exists(id)
+
+        if exists:
+            continue
+
+        series = Series(
+            _id=id,
+            path=f"{os.path.basename(path)}/{i}",
+            thumbnailPath=getThumbnailPath(path, i),
+            episodeList=[],
         )
+        print(series)
+        seriesRoute.addSeries(series)
 
 
-def getEpisodeSeasonNumber(relPath, seasEpiPath) -> int:
-    season_episode = re.search(r"\d+", seasEpiPath)
+def getEpisodeSeasonNumber(relPath, seasonEpisodePath) -> int:
+    season_episode = search(r"\d+", seasonEpisodePath)
     if season_episode == None:
         raise Exception("Could not find Episode or Season number in " + relPath)
 
@@ -102,12 +147,21 @@ def getVideoLengthInSeconds(path: str) -> int:
         return 0
 
 
-def getThumbnailPath(relativePath: list[str], mediaPath: str) -> str:
+def getThumbnailPath(fullPath: str, mediaPath: str) -> str | None:
+
     thumbnailPath = os.path.splitext(mediaPath)[0] + ".jpg"
+    thumbnailName = os.path.basename(thumbnailPath)
 
-    thumbnail = thumbnailPath.split("/")[-1]
-
-    if not os.path.exists("/".join(relativePath) + "/" + thumbnail):
-        thumbnailPath = ""
+    if not os.path.exists(fullPath + "/" + thumbnailName):
+        return None
 
     return thumbnailPath
+
+
+def get_duration_fast(path: str) -> int:
+
+    media_info = MediaInfo.parse(path)
+    for track in media_info.tracks:
+        if track.track_type == "Video":
+            return int(float(track.duration) / 1000)
+    return 0

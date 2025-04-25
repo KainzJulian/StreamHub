@@ -1,3 +1,3 @@
-from .load_files import loadFiles
-from .save_to_db import saveMoviesToDB, saveSeriesToDB
+from .load_files import saveFilesToDB
+from .save_to_db import saveMoviesToDB, uploadEpisodesToSeries
 from .get_env import getENV
