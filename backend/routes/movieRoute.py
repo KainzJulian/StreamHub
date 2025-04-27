@@ -1,61 +1,120 @@
-from fastapi import APIRouter, Depends, HTTPException
+import os
+from fastapi import APIRouter
+from utils.get_env import getENV
 from database import movieCollection
 from classes.movie import Movie
+from classes.response import Response
 
-movieRouter = APIRouter(prefix="/movie", tags=["movie"])
-
-
-@movieRouter.get("/{movie_id}")
-def getMovieByID(movie_id: str):
-    return {"id": movie_id}
+movieRouter = APIRouter(prefix="/movies", tags=["movie"])
 
 
-@movieRouter.get("/exists/{movie_id}")
-def exists(movie_id: str) -> bool:
+@movieRouter.get("/{movie_id}/data")
+def getMovieByID(movie_id: str) -> Response[Movie]:
+
     try:
-        movie = movieCollection.find_one({"id": movie_id})
-        if movie == None:
-            return False
+        movie = movieCollection.find_one({"id": movie_id}, {"_id": 0})
+        return Response.Success(movie)
 
     except Exception as e:
-        print(e)
-
-    return True
+        return Response.Error(e)
 
 
-@movieRouter.get("/all", tags=["movie"])
-def getAllMovies():
-    return {"movies": []}
+@movieRouter.get("/{movie_id}/exists")
+def exists(movie_id: str) -> Response[bool]:
+    try:
+        movie = movieCollection.find_one({"id": movie_id})
+        if movie != None:
+            return Response.Success(True)
+
+    except Exception as e:
+        Response.Error(e)
+
+    return Response.Success(False)
+
+
+@movieRouter.get("/")
+def getAllMovies() -> Response[list[Movie]]:
+
+    try:
+        movieList = list(movieCollection.find({}, {"_id": 0}))
+        return Response.Success(movieList)
+
+    except Exception as e:
+        return Response.Error(e)
 
 
 @movieRouter.get("/random/{count}")
 def getRandomMovies(count: int):
-    return {"movies": []}
+
+    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
+
+    try:
+        movieList = list(movieCollection.aggregate(pipeline))
+
+        return Response.Success(movieList)
+
+    except Exception as e:
+        return Response.Error(e)
 
 
-@movieRouter.get("/thumbnail/{movie_id}")
+@movieRouter.get("/{movie_id}/thumbnail")
 def getThumbnail(movie_id: str):
-    return {"movie_id": movie_id, "thumbnail": "thumbnail_url"}
+
+    # TODO Thumbnail zurück schicken
+    # TODO variablen für ENV anlegen damit man nicht immer getENV machen muss
+    # TODO add Series title into episodes  series title is in the folder name : 01 - This is the Name
+
+    movie = movieCollection.find_one({"id": movie_id}, {"thumbnailPath": True})
+
+    response = None
+
+    if movie != None:
+        response = getENV("MEDIA_PATH") + "/" + movie["thumbnailPath"]
+
+    return Response.Success(response)
 
 
-@movieRouter.get("/video/{movie_id}")
+@movieRouter.get("/{movie_id}/video")
 def getVideo(movie_id: str):
     return {"movie_id": movie_id, "video": "video_url"}
 
 
-@movieRouter.get("/percent_watched/{movie_id}")
-def getPercentWatched(movie_id: str):
-    return {"movie_id": movie_id, "percent_watched": 0.0}
+@movieRouter.get("/{movie_id}/percent_watched")
+def getPercentWatched(movie_id: str) -> Response[int]:
+
+    try:
+        movie = movieCollection.find_one({"id": movie_id}, {"_id": 0})
+
+        if movie == None:
+            return Response.Error(Exception("No Movie found with the ID: " + movie_id))
+
+        percent = int(movie["durationWatched"] / movie["duration"] * 100)
+
+        return Response.Success(percent)
+    except Exception as e:
+        return Response.Error(e)
 
 
 @movieRouter.post("/add")
 def addMovie(movie: Movie):
     try:
         movieCollection.insert_one(movie.model_dump())
+        return Response.Success("Added Movie to the Collection")
+
     except Exception as e:
-        print(e)
+        return Response.Error(e)
 
 
 @movieRouter.get("/search/{query}")
-def searchMovies(query: str):
-    return {"query": query, "movies": []}
+def searchMovies(query: str) -> Response[list[Movie]]:
+
+    try:
+        seriesList = list(
+            movieCollection.find(
+                {"title": {"$regex": query, "$options": "i"}}, {"_id": 0}
+            )
+        )
+        return Response.Success(seriesList)
+
+    except Exception as e:
+        return Response.Error(e)

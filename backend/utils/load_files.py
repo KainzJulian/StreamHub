@@ -13,8 +13,8 @@ from utils.save_to_db import (
 
 
 load_dotenv(find_dotenv(".env"))
-seriesPath = getENV("SERIES_PATH")
-moviesPath = getENV("MOVIES_PATH")
+seriesPath = getENV("MEDIA_PATH") + "/series"
+moviesPath = getENV("MEDIA_PATH") + "/movies"
 
 
 def saveFilesToDB() -> None:
@@ -23,10 +23,14 @@ def saveFilesToDB() -> None:
 
     uploadMoviesToDB(moviesPath)
 
-    # createSeriesFromPath(seriesPath)
+    createSeriesFromPath(seriesPath)
 
-    # for name in scandir.listdir(seriesPath):
-    #     uploadEpisodesToSeries(seriesPath, name)
+    print("Adding Episodes to Series...")
+
+    for name in scandir.listdir(seriesPath):
+        uploadEpisodesToSeries(seriesPath, name)
+
+    print("Done")
 
     end_time = time.time()
 

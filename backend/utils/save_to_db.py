@@ -1,3 +1,4 @@
+import re
 from pymediainfo import MediaInfo
 import os
 from uuid import uuid4, uuid5
@@ -11,6 +12,8 @@ from classes.movie import Movie
 
 
 def uploadMoviesToDB(fullPath: str):
+
+    print("Adding Movies...")
 
     relativePathString = os.path.basename(fullPath)
 
@@ -36,7 +39,7 @@ def uploadMoviesToDB(fullPath: str):
 
             exists = movieRoute.exists(id)
 
-            if exists:
+            if exists.data:
                 continue
 
             thumbnailPath = mediaPathString + ".jpg"
@@ -46,12 +49,13 @@ def uploadMoviesToDB(fullPath: str):
 
             movieRoute.addMovie(
                 Movie(
-                    _id=id,
+                    id=id,
                     mediaPath=mediaPathString + ".mp4",
                     thumbnailPath=thumbnailPath,
                     duration=getVideoLengthInSeconds(f"{root}/{movieName}.mp4"),
                 )
             )
+    print("Done")
 
 
 def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
@@ -83,7 +87,7 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
             episodeID = str(uuid5(uuid.NAMESPACE_DNS, mediaPathString))
             exists = episodeRoute.exists(episodeID)
 
-            if exists:
+            if exists.data:
                 continue
 
             mediaPath = mediaPathString.split("/")
@@ -98,20 +102,21 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
 
             episodeRoute.addEpisode(
                 Episode(
-                    _id=episodeID,
+                    id=episodeID,
                     mediaPath=mediaPathString + ".mp4",  # series/1/1.mp4
                     thumbnailPath=thumbnailPath,
                     episode=episode,
                     season=season,
-                    duration=getVideoLengthInSeconds(
-                        f"{root}/{mediaPath[-1]}.mp4"
-                    ),  # C:/Users ... /series/1/1.mp4
+                    duration=getVideoLengthInSeconds(f"{root}/{mediaPath[-1]}.mp4"),
                     seriesID=seriesID,
                 )
             )
 
 
 def createSeriesFromPath(path) -> None:
+
+    print("Creating Series...")
+
     paths = scandir.listdir(path)
     print(paths)
 
@@ -122,11 +127,10 @@ def createSeriesFromPath(path) -> None:
         if exists:
             continue
 
-        series = Series(
-            _id=id,
-            thumbnailPath=getThumbnailPath(path, i),
-        )
+        series = Series(id=id, thumbnailPath=getThumbnailPath(path, i), title=id)
         seriesRoute.addSeries(series)
+
+    print("Done")
 
 
 def getVideoLengthInSeconds(path: str) -> int:

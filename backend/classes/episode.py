@@ -3,7 +3,8 @@ from pydantic import BaseModel, Field
 
 
 class Episode(BaseModel):
-    id: str = Field(alias="_id")
+    id: str  # generated from uuid5(path) path="series/seriesName/1/1"
+
     title: str = ""
     mediaPath: str
     thumbnailPath: Optional[str]
