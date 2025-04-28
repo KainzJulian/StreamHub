@@ -102,3 +102,25 @@ def searchSeries(query: str) -> Response[list[Series]]:
 
     except Exception as e:
         return Response.Error(e)
+
+
+@seriesRouter.post("{series_id}/rate")
+def setRating(series_id: str, rating: int) -> Response[str]:
+
+    if rating > 100 or rating < 0:
+        return Response.Error(
+            Exception(
+                "Error: The Rating has to be between 0 and 100 Provided rating: "
+                + str(rating)
+            )
+        )
+
+    try:
+        seriesCollection.find_one_and_update(
+            {"id": series_id}, {"$set": {"rating": rating}}
+        )
+        return Response.Success(
+            f"Updated Rating of Series: {series_id} New Rating: {rating}"
+        )
+    except Exception as e:
+        return Response.Error(e)

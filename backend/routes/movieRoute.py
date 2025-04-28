@@ -118,3 +118,25 @@ def searchMovies(query: str) -> Response[list[Movie]]:
 
     except Exception as e:
         return Response.Error(e)
+
+
+@movieRouter.post("{movie_id}/rate")
+def setRating(movie_id: str, rating: int) -> Response[str]:
+
+    if rating > 100 or rating < 0:
+        return Response.Error(
+            Exception(
+                "Error: The Rating has to be between 0 and 100 Provided rating: "
+                + str(rating)
+            )
+        )
+
+    try:
+        movieCollection.find_one_and_update(
+            {"id": movie_id}, {"$set": {"rating": rating}}
+        )
+        return Response.Success(
+            f"Updated Rating of Movie: {movie_id} New Rating: {rating}"
+        )
+    except Exception as e:
+        return Response.Error(e)
