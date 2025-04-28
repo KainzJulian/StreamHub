@@ -3,4 +3,4 @@ from classes.media import Media
 
 
 class Series(Media):
-    pass
+    episodeList: list[Episode] = []

@@ -124,10 +124,10 @@ def createSeriesFromPath(path) -> None:
         id = str(uuid5(uuid.NAMESPACE_DNS, i))  # i = AOT
         exists = seriesRoute.exists(id)
 
-        if exists:
+        if exists.data:
             continue
 
-        series = Series(id=id, thumbnailPath=getThumbnailPath(path, i), title=id)
+        series = Series(id=id, thumbnailPath=getThumbnailPath(path, i), title=i)
         seriesRoute.addSeries(series)
 
     print("Done")

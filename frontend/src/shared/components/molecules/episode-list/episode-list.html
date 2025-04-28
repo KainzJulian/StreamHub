@@ -1,6 +1,7 @@
 <ng-container *ngFor="let episode of episodeList">
   <div class="list__item">
     <episode-card
+      (onClick)="this.clickCard($event)"
       [isSelected]="mediaService.currentEpisode()?.id == episode.id"
       class="mouse-pointer"
       [episode]="episode"

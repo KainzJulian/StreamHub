@@ -1,7 +1,7 @@
 <div (click)="this.openPlayer()" class="card__thumbnail mouse-pointer">
   <div class="content">
     <div class="card__thumbnail__container">
-      <div class="card__rating">
+      <div *ngIf="this.media?.rating != null" class="card__rating">
         <p class="prevent-select">{{this.media?.rating}}</p>
       </div>
     </div>
@@ -10,8 +10,15 @@
       <p class="prevent-select">{{this.media?.getMediaType()}}</p>
     </div>
     <div *ngIf="!this.media?.isComplete" class="card__complete circle"></div>
-    <div class="card__progress"></div>
-    <div class="card__progress card__progress__background"></div>
+    <div
+      *ngIf="isInProgress()"
+      [ngStyle]="{width: this.progressBarWidth() + '%'}"
+      class="card__progress"
+    ></div>
+    <div
+      *ngIf="isInProgress() "
+      class="card__progress card__progress__background"
+    ></div>
   </div>
 </div>
 

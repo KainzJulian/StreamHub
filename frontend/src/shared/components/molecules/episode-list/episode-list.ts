@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EpisodeCard } from '../../atoms/episode-card/episode-card';
 import { Episode } from '../../../types/series';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,11 @@ import { MediaService } from '../../../services/media.service';
 })
 export class EpisodeList {
   @Input() episodeList?: Episode[] | null;
+  @Output() onClickCard = new EventEmitter<Episode>();
 
   constructor(public mediaService: MediaService) {}
+
+  clickCard(episode: Episode) {
+    this.onClickCard.emit(episode);
+  }
 }

@@ -3,15 +3,11 @@ import { HomeTemplate } from '../../templates/home-template/home-template';
 import { Banner } from '../../molecules/banner/banner';
 import { MediaCardList } from '../../molecules/media-card-list/media-card-list';
 import { Media } from '../../../types/media';
-import {
-  getMovie,
-  getMovieList,
-  getSeries,
-  getSeriesList,
-} from '../../../../utils/utils';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Series } from '../../../types/series';
+import { MediaService } from '../../../services/media.service';
+import { Movie } from '../../../types/movie';
 
 @Component({
   selector: 'media-page',
@@ -22,21 +18,27 @@ import { Series } from '../../../types/series';
 })
 export class MediaPage implements OnInit {
   public mediaList = signal<Media[]>([]);
-  public media = signal<Media>(new Series({}));
+  public media = signal<Media>(new Movie({}));
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private mediaService: MediaService
+  ) {}
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
       const type = data['type'];
 
-      if (type === 'series') {
-        this.mediaList.set(getSeriesList(40));
-        this.media.set(getSeries());
-      } else if (type === 'movies') {
-        this.media.set(getMovie());
-        this.mediaList.set(getMovieList(40));
-      }
+      this.mediaService.getMediaList(type).subscribe((response) => {
+        const mediaList: Media[] = [];
+
+        response.data.forEach((media) => {
+          if (type === 'series') mediaList.push(new Series(media));
+          if (type === 'movies') mediaList.push(new Movie(media));
+        });
+
+        this.mediaList.set(mediaList);
+      });
     });
   }
 }

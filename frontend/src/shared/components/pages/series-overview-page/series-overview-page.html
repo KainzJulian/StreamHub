@@ -1,9 +1,9 @@
 <home-template>
-  <banner [media]="this.media" class="hide-button"></banner>
+  <banner [media]="this.series()" class="hide-button"></banner>
 
   <div>
     <ng-container
-      *ngFor="let i of this.series?.getEpisodeArray(); let seasonIndex = index"
+      *ngFor="let i of this.series()?.getEpisodeArray(); let seasonIndex = index"
     >
       <p class="season__title">Season {{i[0].season}}</p>
       <episode-list [episodeList]="i"></episode-list>

@@ -1,6 +1,6 @@
 <div
   #card
-  (click)="openPlayer()"
+  (click)="clickButton()"
   class="card"
   [ngClass]="{'show-info':this.isSelected}"
 >
@@ -10,7 +10,7 @@
         {{this.episode?.episode}}
       </p>
     </div>
-    <div class="card__title">
+    <div *ngIf="this.episode?.title != null" class="card__title">
       <p class="prevent-select card__title__text">{{this.episode?.title}}</p>
     </div>
   </div>

@@ -6,17 +6,17 @@ from classes import MediaGenre
 class Media(BaseModel):
     id: str  # generated from uuid5(SeriesName) SeriesName = "Attack on Titan"
 
-    title: str = ""
-    description: str = ""
+    title: str | None = None
+    description: str | None = None
 
     genreList: list[MediaGenre] = []
 
     # When there will be more episodes in the future
     # Or more movies of the same franchise
-    isComplete: bool | None = None
+    isComplete: bool = True
 
     rating: int | None = None
 
-    thumbnailPath: Optional[str]
+    thumbnailPath: str | None = None
 
     watched: bool = False

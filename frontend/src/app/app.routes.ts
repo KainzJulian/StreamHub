@@ -29,7 +29,7 @@ export const routes: Routes = [
     component: SeriesOverviewPage,
   },
   {
-    path: 'series/player/:id',
+    path: 'series/:seriesID/player/:episodeID',
     component: SeriesPage,
   },
   {

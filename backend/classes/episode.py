@@ -5,9 +5,9 @@ from pydantic import BaseModel, Field
 class Episode(BaseModel):
     id: str  # generated from uuid5(path) path="series/seriesName/1/1"
 
-    title: str = ""
+    title: str | None = None
     mediaPath: str
-    thumbnailPath: Optional[str]
+    thumbnailPath: str | None = None
 
     episode: int
     season: int

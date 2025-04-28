@@ -1,4 +1,10 @@
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { HomeTemplate } from '../../templates/home-template/home-template';
 import { MediaTemplate } from '../../templates/media-template/media-template';
 import { EpisodeList } from '../../molecules/episode-list/episode-list';
@@ -8,6 +14,7 @@ import { OnClickOutsideDirective } from '../../../directives/on-click-outside.di
 import { MediaService } from '../../../services/media.service';
 import { Media } from '../../../types/media';
 import { MediaRouterService } from '../../../services/media-router.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'series-page',
@@ -22,29 +29,44 @@ import { MediaRouterService } from '../../../services/media-router.service';
   templateUrl: './series-page.html',
   styleUrl: './series-page.scss',
 })
-export class SeriesPage {
+export class SeriesPage implements OnInit {
   @ViewChild('dropdownContent') dropdownContent!: ElementRef;
 
   media: Media | null = null;
 
   currentEpisode = signal<Episode | null>(null);
   currentSeason = signal<number>(0);
-  currentSeries: Series | null = null;
+  currentSeries = signal<Series | null>(null);
 
   constructor(
-    public seriesService: MediaService,
-    private mediaRouterService: MediaRouterService
-  ) {
-    this.media = this.seriesService.currentMedia();
+    public mediaService: MediaService,
+    private mediaRouterService: MediaRouterService,
+    private route: ActivatedRoute
+  ) {}
 
-    this.currentEpisode = this.seriesService.currentEpisode;
-    this.currentSeason = this.seriesService.currentSeason;
+  ngOnInit(): void {
+    const seriesID = this.route.snapshot.paramMap.get('seriesID');
+    const episodeID = this.route.snapshot.paramMap.get('episodeID');
 
-    if (this.media instanceof Series) this.currentSeries = this.media;
+    if (seriesID == null || episodeID == null)
+      throw new Error('No ID specified');
+
+    this.mediaService.getSeries(seriesID).subscribe((response) => {
+      this.currentSeries.set(new Series(response.data));
+
+      const episode = this.currentSeries()?.episodeList.find(
+        (episode) => episode.id == episodeID
+      );
+
+      if (episode) {
+        this.currentEpisode.set(episode);
+        this.currentSeason.set(episode.season);
+      }
+    });
   }
 
   getStatus(): string {
-    if (this.currentSeries?.isComplete) return 'Complete';
+    if (this.currentSeries()?.isComplete) return 'Complete';
     else return 'on-going';
   }
 
@@ -67,7 +89,7 @@ export class SeriesPage {
   }
 
   getEpisodeList(): Episode[] | null {
-    const series = this.currentSeries;
+    const series = this.currentSeries();
 
     if (series == null) return null;
 
@@ -79,17 +101,21 @@ export class SeriesPage {
 
     this.currentSeason.set(season);
 
-    const episode = this.currentSeries?.getFirstEpisodeOfSeason(season);
+    const episode = this.currentSeries()?.getFirstEpisodeOfSeason(season);
     if (episode) {
       this.currentEpisode.set(episode);
-      this.mediaRouterService.openPlayer(episode?.id, true);
+      this.mediaRouterService.openPlayer(
+        episode?.id,
+        true,
+        this.currentSeries()?.id
+      );
     }
 
     this.hideDropdownContent();
   }
 
   navigateToAdjacentEpisode(increment: 1 | -1) {
-    const episodeList = this.currentSeries?.episodeList;
+    const episodeList = this.currentSeries()?.episodeList;
     const index = this.getIndexOfEpisode(this.currentEpisode());
 
     if (episodeList === undefined) throw new Error('Episode List is undefined');
@@ -105,11 +131,15 @@ export class SeriesPage {
     this.currentEpisode.set(episode);
     this.currentSeason.set(episode.season);
 
-    this.mediaRouterService.openPlayer(episode.id, true);
+    this.mediaRouterService.openPlayer(
+      episode.id,
+      true,
+      this.currentSeries()?.id
+    );
   }
 
   private getIndexOfEpisode(episode: Episode | null): number {
-    const index = this.currentSeries?.episodeList.findIndex((val) => {
+    const index = this.currentSeries()?.episodeList.findIndex((val) => {
       return val.id == episode?.id;
     });
 
@@ -119,5 +149,12 @@ export class SeriesPage {
     }
 
     return index;
+  }
+
+  public setCurrentEpisode(episode: Episode) {
+    console.log('Episode:', episode);
+
+    this.currentEpisode.set(episode);
+    this.currentSeason.set(episode.season);
   }
 }

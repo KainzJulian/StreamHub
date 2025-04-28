@@ -8,6 +8,16 @@ from classes.series import Series
 seriesRouter = APIRouter(prefix="/series", tags=["series"])
 
 
+@seriesRouter.get("/")
+def getAllSeries():
+    try:
+        seriesList = list(seriesCollection.find({}, {"_id": 0}))
+        return Response.Success(seriesList)
+
+    except Exception as e:
+        return Response.Error(e)
+
+
 @seriesRouter.get("/{series_id}/exists")
 def exists(series_id: str) -> Response[bool]:
 
@@ -26,41 +36,41 @@ def exists(series_id: str) -> Response[bool]:
 @seriesRouter.post("/add")
 def addSeries(series: Series) -> Response[str]:
     try:
-        seriesCollection.insert_one(series.model_dump())
+        seriesCollection.insert_one(series.model_dump(exclude={"episodeList"}))
         return Response.Success("Added Series: " + series.title)
 
     except Exception as e:
         return Response.Error(e)
 
 
-@seriesRouter.get("/{series_id}/data")
-def getSeriesByID(series_id: str) -> Response[Series]:
+@seriesRouter.get("/{series_id}/series")
+def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
+
+    pipeline = [
+        {"$match": {"id": series_id}},
+        {
+            "$lookup": {
+                "from": "episodes",
+                "localField": "id",
+                "foreignField": "seriesID",
+                "as": "episodeList",
+            }
+        },
+        {"$project": {"_id": False, "episodeList._id": False}},
+    ]
 
     try:
-        series = seriesCollection.find_one({"id": series_id}, {"_id": 0})
+
+        seriesCursor = seriesCollection.aggregate(pipeline)
+        series = next(seriesCursor, None)
+
+        if series == None:
+            return Response.Error(
+                Exception("No Series found with the ID: " + series_id)
+            )
+
+        # series = seriesCollection.find_one({"id": series_id}, {"_id": 0})
         return Response.Success(series)
-
-    except Exception as e:
-        return Response.Error(e)
-
-
-@seriesRouter.get("/")
-def getAllSeries():
-    try:
-        seriesList = list(seriesCollection.find({}, {"_id": 0}))
-        return Response.Success(seriesList)
-
-    except Exception as e:
-        return Response.Error(e)
-
-
-@seriesRouter.get("/random/{count}")
-def getRandomSeries(count: int):
-    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
-
-    try:
-        seriesList = list(seriesCollection.aggregate(pipeline))
-        return Response.Success(seriesList)
 
     except Exception as e:
         return Response.Error(e)
@@ -90,20 +100,6 @@ def getThumbnail(series_id: str):
     return {"series_id": series_id, "thumbnail": "thumbnail_url"}
 
 
-@seriesRouter.get("/search/{query}")
-def searchSeries(query: str) -> Response[list[Series]]:
-    try:
-        seriesList = list(
-            seriesCollection.find(
-                {"title": {"$regex": query, "$options": "i"}}, {"_id": 0}
-            )
-        )
-        return Response.Success(seriesList)
-
-    except Exception as e:
-        return Response.Error(e)
-
-
 @seriesRouter.post("{series_id}/rate")
 def setRating(series_id: str, rating: int) -> Response[str]:
 
@@ -122,5 +118,31 @@ def setRating(series_id: str, rating: int) -> Response[str]:
         return Response.Success(
             f"Updated Rating of Series: {series_id} New Rating: {rating}"
         )
+    except Exception as e:
+        return Response.Error(e)
+
+
+@seriesRouter.get("/random/{count}")
+def getRandomSeries(count: int):
+    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
+
+    try:
+        seriesList = list(seriesCollection.aggregate(pipeline))
+        return Response.Success(seriesList)
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@seriesRouter.get("/search/{query}")
+def searchSeries(query: str) -> Response[list[Series]]:
+    try:
+        seriesList = list(
+            seriesCollection.find(
+                {"title": {"$regex": query, "$options": "i"}}, {"_id": 0}
+            )
+        )
+        return Response.Success(seriesList)
+
     except Exception as e:
         return Response.Error(e)

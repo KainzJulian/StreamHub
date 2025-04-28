@@ -13,6 +13,6 @@
 
 <div *ngIf="!this.media?.isComplete" class="circle banner__complete"></div>
 
-<div class="banner__rating">
+<div *ngIf="this.media?.rating != null" class="banner__rating">
   <p class="prevent-select">{{this.media?.rating}}</p>
 </div>

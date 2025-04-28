@@ -44,7 +44,7 @@
             #dropdownContent
             class="dropdown__content"
           >
-            @for (season of this.currentSeries?.getSeasons(); track $index) {
+            @for (season of this.currentSeries()?.getSeasons(); track $index) {
             <base-button
               (onClick)="this.setSeason(season)"
               class="dropdown__list__button season-selection__button"
@@ -60,7 +60,10 @@
       </div>
 
       <div class="episode-selection">
-        <episode-list [episodeList]="this.getEpisodeList()"></episode-list>
+        <episode-list
+          (onClickCard)="setCurrentEpisode($event)"
+          [episodeList]="this.getEpisodeList()"
+        ></episode-list>
       </div>
     </div>
   </media-template>

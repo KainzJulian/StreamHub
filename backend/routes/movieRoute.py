@@ -8,7 +8,17 @@ from classes.response import Response
 movieRouter = APIRouter(prefix="/movies", tags=["movie"])
 
 
-@movieRouter.get("/{movie_id}/data")
+@movieRouter.get("/")
+def getAllMovies() -> Response[list[Movie]]:
+    try:
+        movieList = list(movieCollection.find({}, {"_id": 0}))
+        return Response.Success(movieList)
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@movieRouter.get("/{movie_id}/movie")
 def getMovieByID(movie_id: str) -> Response[Movie]:
 
     try:
@@ -32,37 +42,11 @@ def exists(movie_id: str) -> Response[bool]:
     return Response.Success(False)
 
 
-@movieRouter.get("/")
-def getAllMovies() -> Response[list[Movie]]:
-
-    try:
-        movieList = list(movieCollection.find({}, {"_id": 0}))
-        return Response.Success(movieList)
-
-    except Exception as e:
-        return Response.Error(e)
-
-
-@movieRouter.get("/random/{count}")
-def getRandomMovies(count: int):
-
-    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
-
-    try:
-        movieList = list(movieCollection.aggregate(pipeline))
-
-        return Response.Success(movieList)
-
-    except Exception as e:
-        return Response.Error(e)
-
-
 @movieRouter.get("/{movie_id}/thumbnail")
 def getThumbnail(movie_id: str):
 
     # TODO Thumbnail zurück schicken
     # TODO variablen für ENV anlegen damit man nicht immer getENV machen muss
-    # TODO add Series title into episodes  series title is in the folder name : 01 - This is the Name
 
     movie = movieCollection.find_one({"id": movie_id}, {"thumbnailPath": True})
 
@@ -95,6 +79,42 @@ def getPercentWatched(movie_id: str) -> Response[int]:
         return Response.Error(e)
 
 
+@movieRouter.post("{movie_id}/rate")
+def setRating(movie_id: str, rating: int) -> Response[str]:
+
+    if rating > 100 or rating < 0:
+        return Response.Error(
+            Exception(
+                "Error: The Rating has to be between 0 and 100 Provided rating: "
+                + str(rating)
+            )
+        )
+
+    try:
+        movieCollection.find_one_and_update(
+            {"id": movie_id}, {"$set": {"rating": rating}}
+        )
+        return Response.Success(
+            f"Updated Rating of Movie: {movie_id} New Rating: {rating}"
+        )
+    except Exception as e:
+        return Response.Error(e)
+
+
+@movieRouter.get("/random/{count}")
+def getRandomMovies(count: int):
+
+    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
+
+    try:
+        movieList = list(movieCollection.aggregate(pipeline))
+
+        return Response.Success(movieList)
+
+    except Exception as e:
+        return Response.Error(e)
+
+
 @movieRouter.post("/add")
 def addMovie(movie: Movie):
     try:
@@ -116,27 +136,5 @@ def searchMovies(query: str) -> Response[list[Movie]]:
         )
         return Response.Success(seriesList)
 
-    except Exception as e:
-        return Response.Error(e)
-
-
-@movieRouter.post("{movie_id}/rate")
-def setRating(movie_id: str, rating: int) -> Response[str]:
-
-    if rating > 100 or rating < 0:
-        return Response.Error(
-            Exception(
-                "Error: The Rating has to be between 0 and 100 Provided rating: "
-                + str(rating)
-            )
-        )
-
-    try:
-        movieCollection.find_one_and_update(
-            {"id": movie_id}, {"$set": {"rating": rating}}
-        )
-        return Response.Success(
-            f"Updated Rating of Movie: {movie_id} New Rating: {rating}"
-        )
     except Exception as e:
         return Response.Error(e)

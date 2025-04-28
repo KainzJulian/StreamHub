@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Episode } from '../../../types/series';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { MediaService } from '../../../services/media.service';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'episode-card',
@@ -15,17 +16,29 @@ export class EpisodeCard {
   @Input() episode?: Episode;
   @Input() isSelected: boolean = false;
 
+  @Output() onClick = new EventEmitter<Episode>();
+
+  seriesID!: string | null;
+
   constructor(
     private mediaRouterService: MediaRouterService,
-    private mediaService: MediaService
-  ) {}
+    private mediaService: MediaService,
+    private route: ActivatedRoute
+  ) {
+    this.seriesID = this.route.snapshot.paramMap.get('seriesID');
+  }
 
-  openPlayer() {
+  clickButton() {
+    console.log('Click Button', this.episode);
+
     if (this.episode) {
-      this.mediaService.currentEpisode.set(this.episode);
-      this.mediaService.currentSeason.set(this.episode.season);
+      this.mediaRouterService.openPlayer(
+        this.episode.id,
+        true,
+        this.seriesID == null ? '' : this.seriesID
+      );
 
-      this.mediaRouterService.openPlayer(this.episode.id, true);
+      this.onClick.emit(this.episode);
     }
   }
 }

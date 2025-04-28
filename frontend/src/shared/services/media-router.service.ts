@@ -25,8 +25,12 @@ export class MediaRouterService {
     if (media instanceof Movie) this.route = '/movie/player';
   }
 
-  public openPlayer(id: string, isSeries: boolean = false) {
-    if (isSeries) this.router.navigate(['/series/player', id]);
+  public openPlayer(
+    id: string,
+    isSeries: boolean = false,
+    seriesID: string = ''
+  ) {
+    if (isSeries) this.router.navigate([`/series/${seriesID}/player`, id]);
     else this.router.navigate(['/movie/player', id]);
   }
 }
