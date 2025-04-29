@@ -1,11 +1,20 @@
+from ast import Str
+import os
+import time
 from uuid import uuid5
+from PIL import Image
 from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi.responses import FileResponse
 
+from utils.get_env import getENV
 from classes.response import Response
 from database import seriesCollection
 from classes.series import Series
 
 seriesRouter = APIRouter(prefix="/series", tags=["series"])
+
+
+seriesPath = getENV("MEDIA_PATH") + "/series"
 
 
 @seriesRouter.get("/")
@@ -37,7 +46,7 @@ def exists(series_id: str) -> Response[bool]:
 def addSeries(series: Series) -> Response[str]:
     try:
         seriesCollection.insert_one(series.model_dump(exclude={"episodeList"}))
-        return Response.Success("Added Series: " + series.title)
+        return Response.Success("Added Series: " + str(series.title))
 
     except Exception as e:
         return Response.Error(e)
@@ -77,7 +86,7 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
 
 
 # get the average percentage watched of each episode
-@seriesRouter.get("/percent_watched/{series_id}")
+@seriesRouter.get("/{series_id}/percent_watched")
 def getPercentWatched(series_id: str) -> Response[int]:
     try:
         series = seriesCollection.find_one({"id": series_id}, {"_id": 0})
@@ -95,9 +104,61 @@ def getPercentWatched(series_id: str) -> Response[int]:
         return Response.Error(e)
 
 
-@seriesRouter.get("/thumbnail/{series_id}")
+@seriesRouter.get("/{series_id}/thumbnail_banner")
+def getThumbnailBanner(series_id: str):
+
+    try:
+        series = seriesCollection.find_one({"id": series_id}, {"thumbnailPath": True})
+
+        if series == None:
+            raise HTTPException(
+                status_code=404, detail="No Series with the ID: " + series_id
+            )
+
+        thumbnailPath = f"{seriesPath}/{series["thumbnailPath"]}"
+
+        if not os.path.exists(thumbnailPath):
+            raise HTTPException(status_code=404, detail="Thumbnail not found")
+
+        response = FileResponse(thumbnailPath, media_type="image/jpeg")
+        return response
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@seriesRouter.get("/{series_id}/thumbnail_preview")
 def getThumbnail(series_id: str):
-    return {"series_id": series_id, "thumbnail": "thumbnail_url"}
+
+    try:
+        series = seriesCollection.find_one(
+            {"id": series_id}, {"thumbnailPath": True, "title": True}
+        )
+
+        if series == None:
+            raise HTTPException(
+                status_code=404, detail="No Series with the ID: " + series_id
+            )
+
+        originalThumbnailPath = f"{seriesPath}/{series["thumbnailPath"]}"
+        previewThumbnailPath = f"{seriesPath}/{series["title"]}_preview.jpg"
+
+        if os.path.exists(previewThumbnailPath):
+            return FileResponse(previewThumbnailPath, media_type="image/jpeg")
+
+        if not os.path.exists(originalThumbnailPath):
+            raise HTTPException(
+                status_code=404, detail="Thumbnail not found"
+            )  # TODO replace to get the default image
+
+        image = Image.open(originalThumbnailPath)
+        image.thumbnail((400, 600))
+        image.save(previewThumbnailPath)
+
+        response = FileResponse(previewThumbnailPath, media_type="image/jpeg")
+        return response
+    except Exception as e:
+        return Response.Error(e)
 
 
 @seriesRouter.post("{series_id}/rate")

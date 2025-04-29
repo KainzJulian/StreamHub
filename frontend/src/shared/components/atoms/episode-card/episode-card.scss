@@ -87,12 +87,6 @@ $base-height: 5px;
   }
 
   &:hover {
-    background-color: rgb(
-      22,
-      22,
-      22
-    ); // TODO use another div that is an overlay to change background-color
-
     .card__title,
     .card__episode {
       visibility: visible;
@@ -101,8 +95,6 @@ $base-height: 5px;
     &.card::before {
       transition: all 0.2s;
       filter: brightness(110%) contrast(110%);
-
-      // box-shadow: inset 0px 50px 100px black;
     }
   }
 }

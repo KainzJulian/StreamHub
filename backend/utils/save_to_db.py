@@ -42,16 +42,11 @@ def uploadMoviesToDB(fullPath: str):
             if exists.data:
                 continue
 
-            thumbnailPath = mediaPathString + ".jpg"
-
-            if not os.path.exists(f"{root}/{movieName}.jpg"):
-                thumbnailPath = None
-
             movieRoute.addMovie(
                 Movie(
                     id=id,
                     mediaPath=mediaPathString + ".mp4",
-                    thumbnailPath=thumbnailPath,
+                    thumbnailPath=getThumbnailPath(root, movieName),
                     duration=getVideoLengthInSeconds(f"{root}/{movieName}.mp4"),
                 )
             )
@@ -93,10 +88,6 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
             mediaPath = mediaPathString.split("/")
 
             episode = int(mediaPath[-1])
-            thumbnailPath = mediaPathString + ".jpg"
-
-            if not os.path.exists(f"{fullPath}/{episode}.jpg"):
-                thumbnailPath = None
 
             seriesID = str(uuid5(uuid.NAMESPACE_DNS, mediaPath[-3]))
 
@@ -104,7 +95,7 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
                 Episode(
                     id=episodeID,
                     mediaPath=mediaPathString + ".mp4",  # series/1/1.mp4
-                    thumbnailPath=thumbnailPath,
+                    thumbnailPath=getThumbnailPath(fullPath, episode),
                     episode=episode,
                     season=season,
                     duration=getVideoLengthInSeconds(f"{root}/{mediaPath[-1]}.mp4"),
@@ -117,11 +108,14 @@ def createSeriesFromPath(path) -> None:
 
     print("Creating Series...")
 
-    paths = scandir.listdir(path)
-    print(paths)
+    paths: list[str] = list(scandir.listdir(path))
 
     for i in paths:
-        id = str(uuid5(uuid.NAMESPACE_DNS, i))  # i = AOT
+
+        if i.endswith(".jpg"):
+            continue
+
+        id = str(uuid5(uuid.NAMESPACE_DNS, i))
         exists = seriesRoute.exists(id)
 
         if exists.data:
@@ -141,12 +135,11 @@ def getVideoLengthInSeconds(path: str) -> int:
     return 0
 
 
-def getThumbnailPath(fullPath: str, mediaPath: str) -> str | None:
+def getThumbnailPath(fullPath: str, fileName: str | int) -> str | None:
 
-    thumbnailPath = os.path.splitext(mediaPath)[0] + ".jpg"
-    thumbnailName = os.path.basename(thumbnailPath)
+    thumbnailPath = f"{fileName}.jpg"
 
-    if not os.path.exists(fullPath + "/" + thumbnailName):
-        return None
+    if not os.path.exists(f"{fullPath}/{fileName}.jpg"):
+        thumbnailPath = None
 
     return thumbnailPath
