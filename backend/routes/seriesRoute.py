@@ -6,6 +6,7 @@ from PIL import Image
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
 
+from utils.get_thumbnail_paths import getThumbnailPaths
 from utils.get_env import getENV
 from classes.response import Response
 from database import seriesCollection
@@ -15,6 +16,7 @@ seriesRouter = APIRouter(prefix="/series", tags=["series"])
 
 
 seriesPath = getENV("MEDIA_PATH") + "/series"
+mediaPath = getENV("MEDIA_PATH")
 
 
 @seriesRouter.get("/")
@@ -108,48 +110,48 @@ def getPercentWatched(series_id: str) -> Response[int]:
 def getThumbnailBanner(series_id: str):
 
     try:
-        series = seriesCollection.find_one({"id": series_id}, {"thumbnailPath": True})
+        series = seriesCollection.find_one({"id": series_id}, {"title": True})
 
         if series == None:
             raise HTTPException(
                 status_code=404, detail="No Series with the ID: " + series_id
             )
 
-        thumbnailPath = f"{seriesPath}/{series["thumbnailPath"]}"
+        seriesName = series["title"]
+        thumbnail = getThumbnailPaths(seriesName, f"{seriesPath}/{seriesName}")
 
-        if not os.path.exists(thumbnailPath):
-            raise HTTPException(status_code=404, detail="Thumbnail not found")
+        if not os.path.exists(thumbnail[0]):
+            return None
 
-        response = FileResponse(thumbnailPath, media_type="image/jpeg")
+        response = FileResponse(thumbnail[0], media_type="image/jpeg")
         return response
 
     except Exception as e:
         return Response.Error(e)
 
 
-@seriesRouter.get("/{series_id}/thumbnail_preview")
+@seriesRouter.get("/{series_id}/thumbnail_preview123")
 def getThumbnail(series_id: str):
 
     try:
-        series = seriesCollection.find_one(
-            {"id": series_id}, {"thumbnailPath": True, "title": True}
-        )
+        series = seriesCollection.find_one({"id": series_id}, {"title": True})
 
         if series == None:
             raise HTTPException(
                 status_code=404, detail="No Series with the ID: " + series_id
             )
 
-        originalThumbnailPath = f"{seriesPath}/{series["thumbnailPath"]}"
-        previewThumbnailPath = f"{seriesPath}/{series["title"]}_preview.jpg"
+        seriesName = series["title"]
+        thumbnail = getThumbnailPaths(seriesName, f"{seriesPath}/{seriesName}")
+
+        originalThumbnailPath = thumbnail[0]
+        previewThumbnailPath = thumbnail[1]
 
         if os.path.exists(previewThumbnailPath):
             return FileResponse(previewThumbnailPath, media_type="image/jpeg")
 
         if not os.path.exists(originalThumbnailPath):
-            raise HTTPException(
-                status_code=404, detail="Thumbnail not found"
-            )  # TODO replace to get the default image
+            return None
 
         image = Image.open(originalThumbnailPath)
         image.thumbnail((400, 600))

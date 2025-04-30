@@ -1,11 +1,17 @@
 import os
-from fastapi import APIRouter
+from PIL import Image
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
+from utils.get_thumbnail_paths import getThumbnailPaths
 from utils.get_env import getENV
 from database import movieCollection
 from classes.movie import Movie
 from classes.response import Response
 
 movieRouter = APIRouter(prefix="/movies", tags=["movie"])
+
+moviesPath = getENV("MEDIA_PATH") + "/movies"
+mediaPath = getENV("MEDIA_PATH")
 
 
 @movieRouter.get("/")
@@ -42,20 +48,59 @@ def exists(movie_id: str) -> Response[bool]:
     return Response.Success(False)
 
 
-@movieRouter.get("/{movie_id}/thumbnail")
-def getThumbnail(movie_id: str):
+@movieRouter.get("/{movie_id}/thumbnail_banner")
+def getThumbnailBanner(movie_id: str):
 
-    # TODO Thumbnail zurück schicken
-    # TODO variablen für ENV anlegen damit man nicht immer getENV machen muss
+    try:
+        movie = movieCollection.find_one({"id": movie_id}, {"mediaPath": True})
 
-    movie = movieCollection.find_one({"id": movie_id}, {"thumbnailPath": True})
+        if movie == None:
+            raise HTTPException(
+                status_code=404, detail="No Movie with the ID: " + movie_id
+            )
 
-    response = None
+        thumbnail = getThumbnailPaths(movie["mediaPath"], mediaPath)
 
-    if movie != None:
-        response = getENV("MEDIA_PATH") + "/" + movie["thumbnailPath"]
+        if not os.path.exists(thumbnail[0]):
+            return None
 
-    return Response.Success(response)
+        response = FileResponse(thumbnail[0], media_type="image/jpeg")
+        return response
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@movieRouter.get("/{movie_id}/thumbnail_preview")
+def getThumbnailPreview(movie_id: str):
+
+    try:
+        movie = movieCollection.find_one({"id": movie_id}, {"mediaPath": True})
+
+        if movie == None:
+            raise HTTPException(
+                status_code=404, detail="No Movie with the ID: " + movie_id
+            )
+
+        thumbnail = getThumbnailPaths(movie["mediaPath"], mediaPath)
+
+        originalThumbnailPath = thumbnail[0]
+        previewThumbnailPath = thumbnail[1]
+
+        if os.path.exists(previewThumbnailPath):
+            return FileResponse(previewThumbnailPath, media_type="image/jpeg")
+
+        if not os.path.exists(originalThumbnailPath):
+            return None
+
+        image = Image.open(originalThumbnailPath)
+        image.thumbnail((400, 600))
+        image.save(previewThumbnailPath)
+
+        response = FileResponse(previewThumbnailPath, media_type="image/jpeg")
+        return response
+    except Exception as e:
+        return Response.Error(e)
 
 
 @movieRouter.get("/{movie_id}/video")
@@ -129,12 +174,12 @@ def addMovie(movie: Movie):
 def searchMovies(query: str) -> Response[list[Movie]]:
 
     try:
-        seriesList = list(
+        movieList = list(
             movieCollection.find(
                 {"title": {"$regex": query, "$options": "i"}}, {"_id": 0}
             )
         )
-        return Response.Success(seriesList)
+        return Response.Success(movieList)
 
     except Exception as e:
         return Response.Error(e)

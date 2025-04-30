@@ -46,7 +46,6 @@ def uploadMoviesToDB(fullPath: str):
                 Movie(
                     id=id,
                     mediaPath=mediaPathString + ".mp4",
-                    thumbnailPath=getThumbnailPath(root, movieName),
                     duration=getVideoLengthInSeconds(f"{root}/{movieName}.mp4"),
                 )
             )
@@ -95,7 +94,6 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
                 Episode(
                     id=episodeID,
                     mediaPath=mediaPathString + ".mp4",  # series/1/1.mp4
-                    thumbnailPath=getThumbnailPath(fullPath, episode),
                     episode=episode,
                     season=season,
                     duration=getVideoLengthInSeconds(f"{root}/{mediaPath[-1]}.mp4"),
@@ -121,7 +119,7 @@ def createSeriesFromPath(path) -> None:
         if exists.data:
             continue
 
-        series = Series(id=id, thumbnailPath=getThumbnailPath(path, i), title=i)
+        series = Series(id=id, title=i)
         seriesRoute.addSeries(series)
 
     print("Done")
@@ -133,13 +131,3 @@ def getVideoLengthInSeconds(path: str) -> int:
         if track.track_type == "Video":
             return int(float(track.duration) / 1000)
     return 0
-
-
-def getThumbnailPath(fullPath: str, fileName: str | int) -> str | None:
-
-    thumbnailPath = f"{fileName}.jpg"
-
-    if not os.path.exists(f"{fullPath}/{fileName}.jpg"):
-        thumbnailPath = None
-
-    return thumbnailPath

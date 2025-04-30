@@ -7,7 +7,6 @@ class Episode(BaseModel):
 
     title: str | None = None
     mediaPath: str
-    thumbnailPath: str | None = None
 
     episode: int
     season: int

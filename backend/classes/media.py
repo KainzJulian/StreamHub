@@ -17,6 +17,4 @@ class Media(BaseModel):
 
     rating: int | None = None
 
-    thumbnailPath: str | None = None
-
     watched: bool = False
