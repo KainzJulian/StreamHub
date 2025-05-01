@@ -1,5 +1,9 @@
 <home-template>
-  <banner [media]="this.series()" class="hide-button"></banner>
+  <banner
+    *ngIf="this.series() != null"
+    [media]="this.series()"
+    class="hide-button"
+  ></banner>
 
   <div>
     <ng-container

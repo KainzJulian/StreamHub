@@ -32,7 +32,7 @@ $base-height: 5px;
 
     &::before {
       content: "";
-      background-image: url("/images/testImage.jpg");
+      background-image: var(--thumbnail-path);
       background-size: cover;
       background-position: center;
 

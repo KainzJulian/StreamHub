@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, signal } from '@angular/core';
 import { Media } from '../../../types/media';
 import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
@@ -18,15 +18,27 @@ export class MediaCard implements OnInit {
   public progressBarWidth = signal<number>(0);
 
   constructor(
+    private elRef: ElementRef,
     private mediaRouterService: MediaRouterService,
     private mediaService: MediaService
   ) {}
 
   ngOnInit(): void {
-    if (this.media instanceof Movie && this.media.duration)
+    if (!this.media?.id) throw new Error('Media ID not set');
+
+    let mediaType: 'movies' | 'series' = 'series';
+
+    if (this.media instanceof Movie && this.media.duration) {
       this.progressBarWidth.set(
         (this.media.durationWatched / this.media.duration) * 100
       );
+      mediaType = 'movies';
+    }
+
+    this.elRef.nativeElement.style.setProperty(
+      '--thumbnail-path',
+      `url("http://localhost:8000/api/${mediaType}/${this.media?.id}/thumbnail_preview")`
+    );
   }
 
   openPlayer() {

@@ -13,6 +13,8 @@ import { getMedia, getMediaList } from '../../../../utils/utils';
   styleUrl: './home-page.scss',
 })
 export class HomePage {
+  // TODO: The Banner should be a random movie or series
+
   getMediaList(): Media[] {
     return getMediaList(40);
   }

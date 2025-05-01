@@ -10,6 +10,9 @@ from classes.episode import Episode
 from classes.series import Series
 from classes.movie import Movie
 
+# TODO add episode / movie Title to the file names so i have to
+# change the algorithm
+
 
 def uploadMoviesToDB(fullPath: str):
 

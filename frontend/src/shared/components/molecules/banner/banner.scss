@@ -13,7 +13,7 @@
 
   &::before {
     content: "";
-    background-image: url("/images/testImage2.jpg");
+    background-image: var(--thumbnail-path);
     background-size: cover;
     background-position: center;
 

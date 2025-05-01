@@ -1,7 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Episode } from '../../../types/series';
 import { MediaRouterService } from '../../../services/media-router.service';
-import { MediaService } from '../../../services/media.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './episode-card.html',
   styleUrl: './episode-card.scss',
 })
-export class EpisodeCard {
+export class EpisodeCard implements OnInit {
   @Input() episode?: Episode;
   @Input() isSelected: boolean = false;
 
@@ -21,11 +27,20 @@ export class EpisodeCard {
   seriesID!: string | null;
 
   constructor(
+    private elRef: ElementRef,
     private mediaRouterService: MediaRouterService,
-    private mediaService: MediaService,
     private route: ActivatedRoute
   ) {
     this.seriesID = this.route.snapshot.paramMap.get('seriesID');
+  }
+
+  ngOnInit(): void {
+    if (!this.episode?.id) throw new Error('Episode ID not set');
+
+    this.elRef.nativeElement.style.setProperty(
+      '--thumbnail-path',
+      `url("http://localhost:8000/api/episodes/${this.episode?.id}/thumbnail_preview")`
+    );
   }
 
   clickButton() {

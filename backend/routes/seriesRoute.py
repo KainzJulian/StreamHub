@@ -130,7 +130,7 @@ def getThumbnailBanner(series_id: str):
         return Response.Error(e)
 
 
-@seriesRouter.get("/{series_id}/thumbnail_preview123")
+@seriesRouter.get("/{series_id}/thumbnail_preview")
 def getThumbnail(series_id: str):
 
     try:

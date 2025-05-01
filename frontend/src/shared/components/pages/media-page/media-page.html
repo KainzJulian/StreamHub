@@ -1,5 +1,5 @@
 <home-template>
-  <banner [media]="this.media()"></banner>
+  <banner *ngIf="this.media() != null" [media]="this.media()"></banner>
 
   <media-card-list
     class="grid"
