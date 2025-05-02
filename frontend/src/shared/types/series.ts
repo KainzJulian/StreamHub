@@ -1,5 +1,7 @@
 import { Media } from './media';
 
+// TODO update sort to sort the episodes and seasons of series correctly
+
 export class Series extends Media {
   episodeList: Episode[] = [];
 

@@ -8,7 +8,7 @@ class Episode(BaseModel):
     title: str | None = None
     mediaPath: str
 
-    episode: int
+    episode: int | None = None
     season: int
 
     watched: bool = False

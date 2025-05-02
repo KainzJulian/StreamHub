@@ -17,7 +17,11 @@ mediaPath = getENV("MEDIA_PATH")
 @episodeRouter.get("/")
 def getAllEpisodesBySeriesID(series_id: str) -> Response[list[Episode]]:
     try:
-        episodeList = list(episodesCollection.find({"seriesID": series_id}, {"_id": 0}))
+        episodeList = list(
+            episodesCollection.find({"seriesID": series_id}, {"_id": 0}).sort(
+                [("season", 1), ("episode", 1)]
+            )
+        )
         return Response.Success(episodeList)
 
     except Exception as e:

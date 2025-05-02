@@ -37,7 +37,6 @@ def uploadMoviesToDB(fullPath: str):
             movieName = os.path.splitext(file)[0]
 
             mediaPathString = f"{relativePathString}/{movieFranchise}/{movieName}"  # movies/moviename/1
-
             id = str(uuid5(uuid.NAMESPACE_DNS, mediaPathString))
 
             exists = movieRoute.exists(id)
@@ -45,11 +44,21 @@ def uploadMoviesToDB(fullPath: str):
             if exists.data:
                 continue
 
+            title = ""
+
+            match = re.match(r"(\d+)\s*-\s*(.+)", movieName)
+
+            if match:
+                title = str(match.group(2))
+            else:
+                title = movieName
+
             movieRoute.addMovie(
                 Movie(
                     id=id,
                     mediaPath=mediaPathString + ".mp4",
                     duration=getVideoLengthInSeconds(f"{root}/{movieName}.mp4"),
+                    title=title,
                 )
             )
     print("Done")
@@ -87,9 +96,23 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
             if exists.data:
                 continue
 
-            mediaPath = mediaPathString.split("/")
+            title = ""
+            episode: int | None
 
-            episode = int(mediaPath[-1])
+            match = re.match(r"(\d+)\s*-\s*(.+)", episodeName)
+
+            if match:
+                print("match found")
+                episode = int(match.group(1))
+                title = str(match.group(2))
+            else:
+                title = episodeName
+                episode = extractEpisodeNumber(episodeName)
+
+            print(episode)
+            print(title)
+
+            mediaPath = mediaPathString.split("/")
 
             seriesID = str(uuid5(uuid.NAMESPACE_DNS, mediaPath[-3]))
 
@@ -101,8 +124,17 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
                     season=season,
                     duration=getVideoLengthInSeconds(f"{root}/{mediaPath[-1]}.mp4"),
                     seriesID=seriesID,
+                    title=title,
                 )
             )
+
+
+def extractEpisodeNumber(name: str) -> int | None:
+    search = re.search(r"\d+", name)
+    if search:
+        return int(search.group())
+
+    return None
 
 
 def createSeriesFromPath(path) -> None:
