@@ -1,15 +1,15 @@
-from ast import Str
 import os
-import time
-from uuid import uuid5
 from PIL import Image
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 
+from classes.episode import Episode
+from utils.save_to_db import uploadEpisodesToSeries
 from utils.get_thumbnail_paths import getThumbnailPaths
 from utils.get_env import getENV
 from classes.response import Response
 from database import seriesCollection
+from database import episodesCollection
 from classes.series import Series
 
 seriesRouter = APIRouter(prefix="/series", tags=["series"])
@@ -62,8 +62,11 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
         {
             "$lookup": {
                 "from": "episodes",
-                "localField": "id",
-                "foreignField": "seriesID",
+                "let": {"series_id": "$id"},
+                "pipeline": [
+                    {"$match": {"$expr": {"$eq": ["$seriesID", "$$series_id"]}}},
+                    {"$sort": {"season": 1, "episode": 1}},
+                ],
                 "as": "episodeList",
             }
         },
@@ -72,15 +75,27 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
 
     try:
 
-        seriesCursor = seriesCollection.aggregate(pipeline)
-        series = next(seriesCursor, None)
+        seriesTitle = seriesCollection.find_one({"id": series_id}, {"title": True})
 
-        if series == None:
+        episodeList: list[Episode] = list(
+            seriesCollection.find({"seriesID": series_id}, {"_id": False})
+        )
+
+        if seriesTitle:
+            uploadEpisodesToSeries(seriesPath, seriesTitle["title"])
+
+        if episodeList == None:
             return Response.Error(
                 Exception("No Series found with the ID: " + series_id)
             )
 
-        # series = seriesCollection.find_one({"id": series_id}, {"_id": 0})
+        for episode in episodeList:
+            if not os.path.exists(mediaPath + "/" + episode.mediaPath):
+                removeEpisode(episode.id)
+
+        seriesCursor = seriesCollection.aggregate(pipeline)
+        series = next(seriesCursor, None)
+
         return Response.Success(series)
 
     except Exception as e:
@@ -209,3 +224,11 @@ def searchSeries(query: str) -> Response[list[Series]]:
 
     except Exception as e:
         return Response.Error(e)
+
+
+# TODO add removeEpisode to episodeRouter
+def removeEpisode(episode_id: str):
+    try:
+        episodesCollection.find_one_and_delete({"id": episode_id})
+    except Exception as e:
+        raise e

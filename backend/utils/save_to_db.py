@@ -1,11 +1,11 @@
 import re
 from pymediainfo import MediaInfo
 import os
-from uuid import uuid4, uuid5
+from uuid import uuid5
 import uuid
 import scandir
 
-from routes import seriesRoute, episodeRoute, movieRoute
+from routes import episodeRoute, movieRoute
 from classes.episode import Episode
 from classes.series import Series
 from classes.movie import Movie
@@ -135,29 +135,6 @@ def extractEpisodeNumber(name: str) -> int | None:
         return int(search.group())
 
     return None
-
-
-def createSeriesFromPath(path) -> None:
-
-    print("Creating Series...")
-
-    paths: list[str] = list(scandir.listdir(path))
-
-    for i in paths:
-
-        if i.endswith(".jpg"):
-            continue
-
-        id = str(uuid5(uuid.NAMESPACE_DNS, i))
-        exists = seriesRoute.exists(id)
-
-        if exists.data:
-            continue
-
-        series = Series(id=id, title=i)
-        seriesRoute.addSeries(series)
-
-    print("Done")
 
 
 def getVideoLengthInSeconds(path: str) -> int:

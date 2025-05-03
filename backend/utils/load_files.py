@@ -1,12 +1,9 @@
 import time
 import scandir
-from uuid import uuid4
 from dotenv import find_dotenv, load_dotenv
-from routes import seriesRoute
-from classes.series import Series
+from utils.create_series_from_path import createSeriesFromPath
 from utils.get_env import getENV
 from utils.save_to_db import (
-    createSeriesFromPath,
     uploadMoviesToDB,
     uploadEpisodesToSeries,
 )
