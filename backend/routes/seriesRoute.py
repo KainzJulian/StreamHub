@@ -77,11 +77,11 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
 
         seriesTitle = seriesCollection.find_one({"id": series_id}, {"title": True})
 
-        episodeList: list[Episode] = list(
-            seriesCollection.find({"seriesID": series_id}, {"_id": False})
+        episodeList = list(
+            episodesCollection.find({"seriesID": series_id}, {"_id": False})
         )
 
-        if seriesTitle:
+        if seriesTitle != None:
             uploadEpisodesToSeries(seriesPath, seriesTitle["title"])
 
         if episodeList == None:
@@ -90,8 +90,9 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
             )
 
         for episode in episodeList:
-            if not os.path.exists(mediaPath + "/" + episode.mediaPath):
-                removeEpisode(episode.id)
+            # print(episode)
+            if not os.path.exists(mediaPath + "/" + episode["mediaPath"]):
+                removeEpisode(episode["id"])
 
         seriesCursor = seriesCollection.aggregate(pipeline)
         series = next(seriesCursor, None)
