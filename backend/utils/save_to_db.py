@@ -5,9 +5,9 @@ from uuid import uuid5
 import uuid
 import scandir
 
-from routes import episodeRoute, movieRoute
+from database import movieCollection
+from routes import episodeRoute
 from classes.episode import Episode
-from classes.series import Series
 from classes.movie import Movie
 
 # TODO add episode / movie Title to the file names so i have to
@@ -39,9 +39,13 @@ def uploadMoviesToDB(fullPath: str):
             mediaPathString = f"{relativePathString}/{movieFranchise}/{movieName}"  # movies/moviename/1
             id = str(uuid5(uuid.NAMESPACE_DNS, mediaPathString))
 
-            exists = movieRoute.exists(id)
+            exists: bool = False
 
-            if exists.data:
+            movie = movieCollection.find_one({"id": id})
+            if movie != None:
+                exists = True
+
+            if exists:
                 continue
 
             title = ""
@@ -53,14 +57,15 @@ def uploadMoviesToDB(fullPath: str):
             else:
                 title = movieName
 
-            movieRoute.addMovie(
-                Movie(
-                    id=id,
-                    mediaPath=mediaPathString + ".mp4",
-                    duration=getVideoLengthInSeconds(f"{root}/{movieName}.mp4"),
-                    title=title,
-                )
+            movie = Movie(
+                id=id,
+                mediaPath=mediaPathString + ".mp4",
+                duration=getVideoLengthInSeconds(f"{root}/{movieName}.mp4"),
+                title=title,
             )
+
+            movieCollection.insert_one(movie.model_dump())
+
     print("Done")
 
 

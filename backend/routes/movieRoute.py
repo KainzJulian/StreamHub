@@ -2,6 +2,7 @@ import os
 from PIL import Image
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
+from utils.save_to_db import uploadMoviesToDB
 from utils.get_thumbnail_paths import getThumbnailPaths
 from utils.get_env import getENV
 from database import movieCollection
@@ -17,10 +18,22 @@ mediaPath = getENV("MEDIA_PATH")
 @movieRouter.get("/")
 def getAllMovies() -> Response[list[Movie]]:
     try:
-        movieList = list(movieCollection.find({}, {"_id": 0}))
+        uploadMoviesToDB(moviesPath)
+
+        movieList = list(
+            movieCollection.find({}, {"_id": False, "id": True, "mediaPath": True})
+        )
+
+        for movie in movieList:
+            if not os.path.exists(mediaPath + "/" + movie["mediaPath"]):
+                removeMovie(movie["id"])
+
+        movieList = list(movieCollection.find({}, {"_id": False}))
+
         return Response.Success(movieList)
 
     except Exception as e:
+        raise e
         return Response.Error(e)
 
 
@@ -28,7 +41,7 @@ def getAllMovies() -> Response[list[Movie]]:
 def getMovieByID(movie_id: str) -> Response[Movie]:
 
     try:
-        movie = movieCollection.find_one({"id": movie_id}, {"_id": 0})
+        movie = movieCollection.find_one({"id": movie_id}, {"_id": False})
         return Response.Success(movie)
 
     except Exception as e:
@@ -112,7 +125,7 @@ def getVideo(movie_id: str):
 def getPercentWatched(movie_id: str) -> Response[int]:
 
     try:
-        movie = movieCollection.find_one({"id": movie_id}, {"_id": 0})
+        movie = movieCollection.find_one({"id": movie_id}, {"_id": False})
 
         if movie == None:
             return Response.Error(Exception("No Movie found with the ID: " + movie_id))
@@ -149,7 +162,7 @@ def setRating(movie_id: str, rating: int) -> Response[str]:
 @movieRouter.get("/random/{count}")
 def getRandomMovies(count: int):
 
-    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
+    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": False}}]
 
     try:
         movieList = list(movieCollection.aggregate(pipeline))
@@ -176,10 +189,18 @@ def searchMovies(query: str) -> Response[list[Movie]]:
     try:
         movieList = list(
             movieCollection.find(
-                {"title": {"$regex": query, "$options": "i"}}, {"_id": 0}
+                {"title": {"$regex": query, "$options": "i"}}, {"_id": False}
             )
         )
         return Response.Success(movieList)
 
     except Exception as e:
         return Response.Error(e)
+
+
+def removeMovie(id: str):
+
+    try:
+        movieCollection.find_one_and_delete({"id": id})
+    except Exception as e:
+        raise e
