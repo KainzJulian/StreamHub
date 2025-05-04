@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from routes.watchHistoryRoute import watchHistoryRouter
 from utils import saveFilesToDB
 from routes.seriesRoute import seriesRouter
 from routes.episodeRoute import episodeRouter
@@ -21,7 +22,13 @@ app.add_event_handler("startup", saveFilesToDB)
 
 print("Docs: http://127.0.0.1:8000/docs#/")
 
-routes = [seriesRouter, episodeRouter, movieRouter, currentMediaRouter]
+routes = [
+    seriesRouter,
+    episodeRouter,
+    movieRouter,
+    currentMediaRouter,
+    watchHistoryRouter,
+]
 
 for route in routes:
     app.include_router(route, prefix="/api")

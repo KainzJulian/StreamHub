@@ -2,6 +2,7 @@ import os
 from PIL import Image
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
+from pymongo import DESCENDING
 
 from classes.episode import Episode
 from utils.save_to_db import uploadEpisodesToSeries
@@ -233,3 +234,17 @@ def removeEpisode(episode_id: str):
         episodesCollection.find_one_and_delete({"id": episode_id})
     except Exception as e:
         raise e
+
+
+@seriesRouter.get("/highest_rated")
+def getHighestRatedSeries(limit: int) -> Response:
+    try:
+        movies = list(
+            seriesCollection.find({}, {"_id": False})
+            .sort("rating", DESCENDING)
+            .limit(limit)
+        )
+        return Response.Success(movies)
+
+    except Exception as e:
+        return Response.Error(e)

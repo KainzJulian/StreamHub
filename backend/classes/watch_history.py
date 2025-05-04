@@ -3,9 +3,6 @@ from pydantic import BaseModel, Field
 
 
 class HistoryItem(BaseModel):
-    id: str = Field(alias="_id")
+    id: str
+    type: str
     time: datetime.datetime
-
-
-class WatchHistory(BaseModel):
-    mediaIDList: list[HistoryItem]

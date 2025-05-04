@@ -2,6 +2,7 @@ import os
 from PIL import Image
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
+from pymongo import DESCENDING
 from utils.save_to_db import uploadMoviesToDB
 from utils.get_thumbnail_paths import getThumbnailPaths
 from utils.get_env import getENV
@@ -204,3 +205,17 @@ def removeMovie(id: str):
         movieCollection.find_one_and_delete({"id": id})
     except Exception as e:
         raise e
+
+
+@movieRouter.get("/highest_rated")
+def getHighestRatedMovies(limit: int) -> Response:
+    try:
+        movies = list(
+            movieCollection.find({}, {"_id": False})
+            .sort("rating", DESCENDING)
+            .limit(limit)
+        )
+        return Response.Success(movies)
+
+    except Exception as e:
+        return Response.Error(e)
