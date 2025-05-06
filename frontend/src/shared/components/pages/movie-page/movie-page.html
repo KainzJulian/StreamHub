@@ -1,5 +1,5 @@
 <home-template>
-  <media-template>
+  <media-template [videoSource]="getVideoSource()">
     <div class="movie__title" header>
       <p>{{this.media?.title}}</p>
     </div>

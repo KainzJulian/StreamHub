@@ -1,6 +1,12 @@
 <ng-content select="[header]"></ng-content>
 
-<div class="videoPlayer"></div>
+<video
+  controls
+  class="videoPlayer"
+  [src]="this.videoSource"
+  type="video/mp4"
+></video>
+
 <div class="info">
   <ng-content select="[info]"></ng-content>
 </div>

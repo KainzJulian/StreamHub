@@ -24,6 +24,10 @@
   margin-left: auto;
   margin-right: auto;
 
+  display: flex;
+
+  justify-self: center;
+
   margin-top: $gap--xlarge;
   margin-bottom: $gap--large;
 }

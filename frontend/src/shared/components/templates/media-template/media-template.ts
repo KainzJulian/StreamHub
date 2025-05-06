@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'media-template',
   standalone: true,
   imports: [],
   templateUrl: './media-template.html',
-  styleUrl: './media-template.scss'
+  styleUrl: './media-template.scss',
 })
 export class MediaTemplate {
+  @Input() videoSource?: string;
 
+  constructor() {}
 }

@@ -1,7 +1,7 @@
 import os
 from PIL import Image
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import FileResponse
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import FileResponse, StreamingResponse
 from pymongo import DESCENDING
 from utils.save_to_db import uploadMoviesToDB
 from utils.get_thumbnail_paths import getThumbnailPaths
@@ -118,8 +118,93 @@ def getThumbnailPreview(movie_id: str):
 
 
 @movieRouter.get("/{movie_id}/video")
-def getVideo(movie_id: str):
-    return {"movie_id": movie_id, "video": "video_url"}
+def getVideo(movie_id: str, request: Request):
+
+    try:
+        movie = movieCollection.find_one({"id": movie_id}, {"_id": False})
+
+        if movie == None:
+            return "No movie found"
+
+        path = mediaPath + "/" + movie["mediaPath"]
+
+        if not os.path.exists(path):
+            raise HTTPException(status_code=404, detail="Video Path not found")
+
+        range_header = request.headers.get("range")
+        file_size = os.path.getsize(path)
+
+        chunkSize = 1024 * 1024 * 1
+
+        if range_header == None:
+
+            def streamVideoData():
+                with open(path, "rb") as f:
+                    while chunk := f.read(chunkSize):
+                        yield chunk
+
+            return StreamingResponse(
+                streamVideoData(),
+                media_type="video/mp4",
+                headers={
+                    "Accept-Ranges": "bytes",  # <- wichtig!
+                    "Content-Length": str(file_size),
+                },
+            )
+
+        try:
+            range_value = range_header.replace("bytes=", "")
+            start_str, end_str = range_value.split("-")
+            start = int(start_str)
+            end = int(end_str) if end_str else file_size - 1
+        except:
+            raise HTTPException(status_code=400, detail="Invalid Range header")
+
+        if start >= file_size:
+            raise HTTPException(
+                status_code=416, detail="Requested Range Not Satisfiable"
+            )
+
+        end = min(end, file_size - 1)
+        content_length = end - start + 1
+
+        def streamDataBytes():
+            with open(path, "rb") as f:
+                f.seek(start)
+                remaining = content_length
+
+                while remaining > 0:
+                    read_length = min(chunkSize, remaining)
+                    data = f.read(read_length)
+
+                    if not data:
+                        break
+
+                    remaining -= len(data)
+                    yield data
+
+        headers = {
+            "Content-Range": f"bytes {start}-{end}/{file_size}",
+            "Accept-Ranges": "bytes",
+            "Content-Length": str(content_length),
+        }
+
+        return StreamingResponse(
+            streamDataBytes(), status_code=206, media_type="video/mp4", headers=headers
+        )
+    except Exception as e:
+        return Response.Error(e)
+
+
+def getByteRange(range_header: str, file_size: int):
+    try:
+        range_val = range_header.strip().lower().replace("bytes=", "")
+        start, end = range_val.split("-")
+        start = int(start)
+        end = int(end) if end else file_size - 1
+        return start, end
+    except Exception:
+        return None, None
 
 
 @movieRouter.get("/{movie_id}/percent_watched")
