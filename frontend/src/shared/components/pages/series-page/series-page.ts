@@ -15,6 +15,7 @@ import { MediaService } from '../../../services/media.service';
 import { Media } from '../../../types/media';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { ActivatedRoute } from '@angular/router';
+import { EpisodeRoutes } from '../../../../utils/apiRoutes';
 
 @Component({
   selector: 'series-page',
@@ -156,5 +157,14 @@ export class SeriesPage implements OnInit {
 
     this.currentEpisode.set(episode);
     this.currentSeason.set(episode.season);
+  }
+
+  public getVideoSource(): string {
+    const episodeID = this.route.snapshot.paramMap.get('episodeID');
+    console.log('Source', episodeID);
+
+    if (!episodeID) return '';
+
+    return EpisodeRoutes.VIDEO(episodeID);
   }
 }

@@ -1,5 +1,5 @@
 <home-template>
-  <media-template class="full-width">
+  <media-template [videoSource]="this.getVideoSource()" class="full-width">
     <div class="title" header>
       <p class="title__series">{{this.media?.title}}</p>
       <p class="title__season">Season {{this.currentSeason()}}</p>

@@ -1,6 +1,6 @@
 import os
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import FileResponse
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import FileResponse, StreamingResponse
 from PIL import Image
 
 from utils.get_thumbnail_paths import getThumbnailPaths
@@ -129,11 +129,6 @@ def getThumbnailPreview(episode_id: str):
         return response
     except Exception as e:
         return Response.Error(e)
-
-
-@episodeRouter.get("/{episode_id}/video")
-def getVideo(episode_id: str):
-    return {"episode_id": episode_id, "video": "video_url"}
 
 
 @episodeRouter.get("/{episode_id}/percent_watched")
