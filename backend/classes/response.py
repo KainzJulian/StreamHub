@@ -2,6 +2,8 @@ from typing import Generic, Optional, TypeVar
 
 from pydantic import BaseModel
 
+from classes.media import Media
+
 
 T = TypeVar("T")
 
@@ -18,3 +20,8 @@ class Response(BaseModel, Generic[T]):
     @staticmethod
     def Success(data: T):
         return Response[T](success=True, data=data)
+
+
+class CurrentMediaResponse(BaseModel, Generic[T]):
+    type: str | None = None
+    media: T | None = None

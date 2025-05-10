@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { GenreList } from '../genre-list/genre-list';
 import { MediaService } from '../../../services/media.service';
-import { Series } from '../../../types/series';
 
 @Component({
   selector: 'banner',
@@ -26,13 +25,16 @@ export class Banner implements OnInit {
   ngOnInit(): void {
     if (!this.media?.id) throw new Error('Media ID not set');
 
-    let mediaType: 'movies' | 'series' = 'movies';
+    const mediaType = this.media.getMediaType();
+    let type = '';
 
-    if (this.media instanceof Series) mediaType = 'series';
+    if (mediaType == 'Movie') type = 'movies';
+    if (mediaType == 'Series') type = 'series';
+    if (mediaType == 'Episode') type = 'episodes';
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',
-      `url("http://localhost:8000/api/${mediaType}/${this.media?.id}/thumbnail_banner")`
+      `url("http://localhost:8000/api/${type}/${this.media?.id}/thumbnail_banner")`
     );
   }
 

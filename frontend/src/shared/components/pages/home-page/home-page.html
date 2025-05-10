@@ -1,7 +1,7 @@
 <home-template>
-  <banner [media]="getMedia()"></banner>
+  <banner *ngIf="this.currentMedia()" [media]="this.currentMedia()"></banner>
 
-  <media-card-list
+  <!-- <media-card-list
     class="grid"
     [mediaList]="getMediaList()"
     mediaListTitle="Recently Watched"
@@ -11,5 +11,5 @@
     [mediaList]="getMediaList()"
     mediaListTitle="Highest Rated"
   ></media-card-list>
-  <media-card-list class="list" [mediaList]="getMediaList()"></media-card-list>
+  <media-card-list class="list" [mediaList]="getMediaList()"></media-card-list> -->
 </home-template>

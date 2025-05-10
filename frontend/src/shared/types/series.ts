@@ -41,19 +41,20 @@ export class Series extends Media {
   }
 }
 
-export class Episode {
-  id: string;
-  title: string | null;
+export class Episode extends Media {
   pathMedia: string | null;
 
   season: number;
   episode: number;
 
   constructor(data: Partial<Episode>) {
-    this.id = data.id ?? '';
-    this.title = data.title ?? null;
+    super(data);
     this.pathMedia = data.pathMedia ?? null;
     this.season = data.season ?? 0;
     this.episode = data.episode ?? 0;
+  }
+
+  public override getMediaType(): string {
+    return 'Episode';
   }
 }

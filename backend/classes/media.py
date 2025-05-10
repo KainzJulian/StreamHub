@@ -1,6 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel, Field
-from classes import MediaGenre
+from classes.media_genre import MediaGenre
 
 
 class Media(BaseModel):

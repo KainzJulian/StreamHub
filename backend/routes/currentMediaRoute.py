@@ -1,6 +1,8 @@
 import os
+from typing import TypedDict
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import StreamingResponse
+from classes.response import CurrentMediaResponse
 from utils.get_env import getENV
 from classes.movie import Movie
 from classes.episode import Episode
@@ -16,7 +18,8 @@ mediaPath = getENV("MEDIA_PATH")
 
 
 @currentMediaRouter.get("/get")
-def getCurrentMedia() -> Response[Episode | Movie]:
+def getCurrentMedia() -> Response[CurrentMediaResponse]:
+
     try:
         currentMedia = currentMediaCollection.find_one({}, {"_id": False})
 
@@ -31,10 +34,10 @@ def getCurrentMedia() -> Response[Episode | Movie]:
         if movie == None:
             episode = episodesCollection.find_one({"id": id}, {"_id": False})
             print(episode)
-            return Response.Success(episode)
+            return Response.Success(CurrentMediaResponse(type="episode", media=episode))
 
         else:
-            return Response.Success(movie)
+            return Response.Success(CurrentMediaResponse(type="movie", media=movie))
 
     except Exception as e:
         return Response.Error(e)

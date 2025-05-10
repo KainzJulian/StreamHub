@@ -50,4 +50,12 @@ export class MediaService {
       console.log('Data:', req.data);
     });
   }
+
+  public getCurrentMedia(): Observable<
+    BackendResponse<{ type: string; media: Media }>
+  > {
+    return this.http.get<BackendResponse<{ type: string; media: Media }>>(
+      CurrentMediaRoutes.CURRENT_MEDIA
+    );
+  }
 }
