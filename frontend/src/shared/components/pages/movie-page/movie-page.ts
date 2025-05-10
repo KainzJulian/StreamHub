@@ -28,6 +28,8 @@ export class MoviePage implements OnInit {
 
     if (movieID == null) throw new Error('No ID specified');
 
+    this.mediaService.setCurrentMedia(movieID);
+
     this.mediaService.getMovie(movieID).subscribe((response) => {
       this.currentMovie.set(new Movie(response.data));
     });
