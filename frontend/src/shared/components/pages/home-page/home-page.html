@@ -5,11 +5,12 @@
     class="grid"
     [mediaList]="getMediaList()"
     mediaListTitle="Recently Watched"
-  ></media-card-list>
+  ></media-card-list> -->
   <media-card-list
     class="list"
-    [mediaList]="getMediaList()"
+    *ngIf="this.highestRatedList()"
+    [mediaList]="this.highestRatedList()"
     mediaListTitle="Highest Rated"
   ></media-card-list>
-  <media-card-list class="list" [mediaList]="getMediaList()"></media-card-list> -->
+  <!-- <media-card-list class="list" [mediaList]="getMediaList()"></media-card-list> -->
 </home-template>

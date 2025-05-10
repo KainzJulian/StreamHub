@@ -236,15 +236,15 @@ def removeEpisode(episode_id: str):
         raise e
 
 
-@seriesRouter.get("/highest_rated")
-def getHighestRatedSeries(limit: int) -> Response:
+@seriesRouter.get("/highest_rated/{limit}")
+def getHighestRatedSeries(limit: int) -> Response[list[Series]]:
     try:
-        movies = list(
+        series = list(
             seriesCollection.find({}, {"_id": False})
             .sort("rating", DESCENDING)
             .limit(limit)
         )
-        return Response.Success(movies)
+        return Response.Success(series)
 
     except Exception as e:
         return Response.Error(e)

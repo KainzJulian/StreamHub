@@ -34,7 +34,6 @@ def getAllMovies() -> Response[list[Movie]]:
         return Response.Success(movieList)
 
     except Exception as e:
-        raise e
         return Response.Error(e)
 
 
@@ -213,8 +212,8 @@ def removeMovie(id: str):
         raise e
 
 
-@movieRouter.get("/highest_rated")
-def getHighestRatedMovies(limit: int) -> Response:
+@movieRouter.get("/highest_rated/{limit}")
+def getHighestRatedMovies(limit: int) -> Response[list[Movie]]:
     try:
         movies = list(
             movieCollection.find({}, {"_id": False})

@@ -6,7 +6,7 @@ import { Media } from '../../../types/media';
 import { getMediaList } from '../../../../utils/utils';
 import { MediaService } from '../../../services/media.service';
 import { CommonModule } from '@angular/common';
-import { Episode } from '../../../types/series';
+import { Episode, Series } from '../../../types/series';
 import { Movie } from '../../../types/movie';
 
 @Component({
@@ -18,6 +18,8 @@ import { Movie } from '../../../types/movie';
 })
 export class HomePage implements OnInit {
   public currentMedia = signal<Media | null>(null);
+
+  public highestRatedList = signal<Media[] | null>(null);
 
   // TODO alle Episodes Serien und Movies erben von sind auch Media
   constructor(private mediaService: MediaService) {}
@@ -32,9 +34,53 @@ export class HomePage implements OnInit {
 
       console.log('CurrentMedia', this.currentMedia());
     });
+
+    this.setHighestRated();
   }
 
   getMediaList(): Media[] {
     return getMediaList(40);
+  }
+
+  setHighestRated() {
+    this.mediaService.getHighestRatedMovies(5).subscribe((response) => {
+      console.log('Movies', response.data);
+      const movieList: Movie[] = [];
+
+      response.data.forEach((element) => movieList.push(new Movie(element)));
+
+      this.highestRatedList.update((oldList) => {
+        if (oldList) return [...oldList, ...movieList];
+        else return movieList;
+      });
+
+      this.highestRatedList.update((oldList) => {
+        if (oldList == null) return null;
+        return oldList.sort((a, b) => {
+          if (a.rating == null || b.rating == null) return 1;
+          return b.rating - a.rating;
+        });
+      });
+    });
+
+    this.mediaService.getHighestRatedSeries(5).subscribe((response) => {
+      console.log('Series', response.data);
+      const seriesList: Series[] = [];
+
+      response.data.forEach((element) => seriesList.push(new Series(element)));
+
+      this.highestRatedList.update((oldList) => {
+        if (oldList) return [...oldList, ...seriesList];
+        else return seriesList;
+      });
+
+      this.highestRatedList.update((oldList) => {
+        if (oldList == null) return null;
+        return oldList.sort((a, b) => {
+          if (a.rating == null || b.rating == null) return 1;
+          return b.rating - a.rating;
+        });
+      });
+    });
   }
 }

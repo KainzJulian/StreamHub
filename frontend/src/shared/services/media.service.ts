@@ -58,4 +58,20 @@ export class MediaService {
       CurrentMediaRoutes.CURRENT_MEDIA
     );
   }
+
+  public getHighestRatedMovies(
+    limit: number
+  ): Observable<BackendResponse<Movie[]>> {
+    return this.http.get<BackendResponse<Movie[]>>(
+      MovieRoutes.HIGHEST_RATED(limit)
+    );
+  }
+
+  public getHighestRatedSeries(
+    limit: number
+  ): Observable<BackendResponse<Series[]>> {
+    return this.http.get<BackendResponse<Series[]>>(
+      SeriesRoutes.HIGHEST_RATED(limit)
+    );
+  }
 }
