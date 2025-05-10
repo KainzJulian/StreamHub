@@ -12,10 +12,9 @@ import { Episode, Series } from '../../../types/series';
 import { BaseButton } from '../../atoms/base-button/base-button';
 import { OnClickOutsideDirective } from '../../../directives/on-click-outside.directive';
 import { MediaService } from '../../../services/media.service';
-import { Media } from '../../../types/media';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { ActivatedRoute } from '@angular/router';
-import { EpisodeRoutes } from '../../../../utils/apiRoutes';
+import { CurrentMediaRoutes } from '../../../../utils/apiRoutes';
 
 @Component({
   selector: 'series-page',
@@ -32,8 +31,6 @@ import { EpisodeRoutes } from '../../../../utils/apiRoutes';
 })
 export class SeriesPage implements OnInit {
   @ViewChild('dropdownContent') dropdownContent!: ElementRef;
-
-  media: Media | null = null;
 
   currentEpisode = signal<Episode | null>(null);
   currentSeason = signal<number>(0);
@@ -165,6 +162,6 @@ export class SeriesPage implements OnInit {
 
     if (!episodeID) return '';
 
-    return EpisodeRoutes.VIDEO(episodeID);
+    return CurrentMediaRoutes.GET_VIDEO(episodeID);
   }
 }

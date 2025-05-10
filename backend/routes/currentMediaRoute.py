@@ -42,10 +42,11 @@ def getCurrentMedia() -> Response[Episode | Movie]:
 
 @currentMediaRouter.post("/")
 def setCurrentMedia(current_media: CurrentMedia) -> Response:
+    print(current_media)
     try:
         currentMediaCollection.delete_many({})
         currentMediaCollection.insert_one(current_media.model_dump())
-        return Response.Success(None)
+        return Response.Success(True)
 
     except Exception as e:
         return Response.Error(e)

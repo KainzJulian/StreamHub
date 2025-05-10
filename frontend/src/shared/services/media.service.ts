@@ -1,11 +1,16 @@
 import { Injectable, signal } from '@angular/core';
 import { Episode, Series } from '../types/series';
-import { getSeries } from '../../utils/utils';
 import { Media } from '../types/media';
 import { HttpClient } from '@angular/common/http';
-import { MovieRoutes, SeriesRoutes } from '../../utils/apiRoutes';
+import {
+  CurrentMediaRoutes,
+  MovieRoutes,
+  SeriesRoutes,
+} from '../../utils/apiRoutes';
 import { Observable } from 'rxjs';
 import { BackendResponse } from '../types/response';
+import { CurrentMedia } from '../types/currentMedia';
+import { Movie } from '../types/movie';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +21,7 @@ export class MediaService {
   public currentEpisode = signal<Episode | null>(null);
   public currentSeason = signal<number>(1);
 
-  constructor(private http: HttpClient) {
-    this.currentMedia.set(getSeries());
-  }
+  constructor(private http: HttpClient) {}
 
   public getMediaList(
     type: 'series' | 'movies'
@@ -33,5 +36,18 @@ export class MediaService {
     return this.http.get<BackendResponse<Series>>(
       SeriesRoutes.SERIES(seriesID)
     );
+  }
+
+  public getMovie(movieID: string): Observable<BackendResponse<Movie>> {
+    return this.http.get<BackendResponse<Movie>>(MovieRoutes.MOVIE(movieID));
+  }
+
+  public setCurrentMedia(id: string = '') {
+    const path = CurrentMediaRoutes.SET_CURRENT_MEDIA;
+    const media = new CurrentMedia({ mediaID: id });
+
+    this.http.post<BackendResponse<boolean>>(path, media).subscribe((req) => {
+      console.log('Data:', req.data);
+    });
   }
 }

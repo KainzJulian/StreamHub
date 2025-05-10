@@ -1,15 +1,15 @@
 <home-template>
   <media-template [videoSource]="getVideoSource()">
     <div class="movie__title" header>
-      <p>{{this.media?.title}}</p>
+      <p>{{this.currentMovie()?.title}}</p>
     </div>
     <div class="movie__info" info>
       <div>
-        <genre-list [genres]="this.media?.genreList"></genre-list>
-        <p class="prevent-select rating">{{this.media?.rating}}</p>
+        <genre-list [genres]="this.currentMovie()?.genreList"></genre-list>
+        <p class="prevent-select rating">{{this.currentMovie()?.rating}}</p>
       </div>
       <div class="movie__description">
-        <p>{{this.media?.description}}</p>
+        <p>{{this.currentMovie()?.description}}</p>
       </div>
     </div>
   </media-template>

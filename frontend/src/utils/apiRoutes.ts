@@ -2,10 +2,9 @@ const BASE_URL = 'http://localhost:8000/api';
 
 export const MovieRoutes = {
   MOVIES: `${BASE_URL}/movies`,
-  MOVIE: (movieID: string) => `${BASE_URL}/movies/${movieID}/data`,
+  MOVIE: (movieID: string) => `${BASE_URL}/movies/${movieID}/movie`,
 
   THUMBNAIL: (movieID: string) => `${BASE_URL}/movies/${movieID}/thumbnail`,
-  VIDEO: (movieID: string) => `${BASE_URL}/current_media/video/${movieID}`,
   PERCENT_WATCHED: (movieID: string) =>
     `${BASE_URL}/movies/${movieID}/percent_watched`,
 };
@@ -25,7 +24,19 @@ export const EpisodeRoutes = {
 
   THUMBNAIL: (episodeID: string) =>
     `${BASE_URL}/episodes/${episodeID}/thumbnail`,
-  VIDEO: (episodeID: string) => `${BASE_URL}/current_media/video/${episodeID}`,
   PERCENT_WATCHED: (episodeID: string) =>
     `${BASE_URL}/episodes/${episodeID}/percent_watched`,
+};
+
+export const CurrentMediaRoutes = {
+  CURRENT_MEDIA: `${BASE_URL}/current_media/get`,
+  SET_CURRENT_MEDIA: `${BASE_URL}/current_media/`,
+  GET_VIDEO: (media_id: string) =>
+    `${BASE_URL}/current_media/video/${media_id}`,
+};
+
+export const WatchHistoryRoutes = {
+  GET_HISTORY: `${BASE_URL}/watch_history`,
+  ADD_HISTORY_ITEM: (media_id: string) =>
+    `${BASE_URL}/watch_history/add/${media_id}`,
 };
