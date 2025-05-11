@@ -1,36 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Media } from '../types/media';
-import { Series } from '../types/series';
+import { Episode, Series } from '../types/series';
 import { Movie } from '../types/movie';
+import { MediaService } from './media.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MediaRouterService {
-  private route: '/movie/player' | '/series' = '/movie/player';
-  private mediaID: string = '';
+  private route: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private mediaService: MediaService) {}
 
   public openMediaPlayer(media: Media) {
-    this.checkMedia(media);
-    this.mediaID = media.id;
+    const route = this.checkMedia(media);
 
-    this.router.navigate([this.route, this.mediaID]);
+    this.router.navigate([route, media.id]);
   }
 
-  private checkMedia(media: Media) {
-    if (media instanceof Series) this.route = '/series';
-    if (media instanceof Movie) this.route = '/movie/player';
+  private checkMedia(media: Media): string {
+    if (media instanceof Episode) {
+      this.mediaService.addToWatchHistory(media, media.getMediaType());
+      return `/series/${media.seriesID}/player`;
+    }
+
+    if (media instanceof Series) return '/series';
+
+    if (media instanceof Movie) {
+      this.mediaService.addToWatchHistory(media, media.getMediaType());
+      return '/movie/player';
+    }
+
+    return '';
   }
 
-  public openPlayer(
-    id: string,
-    isSeries: boolean = false,
-    seriesID: string = ''
-  ) {
-    if (isSeries) this.router.navigate([`/series/${seriesID}/player`, id]);
-    else this.router.navigate(['/movie/player', id]);
+  public openSeriesPlayer(seriesID: string, id: string) {
+    if (seriesID == null) return;
+    this.router.navigate([`/series/${seriesID}/player`, id]);
+  }
+
+  public openMoviePlayer(id: string) {
+    this.router.navigate(['/movie/player', id]);
   }
 }

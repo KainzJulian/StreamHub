@@ -20,8 +20,8 @@ export class HomePage implements OnInit {
   public currentMedia = signal<Media | null>(null);
 
   public highestRatedList = signal<Media[] | null>(null);
+  public watchHistory = signal<Media[] | null>(null);
 
-  // TODO alle Episodes Serien und Movies erben von sind auch Media
   constructor(private mediaService: MediaService) {}
 
   ngOnInit(): void {
@@ -35,7 +35,9 @@ export class HomePage implements OnInit {
       console.log('CurrentMedia', this.currentMedia());
     });
 
-    this.setHighestRated();
+    // TODO rework these functions because they depend on the request speed of each request instead of sorting
+    // this.setHighestRated();
+    // this.setWatchHistory();
   }
 
   getMediaList(): Media[] {
@@ -43,7 +45,7 @@ export class HomePage implements OnInit {
   }
 
   setHighestRated() {
-    this.mediaService.getHighestRatedMovies(5).subscribe((response) => {
+    this.mediaService.getHighestRatedMovies(10).subscribe((response) => {
       console.log('Movies', response.data);
       const movieList: Movie[] = [];
 
@@ -54,16 +56,10 @@ export class HomePage implements OnInit {
         else return movieList;
       });
 
-      this.highestRatedList.update((oldList) => {
-        if (oldList == null) return null;
-        return oldList.sort((a, b) => {
-          if (a.rating == null || b.rating == null) return 1;
-          return b.rating - a.rating;
-        });
-      });
+      this.sortHighestRatedList();
     });
 
-    this.mediaService.getHighestRatedSeries(5).subscribe((response) => {
+    this.mediaService.getHighestRatedSeries(10).subscribe((response) => {
       console.log('Series', response.data);
       const seriesList: Series[] = [];
 
@@ -74,12 +70,50 @@ export class HomePage implements OnInit {
         else return seriesList;
       });
 
-      this.highestRatedList.update((oldList) => {
-        if (oldList == null) return null;
-        return oldList.sort((a, b) => {
-          if (a.rating == null || b.rating == null) return 1;
-          return b.rating - a.rating;
-        });
+      this.sortHighestRatedList();
+    });
+  }
+
+  private sortHighestRatedList() {
+    this.highestRatedList.update((oldList) => {
+      if (oldList == null) return null;
+      return oldList.sort((a, b) => {
+        if (a.rating == null || b.rating == null) return 1;
+        return b.rating - a.rating;
+      });
+    });
+  }
+
+  private setWatchHistory() {
+    this.mediaService.getWatchHistory(10).subscribe((response) => {
+      const history = response.data.history;
+
+      const list: { media: Media; time: Date | null }[] = [];
+
+      history?.forEach((element) => {
+        if (!element.id) throw new Error('Element must have a valid ID');
+
+        switch (element.type) {
+          case 'Movie':
+            this.mediaService
+              .getMovie(element.id)
+              .subscribe((response) =>
+                list.push({ media: response.data, time: element.time })
+              );
+            break;
+          case 'Episode':
+            this.mediaService
+              .getEpisode(element.id)
+              .subscribe((response) =>
+                list.push({ media: response.data, time: element.time })
+              );
+            break;
+
+          default:
+            throw new Error('Wrong type in watch History: ' + element.id);
+        }
+
+        list.sort((a, b) => a.time?.getTime() ?? 0 - (b.time?.getTime() ?? 0));
       });
     });
   }

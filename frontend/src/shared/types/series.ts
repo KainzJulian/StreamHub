@@ -47,11 +47,14 @@ export class Episode extends Media {
   season: number;
   episode: number;
 
+  seriesID: string;
+
   constructor(data: Partial<Episode>) {
     super(data);
     this.pathMedia = data.pathMedia ?? null;
     this.season = data.season ?? 0;
     this.episode = data.episode ?? 0;
+    this.seriesID = data.seriesID ?? '';
   }
 
   public override getMediaType(): string {

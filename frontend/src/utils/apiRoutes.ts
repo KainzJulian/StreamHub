@@ -38,7 +38,7 @@ export const CurrentMediaRoutes = {
 };
 
 export const WatchHistoryRoutes = {
-  GET_HISTORY: `${BASE_URL}/watch_history`,
-  ADD_HISTORY_ITEM: (media_id: string) =>
-    `${BASE_URL}/watch_history/add/${media_id}`,
+  GET_HISTORY: (limit: number) => `${BASE_URL}/watch_history/${limit}`,
+  ADD_HISTORY_ITEM: (id: string, type: string) =>
+    `${BASE_URL}/watch_history/add/${id}?media_type=${type}`,
 };

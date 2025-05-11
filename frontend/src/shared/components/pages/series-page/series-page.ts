@@ -103,12 +103,12 @@ export class SeriesPage implements OnInit {
 
     const episode = this.currentSeries()?.getFirstEpisodeOfSeason(season);
     if (episode) {
+      const id = this.currentSeries()?.id;
+
+      if (!id) throw new Error('ID is undefined');
+
       this.currentEpisode.set(episode);
-      this.mediaRouterService.openPlayer(
-        episode?.id,
-        true,
-        this.currentSeries()?.id
-      );
+      this.mediaRouterService.openSeriesPlayer(id, episode?.id);
     }
 
     this.hideDropdownContent();
@@ -131,11 +131,10 @@ export class SeriesPage implements OnInit {
     this.currentEpisode.set(episode);
     this.currentSeason.set(episode.season);
 
-    this.mediaRouterService.openPlayer(
-      episode.id,
-      true,
-      this.currentSeries()?.id
-    );
+    const id = this.currentSeries()?.id;
+    if (!id) throw new Error('ID is undefined');
+
+    this.mediaRouterService.openSeriesPlayer(id, episode.id);
   }
 
   private getIndexOfEpisode(episode: Episode | null): number {

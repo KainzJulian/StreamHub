@@ -10,6 +10,7 @@ import { Episode } from '../../../types/series';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { MediaService } from '../../../services/media.service';
 
 @Component({
   selector: 'episode-card',
@@ -29,7 +30,8 @@ export class EpisodeCard implements OnInit {
   constructor(
     private elRef: ElementRef,
     private mediaRouterService: MediaRouterService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private mediaService: MediaService
   ) {
     this.seriesID = this.route.snapshot.paramMap.get('seriesID');
   }
@@ -47,10 +49,11 @@ export class EpisodeCard implements OnInit {
     console.log('Click Button', this.episode);
 
     if (this.episode) {
-      this.mediaRouterService.openPlayer(
-        this.episode.id,
-        true,
-        this.seriesID == null ? '' : this.seriesID
+      this.mediaService.addToWatchHistory(this.episode, 'Episode');
+
+      this.mediaRouterService.openSeriesPlayer(
+        this.seriesID == null ? '' : this.seriesID,
+        this.episode.id
       );
 
       this.onClick.emit(this.episode);

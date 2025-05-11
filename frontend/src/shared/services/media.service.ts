@@ -4,13 +4,16 @@ import { Media } from '../types/media';
 import { HttpClient } from '@angular/common/http';
 import {
   CurrentMediaRoutes,
+  EpisodeRoutes,
   MovieRoutes,
   SeriesRoutes,
+  WatchHistoryRoutes,
 } from '../../utils/apiRoutes';
 import { Observable } from 'rxjs';
 import { BackendResponse } from '../types/response';
 import { CurrentMedia } from '../types/currentMedia';
 import { Movie } from '../types/movie';
+import { WatchHistory } from '../types/watchHistory';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +38,12 @@ export class MediaService {
   public getSeries(seriesID: string): Observable<BackendResponse<Series>> {
     return this.http.get<BackendResponse<Series>>(
       SeriesRoutes.SERIES(seriesID)
+    );
+  }
+
+  public getEpisode(episodeID: string): Observable<BackendResponse<Episode>> {
+    return this.http.get<BackendResponse<Episode>>(
+      EpisodeRoutes.Episode(episodeID)
     );
   }
 
@@ -73,5 +82,26 @@ export class MediaService {
     return this.http.get<BackendResponse<Series[]>>(
       SeriesRoutes.HIGHEST_RATED(limit)
     );
+  }
+
+  public getWatchHistory(
+    limit: number
+  ): Observable<BackendResponse<WatchHistory>> {
+    return this.http.get<BackendResponse<WatchHistory>>(
+      WatchHistoryRoutes.GET_HISTORY(limit)
+    );
+  }
+
+  public addToWatchHistory(media: Media, type: string) {
+    console.log('Add to watch history: ', media);
+
+    this.http
+      .post<BackendResponse<boolean>>(
+        WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, type),
+        null
+      )
+      .subscribe((response) => {
+        console.warn('response of addToWatchHistory', response);
+      });
   }
 }
