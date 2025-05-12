@@ -228,7 +228,6 @@ def searchSeries(query: str) -> Response[list[Series]]:
         return Response.Error(e)
 
 
-# TODO add removeEpisode to episodeRouter
 def removeEpisode(episode_id: str):
     try:
         episodesCollection.find_one_and_delete({"id": episode_id})

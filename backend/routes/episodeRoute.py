@@ -85,10 +85,6 @@ def getThumbnailBanner(episode_id: str):
         return Response.Error(e)
 
 
-# TODO change the path of the thumbnail for the Series to be inside the Series folder
-# example /series/AOT/AOT.jpg
-
-
 @episodeRouter.get("/{episode_id}/thumbnail_preview")
 def getThumbnailPreview(episode_id: str):
 

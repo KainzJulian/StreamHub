@@ -12,9 +12,7 @@ def generatePreviewThumbnail(fullPath, thumbnailPath, title) -> FileResponse:
         return FileResponse(previewThumbnailPath, media_type="image/jpeg")
 
     if not os.path.exists(originalThumbnailPath):
-        raise HTTPException(
-            status_code=404, detail="Thumbnail not found"
-        )  # TODO replace to get the default image
+        raise HTTPException(status_code=404, detail="Thumbnail not found")
 
     image = Image.open(originalThumbnailPath)
     image.thumbnail((400, 600))
