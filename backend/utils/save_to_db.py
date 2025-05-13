@@ -59,6 +59,7 @@ def uploadMoviesToDB(fullPath: str):
                 mediaPath=mediaPathString + ".mp4",
                 duration=getVideoLengthInSeconds(f"{root}/{movieName}.mp4"),
                 title=title,
+                type="Movie",
             )
 
             movieCollection.insert_one(movie.model_dump())
@@ -127,6 +128,7 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
                     duration=getVideoLengthInSeconds(f"{root}/{mediaPath[-1]}.mp4"),
                     seriesID=seriesID,
                     title=title,
+                    type="Episode",
                 )
             )
 

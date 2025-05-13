@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Episode } from '../../../types/series';
+import { Episode } from '../../../types/seriesEpisode';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';

@@ -8,7 +8,8 @@ import {
 import { HomeTemplate } from '../../templates/home-template/home-template';
 import { MediaTemplate } from '../../templates/media-template/media-template';
 import { EpisodeList } from '../../molecules/episode-list/episode-list';
-import { Episode, Series } from '../../../types/series';
+import { Series } from '../../../types/series';
+import { Episode } from '../../../types/seriesEpisode';
 import { BaseButton } from '../../atoms/base-button/base-button';
 import { OnClickOutsideDirective } from '../../../directives/on-click-outside.directive';
 import { MediaService } from '../../../services/media.service';

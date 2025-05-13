@@ -6,6 +6,7 @@ from routes.seriesRoute import seriesRouter
 from routes.episodeRoute import episodeRouter
 from routes.movieRoute import movieRouter
 from routes.currentMediaRoute import currentMediaRouter
+from routes.mediaRoute import mediaRouter
 
 app = FastAPI()
 
@@ -28,6 +29,7 @@ routes = [
     movieRouter,
     currentMediaRouter,
     watchHistoryRouter,
+    mediaRouter,
 ]
 
 for route in routes:

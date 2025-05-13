@@ -1,7 +1,8 @@
 import { MediaGenre } from '../shared/types/genre';
 import { Media } from '../shared/types/media';
 import { Movie } from '../shared/types/movie';
-import { Episode, Series } from '../shared/types/series';
+import { Series } from '../shared/types/series';
+import { Episode } from '../shared/types/seriesEpisode';
 
 export const getMedia = (isSeries: boolean = false): Media => {
   if (!isSeries) {

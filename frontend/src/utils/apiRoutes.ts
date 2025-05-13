@@ -30,6 +30,10 @@ export const EpisodeRoutes = {
     `${BASE_URL}/episodes/${episodeID}/percent_watched`,
 };
 
+export const MediaRoutes = {
+  MEDIA: (mediaID: string) => `${BASE_URL}/media/${mediaID}/media`,
+};
+
 export const CurrentMediaRoutes = {
   CURRENT_MEDIA: `${BASE_URL}/current_media/get`,
   SET_CURRENT_MEDIA: `${BASE_URL}/current_media/`,

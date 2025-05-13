@@ -22,7 +22,7 @@ def createSeriesFromPath(path) -> None:
         if exists.data:
             continue
 
-        series = Series(id=id, title=i)
+        series = Series(id=id, title=i, type="Series")
         seriesRoute.addSeries(series)
 
     print("Done")

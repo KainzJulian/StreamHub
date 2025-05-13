@@ -11,6 +11,8 @@ class Media(BaseModel):
 
     genreList: list[MediaGenre] = []
 
+    type: str = ""
+
     # When there will be more episodes in the future
     # Or more movies of the same franchise
     isComplete: bool = True

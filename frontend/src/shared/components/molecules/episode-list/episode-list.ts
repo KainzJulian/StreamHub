@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EpisodeCard } from '../../atoms/episode-card/episode-card';
-import { Episode } from '../../../types/series';
+import { Episode } from '../../../types/seriesEpisode';
 import { CommonModule } from '@angular/common';
 import { MediaService } from '../../../services/media.service';
 

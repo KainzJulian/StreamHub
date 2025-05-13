@@ -10,6 +10,8 @@ export abstract class Media {
 
   rating: number | null;
 
+  abstract type: string;
+
   constructor(data: Partial<Media>) {
     this.id = data.id ?? '';
     this.title = data.title ?? null;

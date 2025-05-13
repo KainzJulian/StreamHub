@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { Episode, Series } from '../types/series';
+import { Series } from '../types/series';
+import { Episode } from '../types/seriesEpisode';
 import { Media } from '../types/media';
 import { HttpClient } from '@angular/common/http';
 import {

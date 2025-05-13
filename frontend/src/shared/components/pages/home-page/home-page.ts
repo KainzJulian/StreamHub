@@ -6,7 +6,8 @@ import { Media } from '../../../types/media';
 import { getMediaList } from '../../../../utils/utils';
 import { MediaService } from '../../../services/media.service';
 import { CommonModule } from '@angular/common';
-import { Episode, Series } from '../../../types/series';
+import { Series } from '../../../types/series';
+import { Episode } from '../../../types/seriesEpisode';
 import { Movie } from '../../../types/movie';
 
 @Component({

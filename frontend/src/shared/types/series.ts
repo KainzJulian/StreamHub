@@ -1,13 +1,17 @@
 import { Media } from './media';
+import { Episode } from './seriesEpisode';
 
 // TODO update sort to sort the episodes and seasons of series correctly
 
 export class Series extends Media {
   episodeList: Episode[] = [];
 
+  override type: string;
+
   constructor(data: Partial<Series>) {
     super(data);
     this.episodeList = data.episodeList ?? [];
+    this.type = 'Series';
   }
 
   getSeasons(): number[] {
@@ -38,26 +42,5 @@ export class Series extends Media {
     const episodeArray = this.getEpisodeArray();
 
     return episodeArray[season - 1][0];
-  }
-}
-
-export class Episode extends Media {
-  pathMedia: string | null;
-
-  season: number;
-  episode: number;
-
-  seriesID: string;
-
-  constructor(data: Partial<Episode>) {
-    super(data);
-    this.pathMedia = data.pathMedia ?? null;
-    this.season = data.season ?? 0;
-    this.episode = data.episode ?? 0;
-    this.seriesID = data.seriesID ?? '';
-  }
-
-  public override getMediaType(): string {
-    return 'Episode';
   }
 }

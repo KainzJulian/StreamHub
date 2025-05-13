@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Media } from '../types/media';
-import { Episode, Series } from '../types/series';
+import { Series } from '../types/series';
+import { Episode } from '../types/seriesEpisode';
 import { Movie } from '../types/movie';
 import { MediaService } from './media.service';
 
