@@ -4,8 +4,11 @@ import time
 from fastapi import APIRouter
 import pymongo
 
+from classes.episode import Episode
+from classes.movie import Movie
+from routes.mediaRoute import getMediaById
 from classes.media import Media
-from classes.watch_history import History, HistoryItem
+from classes.watch_history import HistoryItem
 from classes.response import Response
 from database import watchHistoryCollection
 
@@ -13,11 +16,11 @@ watchHistoryRouter = APIRouter(prefix="/watch_history", tags=["watchHistory"])
 
 
 @watchHistoryRouter.get("/{limit}")
-def getWatchHistory(limit: int) -> Response[History]:
+def getWatchHistory(limit: int) -> Response[list[Episode | Movie]]:
+
+    mediaList = []
 
     try:
-        if limit < 0:
-            limit = 0
 
         history = list(
             watchHistoryCollection.find({}, {"_id": False})
@@ -25,7 +28,12 @@ def getWatchHistory(limit: int) -> Response[History]:
             .sort("time", pymongo.DESCENDING)
         )
 
-        return Response.Success(History(history=history))
+        for item in history:
+            mediaList.append(getMediaById(item["id"]).data)
+
+        print(mediaList)
+
+        return Response.Success(mediaList)
 
     except Exception as e:
         return Response.Error(e)

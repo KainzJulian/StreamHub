@@ -34,6 +34,8 @@ export const MediaRoutes = {
   MEDIA: (mediaID: string) => `${BASE_URL}/media/get/${mediaID}`,
   HIGHEST_RATED: (limit: number) =>
     `${BASE_URL}/media/highest_rated?limit=${limit}`,
+  RANDOM_MEDIA_LIST: (limit: number) =>
+    `${BASE_URL}/media/random_media/${limit}`,
 };
 
 export const CurrentMediaRoutes = {

@@ -203,7 +203,7 @@ def setRating(series_id: str, rating: int) -> Response[str]:
 
 
 @seriesRouter.get("/random/{count}")
-def getRandomSeries(count: int):
+def getRandomSeries(count: int) -> Response[list[Series]]:
     pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
 
     try:

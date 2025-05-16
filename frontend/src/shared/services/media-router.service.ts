@@ -22,14 +22,14 @@ export class MediaRouterService {
 
   private checkMedia(media: Media): string {
     if (media instanceof Episode) {
-      this.mediaService.addToWatchHistory(media, media.getMediaType());
+      this.mediaService.addToWatchHistory(media);
       return `/series/${media.seriesID}/player`;
     }
 
     if (media instanceof Series) return '/series';
 
     if (media instanceof Movie) {
-      this.mediaService.addToWatchHistory(media, media.getMediaType());
+      this.mediaService.addToWatchHistory(media);
       return '/movie/player';
     }
 

@@ -49,7 +49,7 @@ export class EpisodeCard implements OnInit {
     console.log('Click Button', this.episode);
 
     if (this.episode) {
-      this.mediaService.addToWatchHistory(this.episode, 'Episode');
+      this.mediaService.addToWatchHistory(this.episode);
 
       this.mediaRouterService.openSeriesPlayer(
         this.seriesID == null ? '' : this.seriesID,

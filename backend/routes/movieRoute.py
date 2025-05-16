@@ -166,7 +166,7 @@ def setRating(movie_id: str, rating: int) -> Response[str]:
 
 
 @movieRouter.get("/random/{count}")
-def getRandomMovies(count: int):
+def getRandomMovies(count: int) -> Response[list[Movie]]:
 
     pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": False}}]
 

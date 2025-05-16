@@ -15,7 +15,6 @@ import { Observable } from 'rxjs';
 import { BackendResponse } from '../types/response';
 import { CurrentMedia } from '../types/currentMedia';
 import { Movie } from '../types/movie';
-import { WatchHistory } from '../types/watchHistory';
 
 @Injectable({
   providedIn: 'root',
@@ -86,20 +85,18 @@ export class MediaService {
     );
   }
 
-  public getWatchHistory(
-    limit: number
-  ): Observable<BackendResponse<WatchHistory>> {
-    return this.http.get<BackendResponse<WatchHistory>>(
+  public getWatchHistory(limit: number): Observable<BackendResponse<Media[]>> {
+    return this.http.get<BackendResponse<Media[]>>(
       WatchHistoryRoutes.GET_HISTORY(limit)
     );
   }
 
-  public addToWatchHistory(media: Media, type: string) {
+  public addToWatchHistory(media: Media) {
     console.log('Add to watch history: ', media);
 
     this.http
       .post<BackendResponse<boolean>>(
-        WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, type),
+        WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, media.type),
         null
       )
       .subscribe((response) => {
@@ -118,6 +115,14 @@ export class MediaService {
   ): Observable<BackendResponse<Episode | Movie | Series>> {
     return this.http.get<BackendResponse<Episode | Movie | Series>>(
       MediaRoutes.MEDIA(id)
+    );
+  }
+
+  public getRandomMediaList(
+    limit: number
+  ): Observable<BackendResponse<Media[]>> {
+    return this.http.get<BackendResponse<Media[]>>(
+      MediaRoutes.RANDOM_MEDIA_LIST(limit)
     );
   }
 }

@@ -1,12 +1,13 @@
 <home-template>
   <banner *ngIf="this.currentMedia()" [media]="this.currentMedia()"></banner>
 
-  <!-- <media-card-list
-    class="grid"
+  <!-- TODO: Only 10 of each type will be diplayed on the far right there should be a button when clicked it opens a site with all cards -->
+  <media-card-list
+    class="list"
     *ngIf="this.watchHistory()"
     [mediaList]="this.watchHistory()"
     mediaListTitle="Recently Watched"
-  ></media-card-list> -->
+  ></media-card-list>
 
   <media-card-list
     class="list"
@@ -14,5 +15,11 @@
     [mediaList]="this.highestRatedList()"
     mediaListTitle="Highest Rated"
   ></media-card-list>
-  <!-- <media-card-list class="list" [mediaList]="getMediaList()"></media-card-list> -->
+
+  <media-card-list
+    class="list"
+    *ngIf="this.mediaList()"
+    [mediaList]="this.mediaList()"
+    mediaListTitle="Movies / Series"
+  ></media-card-list>
 </home-template>
