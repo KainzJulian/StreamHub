@@ -42,10 +42,10 @@ export class MediaCard implements OnInit {
   }
 
   openPlayer() {
-    if (this.media) {
-      this.mediaService.currentMedia.set(this.media);
-      this.mediaRouterService.openMediaPlayer(this.media);
-    }
+    if (!this.media) throw new Error('Media not set');
+
+    this.mediaService.currentMedia.set(this.media);
+    this.mediaRouterService.openMediaPlayer(this.media);
   }
 
   isInProgress(): boolean {

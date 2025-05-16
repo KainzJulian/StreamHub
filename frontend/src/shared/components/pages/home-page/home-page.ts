@@ -6,9 +6,9 @@ import { Media } from '../../../types/media';
 import { getMediaList } from '../../../../utils/utils';
 import { MediaService } from '../../../services/media.service';
 import { CommonModule } from '@angular/common';
-import { Series } from '../../../types/series';
 import { Episode } from '../../../types/seriesEpisode';
 import { Movie } from '../../../types/movie';
+import { Series } from '../../../types/series';
 
 @Component({
   selector: 'home-page',
@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
     });
 
     // TODO rework these functions because they depend on the request speed of each request instead of sorting
-    // this.setHighestRated();
+    this.setHighestRated();
     // this.setWatchHistory();
   }
 
@@ -46,42 +46,26 @@ export class HomePage implements OnInit {
   }
 
   setHighestRated() {
-    this.mediaService.getHighestRatedMovies(10).subscribe((response) => {
-      console.log('Movies', response.data);
-      const movieList: Movie[] = [];
-
-      response.data.forEach((element) => movieList.push(new Movie(element)));
-
-      this.highestRatedList.update((oldList) => {
-        if (oldList) return [...oldList, ...movieList];
-        else return movieList;
+    const mediaList: Media[] = [];
+    this.mediaService.getHighestRated(10).subscribe((response) => {
+      console.log(response.data);
+      response.data.forEach((item) => {
+        if (item.type == 'Movie') mediaList.push(new Movie(item));
+        if (item.type == 'Series') mediaList.push(new Series(item));
       });
 
-      this.sortHighestRatedList();
-    });
+      this.highestRatedList.set(mediaList);
 
-    this.mediaService.getHighestRatedSeries(10).subscribe((response) => {
-      console.log('Series', response.data);
-      const seriesList: Series[] = [];
-
-      response.data.forEach((element) => seriesList.push(new Series(element)));
-
-      this.highestRatedList.update((oldList) => {
-        if (oldList) return [...oldList, ...seriesList];
-        else return seriesList;
-      });
-
-      this.sortHighestRatedList();
-    });
-  }
-
-  private sortHighestRatedList() {
-    this.highestRatedList.update((oldList) => {
-      if (oldList == null) return null;
-      return oldList.sort((a, b) => {
-        if (a.rating == null || b.rating == null) return 1;
-        return b.rating - a.rating;
-      });
+      // this.list .set(response.data);
+      // foreach medaia in the response if (media.type == 'movie') this.list.push(new Movie(media)) ...
+      // response.data.forEach((media) => {
+      //   this.mediaService.getMedia(media.id).subscribe((response) => {
+      //     mediaList.push(response.data);
+      //   });
+      //   // die media list nimmt eine liste von ids auf und sucht erst drin nach den daten
+      //   // oder
+      //   // ich gebe eine liste von media zurück und sorg dafür dass das so funktioniert
+      // });
     });
   }
 

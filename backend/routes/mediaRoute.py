@@ -19,38 +19,41 @@ mediaRouter = APIRouter(prefix="/media", tags=["media"])
 def getMediaById(media_id: str) -> Response[Movie | Series | Episode]:
     try:
 
-        media = (
-            episodesCollection.find_one({"id": media_id}, {"_id": False})
-            or movieCollection.find_one({"id": media_id}, {"_id": False})
-            or seriesCollection.find_one({"id": media_id}, {"_id": False})
-        )
-
+        media = episodesCollection.find_one({"id": media_id}, {"_id": False})
         if media:
             return Response.Success(media)
-        else:
-            raise HTTPException(status_code=404, detail="Media not found")
+
+        media = movieCollection.find_one({"id": media_id}, {"_id": False})
+        if media:
+            return Response.Success(media)
+
+        media = seriesCollection.find_one({"id": media_id}, {"_id": False})
+        if media:
+            print(media)
+            return Response.Success(media)
+
+        raise HTTPException(status_code=404, detail="Media not found")
 
     except Exception as e:
         return Response.Error(e)
 
 
 @mediaRouter.get("/highest_rated")
-def getHighestRatedMediaIDs(limit: int) -> Response[list[str]]:
+def getHighestRatedMediaIDs(limit: int) -> Response[list[Series | Movie]]:
 
     mediaList = []
-    idList: list[str] = []
 
     try:
 
         seriesList = (
-            seriesCollection.find({}, {"_id": False, "id": True, "rating": True})
+            seriesCollection.find({}, {"_id": False})
             .sort("rating", DESCENDING)
             .limit(limit)
             .to_list()
         )
 
         movieList = (
-            movieCollection.find({}, {"_id": False, "id": True, "rating": True})
+            movieCollection.find({}, {"_id": False})
             .sort("rating", DESCENDING)
             .limit(limit)
             .to_list()
@@ -59,17 +62,9 @@ def getHighestRatedMediaIDs(limit: int) -> Response[list[str]]:
         mediaList = seriesList + movieList
 
         mediaList.sort(key=lambda x: x["rating"] or 0, reverse=True)
-
-        for media in mediaList:
-            idList.append(media["id"])
-
-        print("mediaList: ")
         print(mediaList)
-        print()
-        print("idList: ")
-        print(idList)
 
-        return Response.Success(idList)
+        return Response.Success(mediaList)
 
     except Exception as e:
         return Response.Error(e)

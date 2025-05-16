@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   CurrentMediaRoutes,
   EpisodeRoutes,
+  MediaRoutes,
   MovieRoutes,
   SeriesRoutes,
   WatchHistoryRoutes,
@@ -104,5 +105,19 @@ export class MediaService {
       .subscribe((response) => {
         console.warn('response of addToWatchHistory', response);
       });
+  }
+
+  public getHighestRated(limit: number): Observable<BackendResponse<Media[]>> {
+    return this.http.get<BackendResponse<Media[]>>(
+      MediaRoutes.HIGHEST_RATED(limit)
+    );
+  }
+
+  public getMedia(
+    id: string
+  ): Observable<BackendResponse<Episode | Movie | Series>> {
+    return this.http.get<BackendResponse<Episode | Movie | Series>>(
+      MediaRoutes.MEDIA(id)
+    );
   }
 }
