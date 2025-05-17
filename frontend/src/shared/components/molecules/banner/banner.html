@@ -1,5 +1,12 @@
-<!-- TODO: When Episode is displayed show Series name Episode 1 Season 1 and Title -->
 <div class="banner__content">
+  <div *ngIf="this.media && this.seriesInfo">
+    <p class="banner__title">{{this.seriesInfo.title}}</p>
+    <p>
+      Season {{this.getMediaAsEpisode()?.season}} Episode
+      {{this.getMediaAsEpisode()?.episode}}
+    </p>
+  </div>
+
   <p class="banner__title">{{this.media?.title}}</p>
   <p class="banner__description">{{this.media?.description}}</p>
 

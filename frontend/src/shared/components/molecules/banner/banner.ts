@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { GenreList } from '../genre-list/genre-list';
 import { MediaService } from '../../../services/media.service';
+import { Series } from '../../../types/series';
+import { Episode } from '../../../types/seriesEpisode';
 
 @Component({
   selector: 'banner',
@@ -16,6 +18,8 @@ import { MediaService } from '../../../services/media.service';
 export class Banner implements OnInit {
   @Input() media: Media | null = null;
 
+  public seriesInfo: Series | null = null;
+
   constructor(
     private elRef: ElementRef,
     private mediaRouterService: MediaRouterService,
@@ -25,12 +29,21 @@ export class Banner implements OnInit {
   ngOnInit(): void {
     if (!this.media?.id) throw new Error('Media ID not set');
 
-    const mediaType = this.media.getMediaType();
+    const mediaType = this.media.type;
     let type = '';
 
     if (mediaType == 'Movie') type = 'movies';
     if (mediaType == 'Series') type = 'series';
-    if (mediaType == 'Episode') type = 'episodes';
+    if (mediaType == 'Episode') {
+      type = 'episodes';
+      if (this.media instanceof Episode) {
+        this.mediaService
+          .getSeries(this.media.seriesID)
+          .subscribe(
+            (response) => (this.seriesInfo = new Series(response.data))
+          );
+      }
+    }
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',
@@ -43,5 +56,14 @@ export class Banner implements OnInit {
 
     this.mediaService.currentMedia.set(this.media);
     this.mediaRouterService.openMediaPlayer(this.media);
+  }
+
+  isEpisode(): boolean {
+    return this.media instanceof Episode;
+  }
+
+  getMediaAsEpisode(): Episode | null {
+    if (this.media instanceof Episode) return new Episode(this.media);
+    return null;
   }
 }
