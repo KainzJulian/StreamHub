@@ -36,7 +36,6 @@ export class HomePage implements OnInit {
       console.log('CurrentMedia', this.currentMedia());
     });
 
-    // TODO rework these functions because they depend on the request speed of each request instead of sorting
     this.setHighestRated();
     this.setWatchHistory();
     this.setMediaList();

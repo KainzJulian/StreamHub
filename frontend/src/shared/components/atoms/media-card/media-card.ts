@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { MediaService } from '../../../services/media.service';
 import { Movie } from '../../../types/movie';
+import { Episode } from '../../../types/seriesEpisode';
 
 @Component({
   selector: 'media-card',
@@ -26,7 +27,7 @@ export class MediaCard implements OnInit {
   ngOnInit(): void {
     if (!this.media?.id) throw new Error('Media ID not set');
 
-    let mediaType: 'movies' | 'series' = 'series';
+    let mediaType: 'movies' | 'series' | 'episodes' = 'series';
 
     if (this.media instanceof Movie && this.media.duration) {
       this.progressBarWidth.set(
@@ -34,6 +35,8 @@ export class MediaCard implements OnInit {
       );
       mediaType = 'movies';
     }
+
+    if (this.media instanceof Episode) mediaType = 'episodes';
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',
