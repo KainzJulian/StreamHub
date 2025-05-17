@@ -12,6 +12,7 @@ from classes.episode import Episode
 
 episodeRouter = APIRouter(prefix="/episodes", tags=["episode"])
 mediaPath = getENV("MEDIA_PATH")
+cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 
 
 @episodeRouter.get("/")
@@ -139,3 +140,13 @@ def addEpisode(episode: Episode) -> Response[str]:
         return Response.Success("Added Episode: " + str(episode.title))
     except Exception as e:
         return Response.Error(e)
+
+
+def removeEpisode(id: str):
+    if not cleanupOrphanedMedia:
+        return
+
+    try:
+        episodesCollection.find_one_and_delete({"id": id})
+    except Exception as e:
+        raise e

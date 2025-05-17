@@ -12,12 +12,14 @@ from classes.response import Response
 from database import seriesCollection
 from database import episodesCollection
 from classes.series import Series
+from routes.episodeRoute import removeEpisode
 
 seriesRouter = APIRouter(prefix="/series", tags=["series"])
 
 
 seriesPath = getENV("MEDIA_PATH") + "/series"
 mediaPath = getENV("MEDIA_PATH")
+cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 
 
 @seriesRouter.get("/")
@@ -91,7 +93,6 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
             )
 
         for episode in episodeList:
-            # print(episode)
             if not os.path.exists(mediaPath + "/" + episode["mediaPath"]):
                 removeEpisode(episode["id"])
 
@@ -104,7 +105,6 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
         return Response.Error(e)
 
 
-# get the average percentage watched of each episode
 @seriesRouter.get("/{series_id}/percent_watched")
 def getPercentWatched(series_id: str) -> Response[int]:
     try:
@@ -226,13 +226,6 @@ def searchSeries(query: str) -> Response[list[Series]]:
 
     except Exception as e:
         return Response.Error(e)
-
-
-def removeEpisode(episode_id: str):
-    try:
-        episodesCollection.find_one_and_delete({"id": episode_id})
-    except Exception as e:
-        raise e
 
 
 @seriesRouter.get("/highest_rated/{limit}")

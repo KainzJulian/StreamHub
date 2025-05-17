@@ -12,9 +12,12 @@ from classes import Response
 from database import currentMediaCollection
 from database import movieCollection
 from database import episodesCollection
+from routes.movieRoute import removeMovie
+from routes.episodeRoute import removeEpisode
 
 currentMediaRouter = APIRouter(prefix="/current_media", tags=["currentMedia"])
 mediaPath = getENV("MEDIA_PATH")
+cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 
 
 @currentMediaRouter.get("/get")
@@ -132,7 +135,7 @@ def getMediaPath(id: str) -> str:
         if os.path.exists(path):
             return path
 
-        episodesCollection.find_one_and_delete({"id": id})
+        removeEpisode(id)
         raise HTTPException(
             status_code=500, detail="No Episode Video File found for path: " + path
         )
@@ -146,7 +149,7 @@ def getMediaPath(id: str) -> str:
         if os.path.exists(path):
             return path
 
-        episodesCollection.find_one_and_delete({"id": id})
+        removeMovie(id)
         raise HTTPException(
             status_code=500, detail="No Movie Video File found for path: " + path
         )
