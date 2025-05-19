@@ -3,6 +3,8 @@ from random import choice
 from fastapi import APIRouter, HTTPException
 from pymongo import DESCENDING
 
+from routes import seriesRoute
+from routes import movieRoute
 from classes.episode import Episode
 from classes.movie import Movie
 from classes.series import Series
@@ -96,6 +98,28 @@ def getRandomMedia(limit: int) -> Response[list[Media]]:
             return Response.Success(movies)
 
         return Response.Success(mergeMovieSeriesLists(movies, series))
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@mediaRouter.get("search/{query}")
+def search(query: str) -> Response[list[Series | Movie]]:
+
+    try:
+
+        series = seriesRoute.searchSeries(query).data
+        movies = movieRoute.searchMovies(query).data
+
+        if not series:
+            series = []
+
+        if not movies:
+            movies = []
+
+        mediaList = series + movies
+
+        return Response.Success(mediaList)
 
     except Exception as e:
         return Response.Error(e)
