@@ -154,3 +154,21 @@ def mergeMovieSeriesLists(
             turn = 0
 
     return result
+
+
+@mediaRouter.post("/{media_id}/time")
+def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
+    try:
+
+        episodes = episodesCollection.find_one_and_update(
+            {"id": media_id}, {"$set": {"durationWatched": time_in_seconds}}
+        )
+
+        if episodes == None:
+            movieCollection.find_one_and_update(
+                {"id": media_id}, {"$set": {"durationWatched": time_in_seconds}}
+            )
+
+        return Response.Success(True)
+    except Exception as e:
+        return Response.Error(e)

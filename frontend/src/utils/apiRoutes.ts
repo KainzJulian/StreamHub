@@ -37,6 +37,8 @@ export const MediaRoutes = {
   RANDOM_MEDIA_LIST: (limit: number) =>
     `${BASE_URL}/media/random_media/${limit}`,
   SEARCH: (input: string) => `${BASE_URL}/media/search/${input}`,
+  SET_TIME_WATCHED: (mediaID: string, timeInSeconds: number) =>
+    `${BASE_URL}/media/${mediaID}/time?time_in_seconds=${timeInSeconds}`,
 };
 
 export const CurrentMediaRoutes = {

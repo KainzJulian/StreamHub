@@ -3,8 +3,11 @@ import {
   ElementRef,
   HostListener,
   Input,
+  OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
+import { MediaRoutes } from '../../../../utils/apiRoutes';
 
 @Component({
   selector: 'media-template',
@@ -13,12 +16,29 @@ import {
   templateUrl: './media-template.html',
   styleUrl: './media-template.scss',
 })
-export class MediaTemplate {
+export class MediaTemplate implements OnInit, OnDestroy {
   @Input() videoSource?: string;
+  @Input() mediaID?: string;
 
   @ViewChild('video', { static: true }) video?: ElementRef<HTMLVideoElement>;
 
   isPlaying = false;
+
+  ngOnDestroy(): void {
+    window.addEventListener('beforeunload', this.saveTime);
+  }
+
+  ngOnInit(): void {
+    window.addEventListener('beforeunload', this.saveTime);
+  }
+
+  saveTime() {
+    const time = this.video?.nativeElement.currentTime;
+    if (this.mediaID && time)
+      navigator.sendBeacon(
+        MediaRoutes.SET_TIME_WATCHED(this.mediaID, Math.floor(time))
+      );
+  }
 
   togglePlay(): void {
     if (this.video) {

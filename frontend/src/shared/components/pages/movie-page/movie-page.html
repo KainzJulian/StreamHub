@@ -1,5 +1,8 @@
 <home-template>
-  <media-template [videoSource]="getVideoSource()">
+  <media-template
+    [mediaID]="this.currentMovie()?.id"
+    [videoSource]="getVideoSource()"
+  >
     <div class="movie__title" header>
       <p>{{this.currentMovie()?.title}}</p>
     </div>

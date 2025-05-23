@@ -6,6 +6,7 @@
   class="videoPlayer"
   [src]="this.videoSource"
   type="video/mp4"
+  (pause)="this.saveTime()"
 ></video>
 
 <div class="info">
