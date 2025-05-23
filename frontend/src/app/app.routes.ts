@@ -4,6 +4,7 @@ import { MediaPage } from '../shared/components/pages/media-page/media-page';
 import { SeriesOverviewPage } from '../shared/components/pages/series-overview-page/series-overview-page';
 import { MoviePage } from '../shared/components/pages/movie-page/movie-page';
 import { SeriesPage } from '../shared/components/pages/series-page/series-page';
+import { SearchPage } from '../shared/components/pages/search-page/search-page';
 
 export const routes: Routes = [
   {
@@ -35,5 +36,9 @@ export const routes: Routes = [
   {
     path: 'movie/player/:id',
     component: MoviePage,
+  },
+  {
+    path: 'search/:input',
+    component: SearchPage,
   },
 ];

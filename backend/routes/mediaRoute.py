@@ -103,8 +103,10 @@ def getRandomMedia(limit: int) -> Response[list[Media]]:
         return Response.Error(e)
 
 
-@mediaRouter.get("search/{query}")
+@mediaRouter.get("/search/{query}")
 def search(query: str) -> Response[list[Series | Movie]]:
+
+    print(query)
 
     try:
 
@@ -127,7 +129,7 @@ def search(query: str) -> Response[list[Series | Movie]]:
 
 def mergeMovieSeriesLists(
     movieList: list[Movie], seriesList: list[Series]
-) -> list[Media]:
+) -> list[Movie | Series]:
     result = []
 
     turn = choice([0, 1])

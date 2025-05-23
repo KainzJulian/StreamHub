@@ -125,4 +125,8 @@ export class MediaService {
       MediaRoutes.RANDOM_MEDIA_LIST(limit)
     );
   }
+
+  public getSearch(input: string): Observable<BackendResponse<Media[]>> {
+    return this.http.get<BackendResponse<Media[]>>(MediaRoutes.SEARCH(input));
+  }
 }

@@ -9,6 +9,9 @@ import { Episode } from '../../../types/seriesEpisode';
 import { Movie } from '../../../types/movie';
 import { Series } from '../../../types/series';
 
+// TODO: remove current Search and make an own site for it where it shows all series and movies
+// in header there is an input field and a search icon when entering input field open new site
+
 @Component({
   selector: 'home-page',
   standalone: true,

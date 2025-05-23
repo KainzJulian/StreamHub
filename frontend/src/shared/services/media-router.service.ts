@@ -44,4 +44,8 @@ export class MediaRouterService {
   public openMoviePlayer(id: string) {
     this.router.navigate(['/movie/player', id]);
   }
+
+  openSearch(input: string) {
+    this.router.navigate(['/search', input]);
+  }
 }

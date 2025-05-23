@@ -1,0 +1,30 @@
+<home-template [showSearch]="false">
+  <div class="container">
+    <div class="search">
+      <div class="search__config">
+        <base-button
+          (onClick)="this.setMediaList(input.value)"
+          class="header__icon"
+        >
+          <icon id="icon" iconName="search" alt="Search" />
+        </base-button>
+
+        <input
+          (keydown.enter)="this.setMediaList(input.value)"
+          class="search__input"
+          type="text"
+          #input
+          placeholder="Search..."
+          maxlength="100"
+        />
+      </div>
+    </div>
+    <div class="search__result">
+      <media-card-list
+        class="grid"
+        *ngIf="this.mediaList !== null"
+        [mediaList]="this.mediaList()"
+      ></media-card-list>
+    </div>
+  </div>
+</home-template>

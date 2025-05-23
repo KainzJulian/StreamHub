@@ -20,16 +20,20 @@
   z-index: 9999;
 }
 
-base-button:first-of-type {
+base-button.header__button:first-of-type {
   margin-left: 120px;
 
   height: 100%;
 }
 
-base-button:last-of-type {
-  margin-left: auto;
+base-button.header__button:last-of-type {
+  margin-right: auto;
 
   height: 100%;
+}
+
+.header__icon {
+  margin-left: auto;
 }
 
 .button__text {
@@ -38,4 +42,12 @@ base-button:last-of-type {
 
 p {
   font-size: $text-size--big;
+}
+
+.search__input {
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  font-size: $text-size--mid;
 }
