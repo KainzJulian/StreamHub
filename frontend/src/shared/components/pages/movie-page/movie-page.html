@@ -1,6 +1,7 @@
 <home-template>
   <media-template
-    [mediaID]="this.currentMovie()?.id"
+    *ngIf="this.currentMovie() != null"
+    [media]="this.currentMovie()"
     [videoSource]="getVideoSource()"
   >
     <div class="movie__title" header>

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -8,6 +9,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MediaRoutes } from '../../../../utils/apiRoutes';
+import { Media } from '../../../types/media';
+import { MediaService } from '../../../services/media.service';
 
 @Component({
   selector: 'media-template',
@@ -16,13 +19,25 @@ import { MediaRoutes } from '../../../../utils/apiRoutes';
   templateUrl: './media-template.html',
   styleUrl: './media-template.scss',
 })
-export class MediaTemplate implements OnInit, OnDestroy {
+export class MediaTemplate implements OnInit, OnDestroy, AfterViewInit {
   @Input() videoSource?: string;
-  @Input() mediaID?: string;
+  @Input() media: Media | null = null;
 
   @ViewChild('video', { static: true }) video?: ElementRef<HTMLVideoElement>;
 
   isPlaying = false;
+
+  constructor(private mediaService: MediaService) {}
+
+  ngAfterViewInit(): void {
+    console.log('Media: ', this.media);
+
+    this.mediaService.getWatchTime(this.media?.id)?.subscribe((response) => {
+      console.log(response);
+
+      if (this.video) this.video.nativeElement.currentTime = response.data;
+    });
+  }
 
   ngOnDestroy(): void {
     window.addEventListener('beforeunload', this.saveTime);
@@ -34,10 +49,9 @@ export class MediaTemplate implements OnInit, OnDestroy {
 
   saveTime() {
     const time = this.video?.nativeElement.currentTime;
-    if (this.mediaID && time)
-      navigator.sendBeacon(
-        MediaRoutes.SET_TIME_WATCHED(this.mediaID, Math.floor(time))
-      );
+    const id = this.media?.id;
+    if (id && time)
+      navigator.sendBeacon(MediaRoutes.SET_TIME_WATCHED(id, Math.floor(time)));
   }
 
   togglePlay(): void {

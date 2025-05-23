@@ -172,3 +172,25 @@ def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
         return Response.Success(True)
     except Exception as e:
         return Response.Error(e)
+
+
+@mediaRouter.get("/{media_id}/time_watched")
+def getTimeWatched(media_id: str) -> Response[int]:
+    try:
+
+        media = episodesCollection.find_one({"id": media_id}, {"durationWatched": True})
+
+        if media == None:
+            media = movieCollection.find_one(
+                {"id": media_id}, {"durationWatched": True}
+            )
+
+        time = 0
+
+        if media != None:
+            time = media["durationWatched"]
+
+        return Response.Success(time)
+
+    except Exception as e:
+        return Response.Error(e)

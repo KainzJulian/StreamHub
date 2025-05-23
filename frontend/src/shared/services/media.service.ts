@@ -129,4 +129,11 @@ export class MediaService {
   public getSearch(input: string): Observable<BackendResponse<Media[]>> {
     return this.http.get<BackendResponse<Media[]>>(MediaRoutes.SEARCH(input));
   }
+
+  public getWatchTime(id: string | undefined) {
+    if (!id) return;
+    return this.http.get<BackendResponse<number>>(
+      MediaRoutes.GET_TIME_WATCHED(id)
+    );
+  }
 }

@@ -7,11 +7,12 @@ import { MediaService } from '../../../services/media.service';
 import { ActivatedRoute } from '@angular/router';
 import { CurrentMediaRoutes } from '../../../../utils/apiRoutes';
 import { Movie } from '../../../types/movie';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'movie-page',
   standalone: true,
-  imports: [MediaTemplate, HomeTemplate, GenreList],
+  imports: [CommonModule, MediaTemplate, HomeTemplate, GenreList],
   templateUrl: './movie-page.html',
   styleUrl: './movie-page.scss',
 })
@@ -37,7 +38,6 @@ export class MoviePage implements OnInit {
 
   getVideoSource(): string {
     const movieID = this.route.snapshot.paramMap.get('id');
-    console.log('Source', movieID);
 
     if (!movieID) return '';
 

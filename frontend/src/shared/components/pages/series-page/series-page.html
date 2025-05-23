@@ -1,6 +1,7 @@
 <home-template>
   <media-template
-    [mediaID]="this.currentEpisode()?.id"
+    *ngIf="this.currentEpisode() != null"
+    [media]="this.currentEpisode()"
     [videoSource]="this.getVideoSource()"
     class="full-width"
   >
