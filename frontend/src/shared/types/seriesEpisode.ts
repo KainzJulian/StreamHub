@@ -8,6 +8,9 @@ export class Episode extends Media {
 
   seriesID: string;
 
+  durationWatched: number;
+  duration: number;
+
   override type: string;
 
   constructor(data: Partial<Episode>) {
@@ -17,6 +20,8 @@ export class Episode extends Media {
     this.episode = data.episode ?? 0;
     this.seriesID = data.seriesID ?? '';
     this.type = 'Episode';
+    this.durationWatched = data.durationWatched ?? 0;
+    this.duration = data.duration ?? 0;
   }
 
   public override getMediaType(): string {

@@ -7,6 +7,7 @@
 //   }
 // }
 
+// TODO: When clicking on the same movie over and over remove only save movie once in the watch history
 export class WatchHistoryItem {
   // id: string | null;
   type: string;

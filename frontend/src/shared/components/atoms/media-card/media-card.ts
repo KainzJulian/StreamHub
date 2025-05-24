@@ -29,7 +29,7 @@ export class MediaCard implements OnInit {
 
     let mediaType: 'movies' | 'series' | 'episodes' = 'series';
 
-    if (this.media instanceof Movie && this.media.duration) {
+    if (this.media instanceof Movie) {
       this.progressBarWidth.set(
         (this.media.durationWatched / this.media.duration) * 100
       );

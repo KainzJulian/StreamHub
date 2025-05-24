@@ -14,4 +14,13 @@
       <p class="prevent-select card__title__text">{{this.episode?.title}}</p>
     </div>
   </div>
+  <div
+    *ngIf="isInProgress()"
+    [ngStyle]="{width: this.progressBarWidth() + '%'}"
+    class="card__progress"
+  ></div>
+  <div
+    *ngIf="isInProgress() "
+    class="card__progress card__progress__background"
+  ></div>
 </div>

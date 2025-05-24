@@ -16,6 +16,7 @@ import { MediaService } from '../../../services/media.service';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { ActivatedRoute } from '@angular/router';
 import { CurrentMediaRoutes } from '../../../../utils/apiRoutes';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'series-page',
@@ -26,6 +27,7 @@ import { CurrentMediaRoutes } from '../../../../utils/apiRoutes';
     MediaTemplate,
     EpisodeList,
     BaseButton,
+    CommonModule,
   ],
   templateUrl: './series-page.html',
   styleUrl: './series-page.scss',

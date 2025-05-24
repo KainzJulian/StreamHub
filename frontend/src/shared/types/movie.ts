@@ -1,7 +1,7 @@
 import { Media } from './media';
 
 export class Movie extends Media {
-  duration: number | null;
+  duration: number;
   pathMedia: string | null;
   durationWatched: number;
 
@@ -9,7 +9,7 @@ export class Movie extends Media {
 
   constructor(data: Partial<Movie>) {
     super(data);
-    this.duration = data.duration ?? null;
+    this.duration = data.duration ?? 0;
     this.pathMedia = data.pathMedia ?? null;
     this.durationWatched = data.durationWatched ?? 0;
     this.type = 'Movie';

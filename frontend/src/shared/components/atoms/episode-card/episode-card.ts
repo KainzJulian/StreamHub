@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { Episode } from '../../../types/seriesEpisode';
 import { MediaRouterService } from '../../../services/media-router.service';
@@ -25,6 +26,8 @@ export class EpisodeCard implements OnInit {
 
   @Output() onClick = new EventEmitter<Episode>();
 
+  public progressBarWidth = signal<number>(0);
+
   seriesID!: string | null;
 
   constructor(
@@ -38,6 +41,10 @@ export class EpisodeCard implements OnInit {
 
   ngOnInit(): void {
     if (!this.episode?.id) throw new Error('Episode ID not set');
+
+    this.progressBarWidth.set(
+      (this.episode.durationWatched / this.episode.duration) * 100
+    );
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',
@@ -58,5 +65,9 @@ export class EpisodeCard implements OnInit {
 
       this.onClick.emit(this.episode);
     }
+  }
+
+  isInProgress(): boolean {
+    return this.progressBarWidth() <= 100 && this.progressBarWidth() > 0;
   }
 }

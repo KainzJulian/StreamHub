@@ -97,6 +97,24 @@ $base-height: 5px;
       filter: brightness(110%) contrast(110%);
     }
   }
+
+  &__progress {
+    background-color: $color-accent;
+
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+
+    height: $gap--xsmall;
+
+    z-index: 2;
+
+    &__background {
+      width: 100%;
+      background-color: grey;
+      z-index: 1;
+    }
+  }
 }
 
 .show-info {
