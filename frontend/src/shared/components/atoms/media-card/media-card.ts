@@ -30,18 +30,23 @@ export class MediaCard implements OnInit {
     let mediaType: 'movies' | 'series' | 'episodes' = 'series';
 
     if (this.media instanceof Movie) {
-      this.progressBarWidth.set(
-        (this.media.durationWatched / this.media.duration) * 100
-      );
       mediaType = 'movies';
+      this.updateProgressBar(this.media.durationWatched, this.media.duration);
     }
 
-    if (this.media instanceof Episode) mediaType = 'episodes';
+    if (this.media instanceof Episode) {
+      mediaType = 'episodes';
+      this.updateProgressBar(this.media.durationWatched, this.media.duration);
+    }
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',
       `url("http://localhost:8000/api/${mediaType}/${this.media?.id}/thumbnail_preview")`
     );
+  }
+
+  private updateProgressBar(durationWatched: number, duration: number) {
+    this.progressBarWidth.set((durationWatched / duration) * 100);
   }
 
   openPlayer() {

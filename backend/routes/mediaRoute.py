@@ -36,7 +36,6 @@ def getMediaById(media_id: str) -> Response[Movie | Series | Episode]:
 
         media = seriesCollection.find_one({"id": media_id}, {"_id": False})
         if media:
-            print(media)
             return Response.Success(media)
 
         raise HTTPException(status_code=404, detail="Media not found")
@@ -69,7 +68,6 @@ def getHighestRatedMediaIDs(limit: int) -> Response[list[Series | Movie]]:
         mediaList = seriesList + movieList
 
         mediaList.sort(key=lambda x: x["rating"] or 0, reverse=True)
-        print(mediaList)
 
         return Response.Success(mediaList)
 
@@ -160,14 +158,40 @@ def mergeMovieSeriesLists(
 def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
     try:
 
-        episodes = episodesCollection.find_one_and_update(
+        media = episodesCollection.find_one_and_update(
             {"id": media_id}, {"$set": {"durationWatched": time_in_seconds}}
         )
 
-        if episodes == None:
-            movieCollection.find_one_and_update(
+        if media == None:
+            media = movieCollection.find_one_and_update(
                 {"id": media_id}, {"$set": {"durationWatched": time_in_seconds}}
             )
+
+        if media == None:
+            return Response.Error(Exception("No media with the id found: " + media_id))
+
+        if media["duration"] * 0.9 <= time_in_seconds:
+            setWatchedFlag(media_id)
+
+        return Response.Success(True)
+    except Exception as e:
+        return Response.Error(e)
+
+
+@mediaRouter.post("/{media_id}/watched")
+def setWatchedFlag(media_id: str) -> Response[bool]:
+    try:
+        media = episodesCollection.find_one_and_update(
+            {"id": media_id}, {"$set": {"watched": True, "durationWatched": 0}}
+        )
+
+        if media == None:
+            media = movieCollection.find_one_and_update(
+                {"id": media_id}, {"$set": {"watched": True, "durationWatched": 0}}
+            )
+
+        if media == None:
+            return Response.Error(Exception("No media with the id found: " + media_id))
 
         return Response.Success(True)
     except Exception as e:

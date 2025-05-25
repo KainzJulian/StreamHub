@@ -36,7 +36,6 @@ def getCurrentMedia() -> Response[CurrentMediaResponse]:
         print(movie)
         if movie == None:
             episode = episodesCollection.find_one({"id": id}, {"_id": False})
-            print(episode)
             return Response.Success(CurrentMediaResponse(type="episode", media=episode))
 
         else:

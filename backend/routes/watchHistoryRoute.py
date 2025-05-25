@@ -31,8 +31,6 @@ def getWatchHistory(limit: int) -> Response[list[Episode | Movie]]:
         for item in history:
             mediaList.append(getMediaById(item["id"]).data)
 
-        print(mediaList)
-
         return Response.Success(mediaList)
 
     except Exception as e:
