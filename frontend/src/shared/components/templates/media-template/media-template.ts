@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -19,7 +18,7 @@ import { MediaService } from '../../../services/media.service';
   templateUrl: './media-template.html',
   styleUrl: './media-template.scss',
 })
-export class MediaTemplate implements OnInit, OnDestroy, AfterViewInit {
+export class MediaTemplate implements OnInit, OnDestroy {
   @Input() videoSource?: string;
   @Input() media: Media | null = null;
 
@@ -29,9 +28,7 @@ export class MediaTemplate implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private mediaService: MediaService) {}
 
-  ngAfterViewInit(): void {
-    console.log('Media: ', this.media);
-
+  setTimeOfVideo() {
     this.mediaService.getWatchTime(this.media?.id)?.subscribe((response) => {
       console.log(response);
 
