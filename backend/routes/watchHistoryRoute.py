@@ -41,11 +41,29 @@ def getWatchHistory(limit: int) -> Response[list[Episode | Movie]]:
 def addToWatchHistory(media_id: str, media_type: str) -> Response[bool]:
 
     try:
+
+        id = getLastWatchedMediaID()
+
+        if id == media_id:
+            return Response.Success(False)
+
         historyItem = HistoryItem(
             id=media_id, type=media_type, time=datetime.datetime.now()
         )
+
         watchHistoryCollection.insert_one(historyItem.model_dump())
         return Response.Success(True)
 
     except Exception as e:
         return Response.Error(e)
+
+
+def getLastWatchedMediaID():
+
+    lastWatchedItem = getWatchHistory(1).data
+
+    if lastWatchedItem != None:
+        if isinstance(lastWatchedItem[0], dict):
+            return lastWatchedItem[0]["id"]
+        else:
+            return lastWatchedItem[0].id
