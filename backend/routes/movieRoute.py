@@ -78,7 +78,11 @@ def getThumbnailBanner(movie_id: str):
         if not os.path.exists(thumbnail[0]):
             return None
 
-        response = FileResponse(thumbnail[0], media_type="image/jpeg")
+        response = FileResponse(
+            thumbnail[0],
+            media_type="image/jpeg",
+            headers={"Cache-Control": "no-store, must-revalidate"},
+        )
         return response
 
     except Exception as e:
@@ -102,7 +106,11 @@ def getThumbnailPreview(movie_id: str):
         previewThumbnailPath = thumbnail[1]
 
         if os.path.exists(previewThumbnailPath):
-            return FileResponse(previewThumbnailPath, media_type="image/jpeg")
+            return FileResponse(
+                previewThumbnailPath,
+                media_type="image/jpeg",
+                headers={"Cache-Control": "no-store, must-revalidate"},
+            )
 
         if not os.path.exists(originalThumbnailPath):
             return None
@@ -111,7 +119,11 @@ def getThumbnailPreview(movie_id: str):
         image.thumbnail((400, 600))
         image.save(previewThumbnailPath)
 
-        response = FileResponse(previewThumbnailPath, media_type="image/jpeg")
+        response = FileResponse(
+            previewThumbnailPath,
+            media_type="image/jpeg",
+            headers={"Cache-Control": "no-store, must-revalidate"},
+        )
         return response
     except Exception as e:
         return Response.Error(e)

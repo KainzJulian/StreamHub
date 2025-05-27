@@ -79,7 +79,11 @@ def getThumbnailBanner(episode_id: str):
         if not os.path.exists(thumbnail):
             return None
 
-        response = FileResponse(thumbnail, media_type="image/jpeg")
+        response = FileResponse(
+            thumbnail,
+            media_type="image/jpeg",
+            headers={"Cache-Control": "no-store, must-revalidate"},
+        )
         return response
 
     except Exception as e:
