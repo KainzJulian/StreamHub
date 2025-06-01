@@ -26,7 +26,7 @@ $base-height: 5px;
     &:hover {
       &::before {
         transition: filter 0.2s;
-        filter: brightness(110%) contrast(110%);
+        filter: brightness(100%);
       }
     }
 

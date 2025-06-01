@@ -46,6 +46,7 @@ $base-height: 5px;
     border-radius: $radius--small;
 
     background-color: $downlight--transparent;
+    backdrop-filter: $blur--small;
 
     display: flex;
 
@@ -94,7 +95,7 @@ $base-height: 5px;
 
     &.card::before {
       transition: all 0.2s;
-      filter: brightness(110%) contrast(110%);
+      filter: brightness(100%);
     }
   }
 

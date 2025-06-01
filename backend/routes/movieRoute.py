@@ -20,7 +20,7 @@ cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 @movieRouter.get("/")
 def getAllMovies() -> Response[list[Movie]]:
     try:
-        uploadMoviesToDB(moviesPath)
+        # uploadMoviesToDB(moviesPath)
 
         movieList = list(
             movieCollection.find({}, {"_id": False, "id": True, "mediaPath": True})

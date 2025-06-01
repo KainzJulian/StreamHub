@@ -1,7 +1,18 @@
 from dotenv import load_dotenv
 import pymongo
+import pymongo.collection
+import pymongo.database
 
 from utils.get_env import getENV
+
+
+def getCollectionFromName(
+    name: str, database: pymongo.database.Database
+) -> pymongo.collection.Collection:
+    if name in database.list_collection_names():
+        return database[name]
+    else:
+        return database.create_collection(name)
 
 
 load_dotenv()
@@ -11,9 +22,13 @@ client._connect()
 
 database = client[getENV("DATABASE_NAME")]
 
-watchHistoryCollection = database[getENV("WATCH_HISTORY_COLLECTION")]
-currentMediaCollection = database[getENV("CURRENT_MEDIA_COLLECTION")]
+watchHistoryCollection = getCollectionFromName(
+    getENV("WATCH_HISTORY_COLLECTION"), database
+)
+currentMediaCollection = getCollectionFromName(
+    getENV("CURRENT_MEDIA_COLLECTION"), database
+)
 
-seriesCollection = database[getENV("SERIES_COLLECTION")]
-movieCollection = database[getENV("MOVIE_COLLECTION")]
-episodesCollection = database[getENV("EPISODES_COLLECTION")]
+seriesCollection = getCollectionFromName(getENV("SERIES_COLLECTION"), database)
+movieCollection = getCollectionFromName(getENV("MOVIE_COLLECTION"), database)
+episodesCollection = getCollectionFromName(getENV("EPISODES_COLLECTION"), database)

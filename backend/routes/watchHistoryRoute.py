@@ -29,16 +29,33 @@ def getWatchHistory(limit: int) -> Response[list[Episode | Movie]]:
         )
 
         for item in history:
-            mediaList.append(getMediaById(item["id"]).data)
+            data = getMediaById(item["id"]).data
+            if data == None:
+                removeFromWatchHistory(item["id"])
+                continue
+
+            mediaList.append(data)
+
+        print(mediaList)
 
         return Response.Success(mediaList)
 
     except Exception as e:
+        # raise e
         return Response.Error(e)
+
+
+def removeFromWatchHistory(media_id: str):
+    try:
+        watchHistoryCollection.find_one_and_delete({"id": media_id})
+    except Exception as e:
+        raise e
 
 
 @watchHistoryRouter.post("/add/{media_id}")
 def addToWatchHistory(media_id: str, media_type: str) -> Response[bool]:
+
+    print(media_id)
 
     try:
 
@@ -51,18 +68,25 @@ def addToWatchHistory(media_id: str, media_type: str) -> Response[bool]:
             id=media_id, type=media_type, time=datetime.datetime.now()
         )
 
+        print(historyItem)
+
         watchHistoryCollection.insert_one(historyItem.model_dump())
         return Response.Success(True)
 
     except Exception as e:
-        return Response.Error(e)
+        raise e
+        # return Response.Error(e)
 
 
 def getLastWatchedMediaID():
 
     lastWatchedItem = getWatchHistory(1).data
 
-    if lastWatchedItem != None:
+    if lastWatchedItem != None and lastWatchedItem != []:
+
+        if lastWatchedItem[0] == None:
+            return ""
+
         if isinstance(lastWatchedItem[0], dict):
             return lastWatchedItem[0]["id"]
         else:
