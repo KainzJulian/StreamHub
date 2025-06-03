@@ -45,8 +45,12 @@ export class MediaPage {
           console.error('No Media Was found');
           return;
         }
+      });
 
-        this.media.set(this.mediaList()[0]);
+      this.mediaService.getRandomMediaList(1).subscribe((response) => {
+        if (!response.success) throw new Error(response.error);
+
+        this.media.set(response.data[0]);
       });
     });
   }

@@ -10,29 +10,28 @@
   position: relative;
 
   padding: $gap--xxlarge;
+}
 
-  &::before {
-    content: "";
-    background-image: var(--thumbnail-path);
-    // background-size: cover;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    // width: 70%;
+.container-test {
+  height: auto;
+  width: auto;
+  position: absolute;
+  display: flex;
 
-    background-position-y: 30%;
+  z-index: -1;
+}
 
-    // margin-left: auto;
-    // margin-right: $gap--xxlarge;
+.test {
+  display: block;
+  position: absolute;
 
-    // box-shadow: inset 0px -30px 20px #111, inset -30px 0px 20px #111,
-    //   inset 30px 0px 20px #111;
+  height: 100%;
+  inset: 0;
 
-    position: absolute;
-    inset: 0;
+  box-shadow: inset 20px 20px 20px black;
 
-    filter: brightness(60%);
-  }
+  filter: brightness(60%);
+  margin: auto;
 }
 
 :host(.hide-button) {

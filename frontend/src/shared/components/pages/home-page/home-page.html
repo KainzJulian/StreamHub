@@ -4,7 +4,7 @@
   <!-- TODO: Only 10 of each type will be diplayed on the far right there should be a button when clicked it opens a site with all cards -->
   <media-card-list
     class="list"
-    *ngIf="this.watchHistory()"
+    *ngIf="this.watchHistory() != null && this.watchHistory()?.length != 0"
     [mediaList]="this.watchHistory()"
     mediaListTitle="Recently Watched"
   ></media-card-list>

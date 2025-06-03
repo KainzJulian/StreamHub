@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { BaseButton } from '../../atoms/base-button/base-button';
 import { Media } from '../../../types/media';
 import { CommonModule } from '@angular/common';
@@ -15,10 +23,14 @@ import { Episode } from '../../../types/seriesEpisode';
   templateUrl: './banner.html',
   styleUrl: './banner.scss',
 })
-export class Banner implements OnInit {
+export class Banner implements AfterViewInit {
   @Input() media: Media | null = null;
 
   public seriesInfo: Series | null = null;
+
+  @ViewChild('img') img!: ElementRef;
+
+  public src = signal<string | null>(null);
 
   constructor(
     private elRef: ElementRef,
@@ -26,7 +38,7 @@ export class Banner implements OnInit {
     private mediaService: MediaService
   ) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (!this.media?.id) throw new Error('Media ID not set');
 
     const mediaType = this.media.type;
@@ -44,11 +56,14 @@ export class Banner implements OnInit {
           );
       }
     }
-
-    this.elRef.nativeElement.style.setProperty(
-      '--thumbnail-path',
-      `url("http://localhost:8000/api/${type}/${this.media?.id}/thumbnail_banner")`
+    this.src.set(
+      `http://localhost:8000/api/${type}/${this.media?.id}/thumbnail_banner`
     );
+
+    // this.elRef.nativeElement.style.setProperty(
+    //   '--thumbnail-path',
+    //   `url("http://localhost:8000/api/${type}/${this.media?.id}/thumbnail_banner")`
+    // );
   }
 
   playMedia() {

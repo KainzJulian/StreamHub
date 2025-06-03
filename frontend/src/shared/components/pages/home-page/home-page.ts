@@ -30,7 +30,10 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.mediaService.getCurrentMedia().subscribe((response) => {
-      const mediaType = response.data.type;
+      const data = response.data;
+      if (data === null) return;
+
+      const mediaType = data.type;
       const media = response.data.media;
 
       if (mediaType == 'episode') this.currentMedia.set(new Episode(media));
@@ -67,6 +70,7 @@ export class HomePage implements OnInit {
       });
 
       this.watchHistory.set(mediaList);
+      console.log(this.watchHistory());
     });
   }
 

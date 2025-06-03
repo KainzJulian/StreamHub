@@ -1,3 +1,5 @@
+<img *ngIf="src() !== null" class="test" [src]="src()" />
+
 <div class="banner__content">
   <div *ngIf="this.media && this.seriesInfo">
     <p class="banner__title">{{this.seriesInfo.title}}</p>
