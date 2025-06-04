@@ -89,6 +89,12 @@ export class MediaTemplate implements OnInit, OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    const tag = target.tagName.toLowerCase();
+
+    if (tag === 'input' || tag === 'textarea' || target.isContentEditable)
+      return;
+
     event.preventDefault();
 
     switch (event.key) {
