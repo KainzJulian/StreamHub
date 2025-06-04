@@ -22,7 +22,7 @@ This project is a private video streaming service built with FastAPI (Python), A
 npm run mongo
 ```
 
-1. Install Python dependencies:
+2. Install Python dependencies:
 
 ```bash
 cd backend
@@ -31,26 +31,26 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-1. Install Angular dependencies:
+3. Install Angular dependencies:
 
 ```bash
 cd frontend
 npm install
 ```
 
-1. Copy the `.env.example` file to `.env` in the backend directory and fill in the required values.
+4. Copy the `.env.example` file to `.env` in the backend directory and fill in the required values.
 
 ```bash
 cp .env.example .env
 ```
 
-1. Run the backend server:
+5. Run the backend server:
 
 ```bash
 npm run backend
 ```
 
-1. Run the frontend server:
+6. Run the frontend server:
 
 ```bash
 npm run frontend
