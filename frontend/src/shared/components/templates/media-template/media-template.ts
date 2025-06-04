@@ -89,6 +89,8 @@ export class MediaTemplate implements OnInit, OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    event.preventDefault();
+
     switch (event.key) {
       case ' ':
         event.preventDefault();
