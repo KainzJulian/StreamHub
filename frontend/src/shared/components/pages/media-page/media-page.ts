@@ -20,8 +20,6 @@ export class MediaPage {
   public mediaList = signal<Media[]>([]);
   public media = signal<Media | null>(null);
 
-  // banner should be a random series or movie
-
   constructor(
     private route: ActivatedRoute,
     private mediaService: MediaService

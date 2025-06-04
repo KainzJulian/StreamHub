@@ -2,7 +2,7 @@
   <div class="list__item">
     <episode-card
       (onClick)="this.clickCard($event)"
-      [isSelected]="mediaService.currentEpisode()?.id == episode.id"
+      [isSelected]="this.currentEpisodeID === episode.id"
       class="mouse-pointer"
       [episode]="episode"
     ></episode-card>
