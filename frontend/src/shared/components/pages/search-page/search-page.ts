@@ -62,6 +62,7 @@ export class SearchPage implements OnInit {
       this.mediaRoute.openSearch(input);
       this.inputElement.nativeElement.value = input;
       this.mediaList.set(mediaList);
+      console.log('medialist', mediaList);
     });
   }
 }

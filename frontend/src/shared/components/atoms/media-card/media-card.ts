@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { Media } from '../../../types/media';
 import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
@@ -13,7 +20,7 @@ import { Episode } from '../../../types/seriesEpisode';
   templateUrl: './media-card.html',
   styleUrl: './media-card.scss',
 })
-export class MediaCard implements OnInit {
+export class MediaCard implements OnChanges {
   @Input() media: Media | null = null;
 
   public progressBarWidth = signal<number>(0);
@@ -24,7 +31,11 @@ export class MediaCard implements OnInit {
     private mediaService: MediaService
   ) {}
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['media']) this.setThumbnailPath();
+  }
+
+  private setThumbnailPath() {
     if (!this.media?.id) throw new Error('Media ID not set');
 
     let mediaType: 'movies' | 'series' | 'episodes' = 'series';
