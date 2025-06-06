@@ -52,8 +52,6 @@ export class SeriesPage implements OnInit {
     if (seriesID == null || episodeID == null)
       throw new Error('No ID specified');
 
-    this.mediaService.setCurrentMedia(episodeID);
-
     this.mediaService.getSeries(seriesID).subscribe((response) => {
       this.currentSeries.set(new Series(response.data));
 

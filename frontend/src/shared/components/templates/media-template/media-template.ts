@@ -46,6 +46,7 @@ export class MediaTemplate implements OnInit, OnDestroy {
   onPlayVideo() {
     if (!this.media) return;
     this.mediaService.addToWatchHistory(this.media);
+    this.mediaService.setCurrentMedia(this.media.id);
   }
 
   onLoadMetadata() {
