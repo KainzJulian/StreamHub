@@ -28,27 +28,32 @@ export class MediaTemplate implements OnInit, OnDestroy {
 
   constructor(private mediaService: MediaService) {}
 
-  setTimeOfVideo() {
+  ngOnDestroy(): void {
+    window.addEventListener('beforeunload', this.onPauseVideo);
+  }
+
+  ngOnInit(): void {
+    window.addEventListener('beforeunload', this.onPauseVideo);
+  }
+
+  onPauseVideo() {
+    const time = this.video?.nativeElement.currentTime;
+    const id = this.media?.id;
+    if (id && time)
+      navigator.sendBeacon(MediaRoutes.SET_TIME_WATCHED(id, Math.floor(time)));
+  }
+
+  onPlayVideo() {
+    if (!this.media) return;
+    this.mediaService.addToWatchHistory(this.media);
+  }
+
+  onLoadMetadata() {
     this.mediaService.getWatchTime(this.media?.id)?.subscribe((response) => {
       console.log(response);
 
       if (this.video) this.video.nativeElement.currentTime = response.data;
     });
-  }
-
-  ngOnDestroy(): void {
-    window.addEventListener('beforeunload', this.saveTime);
-  }
-
-  ngOnInit(): void {
-    window.addEventListener('beforeunload', this.saveTime);
-  }
-
-  saveTime() {
-    const time = this.video?.nativeElement.currentTime;
-    const id = this.media?.id;
-    if (id && time)
-      navigator.sendBeacon(MediaRoutes.SET_TIME_WATCHED(id, Math.floor(time)));
   }
 
   togglePlay(): void {

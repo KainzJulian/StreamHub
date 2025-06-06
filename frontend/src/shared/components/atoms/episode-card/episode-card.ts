@@ -53,18 +53,14 @@ export class EpisodeCard implements OnInit {
   }
 
   clickButton() {
-    console.log('Click Button', this.episode);
+    if (!this.episode) return;
 
-    if (this.episode) {
-      this.mediaService.addToWatchHistory(this.episode);
+    this.mediaRouterService.openSeriesPlayer(
+      this.seriesID == null ? '' : this.seriesID,
+      this.episode.id
+    );
 
-      this.mediaRouterService.openSeriesPlayer(
-        this.seriesID == null ? '' : this.seriesID,
-        this.episode.id
-      );
-
-      this.onClick.emit(this.episode);
-    }
+    this.onClick.emit(this.episode);
   }
 
   isInProgress(): boolean {

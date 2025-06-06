@@ -6,8 +6,9 @@
   class="videoPlayer"
   [src]="this.videoSource"
   type="video/mp4"
-  (pause)="this.saveTime()"
-  (loadedmetadata)="this.setTimeOfVideo()"
+  (pause)="this.onPauseVideo()"
+  (loadedmetadata)="this.onLoadMetadata()"
+  (play)="this.onPlayVideo()"
 ></video>
 
 <div class="info">

@@ -92,8 +92,6 @@ export class MediaService {
   }
 
   public addToWatchHistory(media: Media) {
-    console.log('Add to watch history: ', media);
-
     this.http
       .post<BackendResponse<boolean>>(
         WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, media.type),
