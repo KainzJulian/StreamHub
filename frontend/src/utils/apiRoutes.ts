@@ -8,6 +8,7 @@ export const MovieRoutes = {
   PERCENT_WATCHED: (movieID: string) =>
     `${BASE_URL}/movies/${movieID}/percent_watched`,
   HIGHEST_RATED: (limit: number) => `${BASE_URL}/movies/highest_rated/${limit}`,
+  RANDOM: (limit: number) => `${BASE_URL}/movies/random/${limit}`,
 };
 
 export const SeriesRoutes = {
@@ -18,6 +19,7 @@ export const SeriesRoutes = {
   PERCENT_WATCHED: (seriesID: string) =>
     `${BASE_URL}/series/${seriesID}/percent_watched`,
   HIGHEST_RATED: (limit: number) => `${BASE_URL}/series/highest_rated/${limit}`,
+  RANDOM: (limit: number) => `${BASE_URL}/series/random/${limit}`,
 };
 
 export const EpisodeRoutes = {

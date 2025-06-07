@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Media } from '../types/media';
-import { Series } from '../types/series';
 import { Episode } from '../types/seriesEpisode';
-import { Movie } from '../types/movie';
 import { MediaService } from './media.service';
 
 @Injectable({
@@ -15,23 +13,15 @@ export class MediaRouterService {
   constructor(private router: Router, private mediaService: MediaService) {}
 
   public openMediaPlayer(media: Media) {
-    const route = this.checkMedia(media);
+    let route: string = '';
+
+    if (media instanceof Episode) route = `/series/${media.seriesID}/player`;
+
+    if (media.type === 'Series') route = '/series';
+
+    if (media.type === 'Movie') route = `/movie/player`;
 
     this.router.navigate([route, media.id]);
-  }
-
-  private checkMedia(media: Media): string {
-    if (media instanceof Episode) {
-      return `/series/${media.seriesID}/player`;
-    }
-
-    if (media instanceof Series) return '/series';
-
-    if (media instanceof Movie) {
-      return '/movie/player';
-    }
-
-    return '';
   }
 
   public openSeriesPlayer(seriesID: string, id: string) {

@@ -27,6 +27,15 @@ export class MediaPage {
     this.route.data.subscribe((data) => {
       const type = data['type'];
 
+      if (type === 'series')
+        this.mediaService
+          .getRandomSeries(1)
+          .subscribe((response) => this.media.set(response.data[0]));
+      else if (type === 'movies')
+        this.mediaService
+          .getRandomMovie(1)
+          .subscribe((response) => this.media.set(response.data[0]));
+
       this.mediaService.getMediaList(type).subscribe((response) => {
         if (!response.success) throw new Error(response.error);
 
@@ -43,12 +52,6 @@ export class MediaPage {
           console.error('No Media Was found');
           return;
         }
-      });
-
-      this.mediaService.getRandomMediaList(1).subscribe((response) => {
-        if (!response.success) throw new Error(response.error);
-
-        this.media.set(response.data[0]);
       });
     });
   }

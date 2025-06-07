@@ -124,6 +124,14 @@ export class MediaService {
     );
   }
 
+  public getRandomMovie(limit: number): Observable<BackendResponse<Media[]>> {
+    return this.http.get<BackendResponse<Movie[]>>(MovieRoutes.RANDOM(limit));
+  }
+
+  public getRandomSeries(limit: number): Observable<BackendResponse<Media[]>> {
+    return this.http.get<BackendResponse<Series[]>>(SeriesRoutes.RANDOM(limit));
+  }
+
   public getSearch(input: string): Observable<BackendResponse<Media[]>> {
     return this.http.get<BackendResponse<Media[]>>(MediaRoutes.SEARCH(input));
   }
