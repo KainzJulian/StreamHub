@@ -2,8 +2,6 @@
 
 <div class="media-list">
   @for (media of this.mediaList; track $index) {
-  <div class="media-list__item">
-    <media-card [title]="media.title" [media]="media"></media-card>
-  </div>
+  <media-card [title]="media.title" [media]="media"></media-card>
   }
 </div>

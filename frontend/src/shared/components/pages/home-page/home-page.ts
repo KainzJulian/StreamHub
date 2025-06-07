@@ -63,7 +63,7 @@ export class HomePage implements OnInit {
   private setWatchHistory() {
     const mediaList: Media[] = [];
 
-    this.mediaService.getWatchHistory(10).subscribe((response) => {
+    this.mediaService.getWatchHistory(20).subscribe((response) => {
       response.data.forEach((item) => {
         if (item.type == 'Movie') mediaList.push(new Movie(item));
         if (item.type == 'Episode') mediaList.push(new Episode(item));
