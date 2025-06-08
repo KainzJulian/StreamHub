@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { MediaGenre } from '../../../types/genre';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'genre',
@@ -9,5 +8,14 @@ import { MediaGenre } from '../../../types/genre';
   styleUrl: './genre.scss',
 })
 export class Genre {
-  @Input() genre?: MediaGenre;
+  @Input() genre?: string;
+
+  @Output() onClick = new EventEmitter<string>();
+
+  onGenreClicked() {
+    if (!this.genre)
+      throw new Error('onGenreClicked not triggered: this.genre is undefined');
+
+    this.onClick.emit(this.genre);
+  }
 }

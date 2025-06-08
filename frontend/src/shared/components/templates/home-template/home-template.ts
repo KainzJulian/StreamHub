@@ -11,4 +11,6 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeTemplate {
   @Input() showSearch: boolean = true;
+  @Input() showEditButton: boolean = false;
+  @Input() mediaID: string | undefined;
 }

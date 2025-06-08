@@ -36,4 +36,8 @@ export class MediaRouterService {
   openSearch(input: string) {
     this.router.navigate(['/search', input]);
   }
+
+  openEditPage(id: string) {
+    this.router.navigate(['/edit', id]);
+  }
 }

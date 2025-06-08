@@ -1,0 +1,52 @@
+<home-template class="container">
+  <div class="input-group">
+    <p>Title</p>
+    <input type="text" #inputTitle placeholder="Title" maxlength="300" />
+
+    <p>Desciption</p>
+    <input type="text" #inputDesc placeholder="Desciption" maxlength="10000" />
+
+    <p>Genres</p>
+    <input type="text" #inputGenres placeholder="Genres" maxlength="1000" />
+    <div class="genre-group">
+      @for (item of this.getAllGenres(); track $index) {
+      <genre
+        (onClick)="this.addGenreToList($event)"
+        class="hover-effect"
+        [genre]="item"
+      ></genre>
+      }
+    </div>
+
+    <p>Complete</p>
+    <input type="checkbox" #inputComplete placeholder="Complete" />
+
+    <p>Rating</p>
+    <input
+      type="string"
+      #inputRating
+      placeholder="Rating"
+      min="0"
+      max="100"
+      (keyup)="this.checkRating()"
+    />
+  </div>
+
+  <div class="button-group">
+    <base-button
+      title="Save Changes"
+      class="header__button"
+      (onClick)="this.onSavePressed()"
+    >
+      <icon iconName="save"></icon>
+    </base-button>
+
+    <base-button
+      title="Cancel"
+      class="header__button"
+      (onClick)="this.onCancelPressed()"
+    >
+      <icon iconName="cancel"></icon>
+    </base-button>
+  </div>
+</home-template>

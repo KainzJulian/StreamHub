@@ -1,4 +1,4 @@
-<home-template>
+<home-template [mediaID]="this.currentEpisode()?.id" [showEditButton]="true">
   <media-template
     *ngIf="this.currentEpisode() != null"
     [media]="this.currentEpisode()"

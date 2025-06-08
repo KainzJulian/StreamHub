@@ -1,4 +1,4 @@
-<home-template>
+<home-template [mediaID]="this.series()?.id" [showEditButton]="true">
   <banner
     *ngIf="this.series() != null"
     [media]="this.series()"

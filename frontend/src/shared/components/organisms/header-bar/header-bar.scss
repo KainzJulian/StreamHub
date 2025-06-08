@@ -15,21 +15,23 @@
 
   display: flex;
   flex-direction: row;
-  gap: $gap--xlarge;
 
   z-index: 9999;
 }
 
-base-button.header__button:first-of-type {
-  margin-left: 120px;
-
+.button-group {
+  display: flex;
+  flex-direction: row;
   height: 100%;
-}
 
-base-button.header__button:last-of-type {
-  margin-right: auto;
+  &__router {
+    margin-left: 120px;
+    gap: $gap--xlarge;
+  }
 
-  height: 100%;
+  &__operater {
+    margin-left: auto;
+  }
 }
 
 .header__icon {
@@ -42,12 +44,4 @@ base-button.header__button:last-of-type {
 
 p {
   font-size: $text-size--big;
-}
-
-.search__input {
-  background-color: transparent;
-  border: none;
-  color: white;
-  outline: none;
-  font-size: $text-size--mid;
 }

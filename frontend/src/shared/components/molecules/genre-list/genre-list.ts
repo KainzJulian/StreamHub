@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MediaGenre } from '../../../types/genre';
 import { Genre } from '../../atoms/genre/genre';
 
 @Component({
@@ -10,5 +9,5 @@ import { Genre } from '../../atoms/genre/genre';
   styleUrl: './genre-list.scss',
 })
 export class GenreList {
-  @Input() genres: MediaGenre[] | undefined | null;
+  @Input() genres: string[] | undefined | null;
 }

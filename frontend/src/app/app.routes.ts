@@ -5,6 +5,7 @@ import { SeriesOverviewPage } from '../shared/components/pages/series-overview-p
 import { MoviePage } from '../shared/components/pages/movie-page/movie-page';
 import { SeriesPage } from '../shared/components/pages/series-page/series-page';
 import { SearchPage } from '../shared/components/pages/search-page/search-page';
+import { EditPage } from '../shared/components/pages/edit-page/edit-page';
 
 export const routes: Routes = [
   {
@@ -40,5 +41,9 @@ export const routes: Routes = [
   {
     path: 'search/:input',
     component: SearchPage,
+  },
+  {
+    path: 'edit/:id',
+    component: EditPage,
   },
 ];

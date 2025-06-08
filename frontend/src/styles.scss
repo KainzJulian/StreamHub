@@ -94,3 +94,20 @@ body {
 .prevent-select {
   user-select: none;
 }
+
+.input {
+  background-color: transparent;
+  border: none;
+  border-radius: $radius--small;
+
+  color: white;
+  outline: none;
+  font-size: $text-size--mid;
+
+  &--outlined {
+    @extend .input;
+
+    margin: auto;
+    outline: 3px solid $highlight--transparent;
+  }
+}

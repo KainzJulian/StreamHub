@@ -4,7 +4,7 @@ from classes.media_genre import MediaGenre
 
 
 class Media(BaseModel):
-    id: str  # generated from uuid5(SeriesName) SeriesName = "Attack on Titan"
+    id: str
 
     title: str | None = None
     description: str | None = None

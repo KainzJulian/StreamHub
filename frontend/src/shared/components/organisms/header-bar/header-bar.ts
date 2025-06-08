@@ -15,11 +15,18 @@ import { CommonModule } from '@angular/common';
 export class HeaderBar {
   @ViewChild('input') input!: ElementRef;
   @Input() showSearch: boolean = false;
+  @Input() showEditButton: boolean = false;
+  @Input() mediaID: string | undefined;
 
   constructor(private mediaRouter: MediaRouterService) {}
 
   openSearch(input: string) {
     if (input === '') return;
     this.mediaRouter.openSearch(input);
+  }
+
+  onEditButtonClicked() {
+    if (!this.mediaID) throw new Error('mediaID is null');
+    this.mediaRouter.openEditPage(this.mediaID);
   }
 }

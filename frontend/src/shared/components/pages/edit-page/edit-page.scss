@@ -1,0 +1,33 @@
+@import "@styles";
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  gap: $gap--xxlarge;
+
+  align-items: center;
+}
+
+.input-group {
+  width: 70%;
+}
+
+.button-group {
+  height: 50px;
+
+  width: auto;
+
+  display: flex;
+  flex-direction: row;
+
+  gap: $gap--large;
+}
+
+input {
+  @extend .input--outlined;
+}
+
+.genre-group {
+  display: flex;
+}

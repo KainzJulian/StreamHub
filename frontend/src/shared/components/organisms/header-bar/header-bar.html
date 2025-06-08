@@ -1,41 +1,51 @@
-<base-button
-  routerLink="/"
-  routerLinkActive="active"
-  ariaCurrentWhenActive="page"
-  class="header__button"
->
-  <p class="button__text">Home</p>
-</base-button>
-
-<base-button
-  routerLink="/movies"
-  routerLinkActive="active"
-  ariaCurrentWhenActive="page"
-  class="header__button"
->
-  <p class="button__text">Movies</p>
-</base-button>
-
-<base-button
-  routerLink="/series"
-  routerLinkActive="active"
-  ariaCurrentWhenActive="page"
-  class="header__button"
->
-  <p class="button__text">Series</p>
-</base-button>
-
-<ng-container *ngIf="showSearch">
-  <base-button (onClick)="this.openSearch(input.value)" class="header__icon">
-    <icon iconName="search" alt="Search" />
+<div class="button-group button-group__router">
+  <base-button
+    routerLink="/"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+    class="header__button"
+  >
+    <p class="button__text">Home</p>
   </base-button>
 
-  <input
-    (keydown.enter)="this.openSearch(input.value)"
-    class="search__input"
-    type="text"
-    #input
-    placeholder="Search..."
-    maxlength="100"
-  />
-</ng-container>
+  <base-button
+    routerLink="/movies"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+    class="header__button"
+  >
+    <p class="button__text">Movies</p>
+  </base-button>
+
+  <base-button
+    routerLink="/series"
+    routerLinkActive="active"
+    ariaCurrentWhenActive="page"
+    class="header__button"
+  >
+    <p class="button__text">Series</p>
+  </base-button>
+</div>
+
+<div class="button-group button-group__operater">
+  <ng-container *ngIf="showEditButton">
+    <base-button (onClick)="this.onEditButtonClicked()" class="header__button">
+      <p>Edit</p>
+    </base-button>
+  </ng-container>
+
+  <ng-container *ngIf="showSearch">
+    <base-button (onClick)="this.openSearch(input.value)" class="header__icon">
+      <icon iconName="search" alt="Search" />
+    </base-button>
+
+    <input
+      (keydown.enter)="this.openSearch(input.value)"
+      class="input"
+      type="text"
+      #input
+      placeholder="Search..."
+      maxlength="100"
+    />
+  </ng-container>
+</div>
