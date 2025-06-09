@@ -43,6 +43,7 @@ export const MediaRoutes = {
     `${BASE_URL}/media/${mediaID}/time?time_in_seconds=${timeInSeconds}`,
   GET_TIME_WATCHED: (mediaID: string) =>
     `${BASE_URL}/media/${mediaID}/time_watched`,
+  PUT_DATA: (mediaID: string) => `${BASE_URL}/media/${mediaID}/data`,
 };
 
 export const CurrentMediaRoutes = {

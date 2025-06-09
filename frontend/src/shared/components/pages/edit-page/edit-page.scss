@@ -42,3 +42,11 @@ textarea {
   display: flex;
   @include margin-vertical();
 }
+
+.rating {
+  width: 3.1rem;
+}
+
+.title {
+  width: 100%;
+}

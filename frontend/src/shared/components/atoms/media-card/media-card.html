@@ -11,12 +11,15 @@
     <div class="card__media-type">
       <p class="prevent-select">{{this.media?.type}}</p>
     </div>
+
     <div *ngIf="!this.media?.isComplete" class="card__complete circle"></div>
+
     <div
       *ngIf="isInProgress()"
       [ngStyle]="{width: this.progressBarWidth() + '%'}"
       class="card__progress"
     ></div>
+
     <div
       *ngIf="isInProgress() "
       class="card__progress card__progress__background"

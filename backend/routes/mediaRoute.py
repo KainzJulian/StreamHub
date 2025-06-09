@@ -1,5 +1,6 @@
 import math
 from random import choice
+from typing import TypedDict
 from fastapi import APIRouter, HTTPException
 from pymongo import DESCENDING
 
@@ -216,5 +217,39 @@ def getTimeWatched(media_id: str) -> Response[int]:
 
         return Response.Success(time)
 
+    except Exception as e:
+        return Response.Error(e)
+
+
+@mediaRouter.put("/{media_id}/data")
+def updateData(media_id: str, media: Media) -> Response[bool]:
+
+    pipelineSet = {
+        "$set": {
+            "title": media.title,
+            "description": media.description,
+            "genreList": media.genreList,
+            "isComplete": media.isComplete,
+            "rating": media.rating,
+        }
+    }
+
+    try:
+
+        updatedDocument: bool = False
+
+        if media.type == "Episode":
+            episodesCollection.update_one({"id": media_id}, pipelineSet)
+            updatedDocument = True
+
+        if media.type == "Series":
+            seriesCollection.update_one({"id": media_id}, pipelineSet)
+            updatedDocument = True
+
+        if media.type == "Movie":
+            movieCollection.update_one({"id": media_id}, pipelineSet)
+            updatedDocument = True
+
+        return Response.Success(updatedDocument)
     except Exception as e:
         return Response.Error(e)

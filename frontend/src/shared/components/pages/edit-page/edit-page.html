@@ -4,16 +4,15 @@
     <input
       [(ngModel)]="title"
       type="text"
-      #inputTitle
       placeholder="Title"
-      maxlength="300"
+      maxlength="150"
+      class="title"
     />
 
     <p>Desciption</p>
     <textarea
       [(ngModel)]="description"
       type="text"
-      #inputDesc
       placeholder="Desciption"
       maxlength="10000"
       rows="8"
@@ -35,22 +34,17 @@
     </ng-container>
 
     <p>Complete</p>
-    <input
-      [(ngModel)]="complete"
-      type="checkbox"
-      #inputComplete
-      placeholder="Complete"
-    />
+    <input [(ngModel)]="complete" type="checkbox" placeholder="Complete" />
 
     <p>Rating</p>
     <input
+      class="rating"
       [(ngModel)]="rating"
       type="string"
-      #inputRating
-      placeholder="Rating"
       min="0"
       max="100"
-      (keyup)="this.checkRating()"
+      maxlength="3"
+      (keyup)="this.getRating()"
     />
   </div>
 

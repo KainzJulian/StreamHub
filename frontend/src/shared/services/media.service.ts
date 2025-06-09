@@ -136,10 +136,19 @@ export class MediaService {
     return this.http.get<BackendResponse<Media[]>>(MediaRoutes.SEARCH(input));
   }
 
-  public getWatchTime(id: string | undefined) {
-    if (!id) return;
+  public getWatchTime(
+    id: string | undefined
+  ): Observable<BackendResponse<number>> {
+    if (!id) throw new Error('Provided ID is undefined');
     return this.http.get<BackendResponse<number>>(
       MediaRoutes.GET_TIME_WATCHED(id)
+    );
+  }
+
+  updateData(media: Media): Observable<BackendResponse<boolean>> {
+    return this.http.put<BackendResponse<boolean>>(
+      MediaRoutes.PUT_DATA(media.id),
+      media
     );
   }
 }

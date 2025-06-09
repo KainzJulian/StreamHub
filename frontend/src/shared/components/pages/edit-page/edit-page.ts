@@ -1,10 +1,16 @@
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { HomeTemplate } from '../../templates/home-template/home-template';
 import { BaseButton } from '../../atoms/base-button/base-button';
 import { Icon } from '../../atoms/icon/icon';
 import { MediaGenre } from '../../../types/genre';
 import { Genre } from '../../atoms/genre/genre';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Media } from '../../../types/media';
 import { MediaService } from '../../../services/media.service';
 import { ActivatedRoute } from '@angular/router';
@@ -28,13 +34,14 @@ export class EditPage {
   public complete: boolean = false;
   public rating: number = 0;
 
-  private genreList = new Set<string>();
+  private genreList = new Set<MediaGenre>();
 
   public media = signal<Media | null>(null);
 
   constructor(
     private mediaService: MediaService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private location: Location
   ) {
     const id = this.activeRoute.snapshot.paramMap.get('id');
     if (!id) throw new Error('ID is null or undefined expected value');
@@ -46,6 +53,12 @@ export class EditPage {
       this.description = data.description ?? '';
       this.complete = data.isComplete;
       this.rating = data.rating ?? 0;
+
+      data.genreList?.forEach((genre) => {
+        this.genreList.add(genre);
+      });
+
+      console.log(this.genreList);
     });
   }
 
@@ -54,34 +67,36 @@ export class EditPage {
   }
 
   onCancelPressed() {
-    throw new Error('Method not implemented.');
+    this.location.back();
   }
 
-  checkRating(): number {
-    let rating = this.inputRating.nativeElement.value;
-
-    if (typeof rating !== 'number' && isNaN(rating)) {
-      this.inputRating.nativeElement.value = 0;
-      return 0;
+  getRating(): number {
+    if (typeof this.rating !== 'number' && isNaN(this.rating)) {
+      this.rating = 0;
+      return this.rating;
     }
 
-    if (rating < 0) rating = 0;
-    else if (rating > 100) rating = 100;
+    if (this.rating < 0) this.rating = 0;
+    else if (this.rating > 100) this.rating = 100;
 
-    this.inputRating.nativeElement.value = Number(rating);
-    return rating;
+    return this.rating;
   }
 
   onSavePressed() {
-    const title = this.inputTitle.nativeElement.value;
-    const description = this.inputDesc.nativeElement.value;
-    const complete = this.inputComplete.nativeElement.checked;
-    const rating = this.checkRating();
+    const media = this.media();
+    if (!media) throw new Error('Media is null');
 
-    console.log(title);
-    console.log(description);
-    console.log(complete);
-    console.log(rating);
+    media.description = this.description;
+    media.title = this.title;
+    media.rating = this.getRating();
+    media.genreList = Array.from(this.genreList);
+    media.isComplete = this.complete;
+
+    this.mediaService.updateData(media).subscribe((response) => {
+      if (response.error) throw new Error(response.error);
+
+      this.location.back();
+    });
   }
 
   getAllGenres(): string[] {
@@ -89,11 +104,28 @@ export class EditPage {
   }
 
   addGenreToList(genre: string) {
-    if (this.isGenreActive(genre)) this.genreList.delete(genre);
-    else this.genreList.add(genre);
+    const genreType = genre as MediaGenre;
+    if (this.isGenreActive(genre)) this.genreList.delete(genreType);
+    else this.genreList.add(genreType);
   }
 
   isGenreActive(genre: string): boolean {
-    return this.genreList.has(genre);
+    const genreType = genre as MediaGenre;
+    return this.genreList.has(genreType);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  eventName(event: KeyboardEvent) {
+    const keyPressed = event.key.toLowerCase();
+
+    if ((event.ctrlKey || event.metaKey) && keyPressed === 's') {
+      event.preventDefault();
+      this.onSavePressed();
+    }
+
+    if (keyPressed === 'escape') {
+      event.preventDefault();
+      this.onCancelPressed();
+    }
   }
 }
