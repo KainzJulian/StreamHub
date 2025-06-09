@@ -1,15 +1,19 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { HomeTemplate } from '../../templates/home-template/home-template';
 import { BaseButton } from '../../atoms/base-button/base-button';
 import { Icon } from '../../atoms/icon/icon';
-import { GenreList } from '../../molecules/genre-list/genre-list';
 import { MediaGenre } from '../../../types/genre';
 import { Genre } from '../../atoms/genre/genre';
+import { CommonModule } from '@angular/common';
+import { Media } from '../../../types/media';
+import { MediaService } from '../../../services/media.service';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'edit-page',
   standalone: true,
-  imports: [HomeTemplate, BaseButton, Icon, GenreList, Genre],
+  imports: [FormsModule, CommonModule, HomeTemplate, BaseButton, Icon, Genre],
   templateUrl: './edit-page.html',
   styleUrl: './edit-page.scss',
 })
@@ -19,7 +23,35 @@ export class EditPage {
   @ViewChild('inputComplete') inputComplete!: ElementRef;
   @ViewChild('inputRating') inputRating!: ElementRef;
 
+  public title: string = '';
+  public description: string = '';
+  public complete: boolean = false;
+  public rating: number = 0;
+
   private genreList = new Set<string>();
+
+  public media = signal<Media | null>(null);
+
+  constructor(
+    private mediaService: MediaService,
+    private activeRoute: ActivatedRoute
+  ) {
+    const id = this.activeRoute.snapshot.paramMap.get('id');
+    if (!id) throw new Error('ID is null or undefined expected value');
+
+    this.mediaService.getMedia(id).subscribe((response) => {
+      const data = response.data;
+      this.media.set(data);
+      this.title = data.title ?? '';
+      this.description = data.description ?? '';
+      this.complete = data.isComplete;
+      this.rating = data.rating ?? 0;
+    });
+  }
+
+  checkMediaType(type: string): boolean {
+    return this.media()?.type === type;
+  }
 
   onCancelPressed() {
     throw new Error('Method not implemented.');
@@ -57,7 +89,11 @@ export class EditPage {
   }
 
   addGenreToList(genre: string) {
-    this.genreList.add(genre);
-    console.log(this.genreList);
+    if (this.isGenreActive(genre)) this.genreList.delete(genre);
+    else this.genreList.add(genre);
+  }
+
+  isGenreActive(genre: string): boolean {
+    return this.genreList.has(genre);
   }
 }

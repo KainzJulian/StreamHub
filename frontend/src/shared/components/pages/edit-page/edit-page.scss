@@ -1,4 +1,8 @@
 @import "@styles";
+@mixin margin-vertical() {
+  margin-top: $gap--small;
+  margin-bottom: $gap--large;
+}
 
 .container {
   display: flex;
@@ -26,8 +30,15 @@
 
 input {
   @extend .input--outlined;
+  @include margin-vertical();
+}
+
+textarea {
+  @extend .textarea;
+  @include margin-vertical();
 }
 
 .genre-group {
   display: flex;
+  @include margin-vertical();
 }

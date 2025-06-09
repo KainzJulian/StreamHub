@@ -107,7 +107,21 @@ body {
   &--outlined {
     @extend .input;
 
+    padding: $gap--small $gap--mid $gap--small $gap--mid;
+
     margin: auto;
     outline: 3px solid $highlight--transparent;
   }
+}
+
+.textarea {
+  background-color: $color-secondary;
+  outline: none;
+  border: none;
+  border-radius: $radius--small;
+
+  width: 100%;
+  resize: none;
+
+  padding: $gap--small $gap--mid $gap--small $gap--mid;
 }

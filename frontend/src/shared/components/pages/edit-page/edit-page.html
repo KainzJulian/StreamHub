@@ -1,28 +1,50 @@
 <home-template class="container">
   <div class="input-group">
     <p>Title</p>
-    <input type="text" #inputTitle placeholder="Title" maxlength="300" />
+    <input
+      [(ngModel)]="title"
+      type="text"
+      #inputTitle
+      placeholder="Title"
+      maxlength="300"
+    />
 
     <p>Desciption</p>
-    <input type="text" #inputDesc placeholder="Desciption" maxlength="10000" />
+    <textarea
+      [(ngModel)]="description"
+      type="text"
+      #inputDesc
+      placeholder="Desciption"
+      maxlength="10000"
+      rows="8"
+      cols="100"
+    ></textarea>
 
-    <p>Genres</p>
-    <input type="text" #inputGenres placeholder="Genres" maxlength="1000" />
-    <div class="genre-group">
-      @for (item of this.getAllGenres(); track $index) {
-      <genre
-        (onClick)="this.addGenreToList($event)"
-        class="hover-effect"
-        [genre]="item"
-      ></genre>
-      }
-    </div>
+    <ng-container *ngIf="!this.checkMediaType('Episode')">
+      <p>Genres</p>
+      <div class="genre-group">
+        @for (item of this.getAllGenres(); track $index) {
+        <genre
+          (onClick)="this.addGenreToList($event)"
+          class="hover-effect"
+          [genre]="item"
+          [ngClass]="{active: this.isGenreActive(item)}"
+        ></genre>
+        }
+      </div>
+    </ng-container>
 
     <p>Complete</p>
-    <input type="checkbox" #inputComplete placeholder="Complete" />
+    <input
+      [(ngModel)]="complete"
+      type="checkbox"
+      #inputComplete
+      placeholder="Complete"
+    />
 
     <p>Rating</p>
     <input
+      [(ngModel)]="rating"
       type="string"
       #inputRating
       placeholder="Rating"
