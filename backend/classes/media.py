@@ -20,3 +20,5 @@ class Media(BaseModel):
     rating: int | None = None
 
     watched: bool = False
+
+    mediaPath: str

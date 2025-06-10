@@ -24,6 +24,8 @@ def saveFilesToDB() -> None:
 
     print("Adding Episodes to Series...")
 
+    seriesMediaPath = seriesPath.split("/")[-1]
+
     for name in scandir.listdir(seriesPath):
         uploadEpisodesToSeries(seriesPath, name)
 

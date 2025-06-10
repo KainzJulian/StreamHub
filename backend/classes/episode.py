@@ -5,8 +5,6 @@ from classes.media import Media
 
 
 class Episode(Media):
-    mediaPath: str
-
     episode: int | None = None
     season: int
 

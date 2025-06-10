@@ -90,7 +90,6 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
 
             episodeName = os.path.splitext(file)[0]
 
-            # series/1/1
             mediaPathString = f"{relativePathString}/{season}/{episodeName}"
 
             episodeID = str(uuid5(uuid.NAMESPACE_DNS, mediaPathString))
@@ -105,19 +104,14 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
             match = re.match(r"(\d+)\s*-\s*(.+)", episodeName)
 
             if match:
-                print("match found")
                 episode = int(match.group(1))
                 title = str(match.group(2))
             else:
                 title = episodeName
                 episode = extractEpisodeNumber(episodeName)
 
-            print(episode)
-            print(title)
-
             mediaPath = mediaPathString.split("/")
-
-            seriesID = str(uuid5(uuid.NAMESPACE_DNS, mediaPath[-3]))
+            seriesID = str(uuid5(uuid.NAMESPACE_DNS, relativePathString))
 
             episodeRoute.addEpisode(
                 Episode(

@@ -78,14 +78,19 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
 
     try:
 
-        seriesTitle = seriesCollection.find_one({"id": series_id}, {"title": True})
+        seriesMediaPath = seriesCollection.find_one(
+            {"id": series_id}, {"mediaPath": True}
+        )
 
         episodeList = list(
             episodesCollection.find({"seriesID": series_id}, {"_id": False})
         )
 
-        if seriesTitle != None:
-            uploadEpisodesToSeries(seriesPath, seriesTitle["title"])
+        if seriesMediaPath != None:
+            uploadEpisodesToSeries(
+                seriesPath,
+                seriesMediaPath["mediaPath"].split("/")[-1],
+            )
 
         if episodeList == None:
             return Response.Error(
@@ -127,14 +132,15 @@ def getPercentWatched(series_id: str) -> Response[int]:
 def getThumbnailBanner(series_id: str):
 
     try:
-        series = seriesCollection.find_one({"id": series_id}, {"title": True})
+        series = seriesCollection.find_one({"id": series_id}, {"mediaPath": True})
 
         if series == None:
             raise HTTPException(
                 status_code=404, detail="No Series with the ID: " + series_id
             )
 
-        seriesName = series["title"]
+        seriesMediaPath: str = series["mediaPath"]
+        seriesName = seriesMediaPath.split("/")[-1]
         thumbnail = getThumbnailPaths(seriesName, f"{seriesPath}/{seriesName}")
 
         if not os.path.exists(thumbnail[0]):
@@ -155,15 +161,18 @@ def getThumbnailBanner(series_id: str):
 def getThumbnail(series_id: str):
 
     try:
-        series = seriesCollection.find_one({"id": series_id}, {"title": True})
+        series = seriesCollection.find_one({"id": series_id}, {"mediaPath": True})
 
         if series == None:
             raise HTTPException(
                 status_code=404, detail="No Series with the ID: " + series_id
             )
 
-        seriesName = series["title"]
-        thumbnail = getThumbnailPaths(seriesName, f"{seriesPath}/{seriesName}")
+        seriesMediaPath: str = series["mediaPath"]
+        seriesName = seriesMediaPath.split("/")[-1]
+        thumbnail = getThumbnailPaths(
+            seriesName, f"{seriesPath}/{seriesName.split("/")[-1]}"
+        )
 
         originalThumbnailPath = thumbnail[0]
         previewThumbnailPath = thumbnail[1]
