@@ -101,26 +101,29 @@ export class MediaTemplate implements OnInit, OnDestroy {
     if (tag === 'input' || tag === 'textarea' || target.isContentEditable)
       return;
 
-    event.preventDefault();
-
     switch (event.key) {
       case ' ':
         event.preventDefault();
         this.togglePlay();
         break;
       case 'ArrowRight':
+        event.preventDefault();
         this.seek(5);
         break;
       case 'ArrowLeft':
+        event.preventDefault();
         this.seek(-5);
         break;
       case 'f':
+        event.preventDefault();
         this.toggleFullscreen();
         break;
       case ',':
+        event.preventDefault();
         this.stepFrame(-1);
         break;
       case '.':
+        event.preventDefault();
         this.stepFrame(1);
         break;
     }
