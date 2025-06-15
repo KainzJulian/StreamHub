@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 
-app.add_event_handler("startup", saveFilesToDB)
+# app.add_event_handler("startup", saveFilesToDB)
 
 print("Docs: http://127.0.0.1:8000/docs#/")
 

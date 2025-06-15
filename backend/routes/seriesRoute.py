@@ -3,6 +3,7 @@ from PIL import Image
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pymongo import DESCENDING
+from sympy import false
 
 from classes.episode import Episode
 from utils.save_to_db import uploadEpisodesToSeries
@@ -259,5 +260,38 @@ def getHighestRatedSeries(limit: int) -> Response[list[Series]]:
         )
         return Response.Success(series)
 
+    except Exception as e:
+        return Response.Error(e)
+
+
+@seriesRouter.post("/{series_id}/watched")
+def updateWatchedFlag(series_id: str) -> Response[bool]:
+
+    watched = True
+
+    try:
+
+        series = getSeriesWithEpisodesByID(series_id).data
+
+        if series == None:
+            return Response.Error(
+                Exception("No Series with the given id found: ID=" + series_id)
+            )
+
+        episodeList: list[Episode]
+        if isinstance(series, dict):
+            episodeList = series["episodeList"]
+        else:
+            episodeList = series.episodeList
+
+        for episode in episodeList:
+            if episode.watched == False or episode.watched == None:
+                watched = False
+
+        seriesCollection.find_one_and_update(
+            {"id": series_id}, {"$set": {"watched": watched}}
+        )
+
+        return Response.Success(True)
     except Exception as e:
         return Response.Error(e)

@@ -54,9 +54,6 @@ def removeFromWatchHistory(media_id: str):
 
 @watchHistoryRouter.post("/add/{media_id}")
 def addToWatchHistory(media_id: str, media_type: str) -> Response[bool]:
-
-    print(media_id)
-
     try:
 
         id = getLastWatchedMediaID()
@@ -74,8 +71,7 @@ def addToWatchHistory(media_id: str, media_type: str) -> Response[bool]:
         return Response.Success(True)
 
     except Exception as e:
-        raise e
-        # return Response.Error(e)
+        return Response.Error(e)
 
 
 def getLastWatchedMediaID():
