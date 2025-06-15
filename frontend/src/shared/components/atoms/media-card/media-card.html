@@ -24,6 +24,10 @@
       *ngIf="isInProgress() "
       class="card__progress card__progress__background"
     ></div>
+
+    <div class="card__watched" *ngIf="this.media?.watched">
+      <icon class="icon--small" iconName="checkmark" />
+    </div>
   </div>
 </div>
 

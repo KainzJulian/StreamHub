@@ -48,6 +48,8 @@ export class SearchPage implements OnInit {
   }
 
   public setMediaList(input: string) {
+    if (this.checkInput(input)) return;
+
     this.mediaService.getSearch(input).subscribe((response) => {
       console.log(response);
 
@@ -64,5 +66,13 @@ export class SearchPage implements OnInit {
       this.mediaList.set(mediaList);
       console.log('medialist', mediaList);
     });
+  }
+
+  checkInput(input: string): boolean {
+    const trimmed = input.trim();
+    if (trimmed === '') return true;
+    if (trimmed.indexOf('/') !== -1) return true;
+
+    return false;
   }
 }

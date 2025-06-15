@@ -91,6 +91,22 @@ $base-height: 5px;
     bottom: 0px;
   }
 
+  &__watched {
+    position: absolute;
+    bottom: $gap--mid;
+
+    background-color: $downlight--transparent;
+    backdrop-filter: $blur--mid;
+
+    padding: 8px;
+
+    border-radius: $radius--small;
+
+    p {
+      font-size: $text-size--small;
+    }
+  }
+
   &__media-type {
     background-color: $downlight--transparent;
     backdrop-filter: $blur--mid;

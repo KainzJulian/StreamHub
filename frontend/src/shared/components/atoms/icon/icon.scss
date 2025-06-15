@@ -1,3 +1,15 @@
+:host(.icon--small) {
+  .icon {
+    width: 16px;
+    height: 16px;
+
+    display: grid;
+    place-items: center;
+
+    margin: auto;
+  }
+}
+
 .icon {
   width: 25px;
   height: 25px;

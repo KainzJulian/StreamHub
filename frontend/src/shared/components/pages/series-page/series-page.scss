@@ -6,7 +6,7 @@
   align-items: center;
 
   &__series {
-    font-size: $text-size--big;
+    font-size: $text-size--xbig;
   }
 
   &__season {
@@ -14,11 +14,12 @@
   }
 
   &__episode {
-    margin-top: $gap--xlarge;
+    margin-top: $gap--xsmall;
   }
 
   &__episode-title {
-    margin-top: $gap--xsmall;
+    font-size: $text-size--big;
+    margin-top: $gap--xlarge;
   }
 }
 
@@ -39,7 +40,7 @@
   flex-direction: column;
 
   background-color: $downlight--transparent;
-  backdrop-filter: $blur--small;
+  backdrop-filter: $blur--large;
 
   position: absolute;
   z-index: 999;

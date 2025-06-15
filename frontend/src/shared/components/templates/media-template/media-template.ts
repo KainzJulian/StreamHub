@@ -102,6 +102,7 @@ export class MediaTemplate implements OnInit, OnDestroy {
       return;
 
     switch (event.key) {
+      case 'MediaPlayPause':
       case ' ':
         event.preventDefault();
         this.togglePlay();
@@ -125,10 +126,6 @@ export class MediaTemplate implements OnInit, OnDestroy {
       case '.':
         event.preventDefault();
         this.stepFrame(1);
-        break;
-      case 'MediaPlayPause':
-        event.preventDefault();
-        this.togglePlay();
         break;
     }
   }

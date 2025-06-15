@@ -9,6 +9,7 @@ export abstract class Media {
   isComplete: boolean;
 
   rating: number | null;
+  watched: boolean;
 
   abstract type: string;
 
@@ -19,6 +20,7 @@ export abstract class Media {
     this.genreList = data.genreList ?? null;
     this.rating = data.rating ?? null;
     this.isComplete = data.isComplete ?? true;
+    this.watched = data.watched ?? false;
   }
 
   public abstract getMediaType(): string;

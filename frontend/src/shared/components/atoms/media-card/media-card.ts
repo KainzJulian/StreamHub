@@ -12,11 +12,12 @@ import { MediaRouterService } from '../../../services/media-router.service';
 import { MediaService } from '../../../services/media.service';
 import { Movie } from '../../../types/movie';
 import { Episode } from '../../../types/seriesEpisode';
+import { Icon } from '../icon/icon';
 
 @Component({
   selector: 'media-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Icon],
   templateUrl: './media-card.html',
   styleUrl: './media-card.scss',
 })
