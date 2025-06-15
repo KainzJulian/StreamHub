@@ -126,6 +126,10 @@ export class MediaTemplate implements OnInit, OnDestroy {
         event.preventDefault();
         this.stepFrame(1);
         break;
+      case 'MediaPlayPause':
+        event.preventDefault();
+        this.togglePlay();
+        break;
     }
   }
 }

@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   signal,
   ViewChild,
@@ -165,5 +166,23 @@ export class SeriesPage implements OnInit {
     if (!episodeID) return '';
 
     return CurrentMediaRoutes.GET_VIDEO(episodeID);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  eventName(event: KeyboardEvent) {
+    const key = event.key;
+
+    switch (key) {
+      case 'MediaTrackNext':
+        this.navigateToAdjacentEpisode(1);
+        break;
+
+      case 'MediaTrackPrevious':
+        this.navigateToAdjacentEpisode(-1);
+        break;
+
+      default:
+        break;
+    }
   }
 }
