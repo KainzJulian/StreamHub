@@ -296,6 +296,9 @@ def updateWatchedFlag(series_id: str) -> Response[bool]:
             {"id": series_id}, {"$set": {"watched": watched}}
         )
 
+        print("test")
+
         return Response.Success(True)
     except Exception as e:
-        return Response.Error(e)
+        raise e
+        # return Response.Error(e)
