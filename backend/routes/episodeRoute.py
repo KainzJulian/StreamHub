@@ -132,11 +132,6 @@ def getThumbnailPreview(episode_id: str):
         return Response.Error(e)
 
 
-@episodeRouter.get("/{episode_id}/percent_watched")
-def getPercentWatched(episode_id: str):
-    return {"episode_id": episode_id, "percent_watched": 0.0}
-
-
 @episodeRouter.post("/add")
 def addEpisode(episode: Episode) -> Response[str]:
     try:
