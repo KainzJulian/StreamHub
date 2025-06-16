@@ -267,6 +267,11 @@ def getHighestRatedSeries(limit: int) -> Response[list[Series]]:
 @seriesRouter.post("/{series_id}/watched")
 def updateWatchedFlag(series_id: str) -> Response[bool]:
 
+    series = seriesCollection.find_one({"id": series_id}, {"watched": True})
+
+    if series != None and series["watched"] == True:
+        return Response.Success(False)
+
     watched = True
 
     try:
@@ -278,14 +283,13 @@ def updateWatchedFlag(series_id: str) -> Response[bool]:
                 Exception("No Series with the given id found: ID=" + series_id)
             )
 
-        episodeList: list[Episode]
         if isinstance(series, dict):
-            episodeList = series["episodeList"]
+            episodeList = list(series["episodeList"])
         else:
-            episodeList = series.episodeList
+            raise Exception("not working here")
 
-        for episode in episodeList:
-            if episode.watched == False or episode.watched == None:
+        for i in range(len(episodeList)):
+            if episodeList[i] == False or episodeList[i]["watched"] == None:
                 watched = False
 
         seriesCollection.find_one_and_update(
