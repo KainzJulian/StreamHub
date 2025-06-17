@@ -54,6 +54,9 @@ def exists(episode_id: str) -> Response[bool]:
     return Response.Success(True)
 
 
+# watched flag will not be set when watching all series it will be set when watching only one see star trek lower deck
+
+
 @episodeRouter.get("/{episode_id}/thumbnail_banner")
 def getThumbnailBanner(episode_id: str):
 
