@@ -6,8 +6,6 @@
   width: 100%;
   height: auto;
 
-  margin: auto;
-
   box-sizing: border-box;
 
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -17,8 +15,4 @@
   row-gap: $gap--xlarge;
 
   padding: $gap--small $gap--large $gap--large $gap--large;
-}
-
-.list__item {
-  margin: auto;
 }

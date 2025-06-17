@@ -12,11 +12,12 @@ import { MediaRouterService } from '../../../services/media-router.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MediaService } from '../../../services/media.service';
+import { Icon } from '../icon/icon';
 
 @Component({
   selector: 'episode-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Icon],
   templateUrl: './episode-card.html',
   styleUrl: './episode-card.scss',
 })

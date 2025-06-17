@@ -63,7 +63,13 @@ $base-height: 5px;
     margin-top: $gap--xsmall;
 
     overflow: hidden;
-    white-space: nowrap;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    line-clamp: 2;
+    text-wrap: wrap;
 
     text-overflow: ellipsis;
     text-align: center;
@@ -94,6 +100,8 @@ $base-height: 5px;
   &__watched {
     position: absolute;
     bottom: $gap--mid;
+
+    z-index: 999;
 
     background-color: $downlight--transparent;
     backdrop-filter: $blur--mid;
