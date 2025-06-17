@@ -10,17 +10,24 @@
         {{this.episode?.episode}}
       </p>
     </div>
-    <div *ngIf="this.episode?.title != null" class="card__title">
-      <p class="prevent-select card__title__text">{{this.episode?.title}}</p>
-    </div>
   </div>
+
   <div
     *ngIf="isInProgress()"
     [ngStyle]="{width: this.progressBarWidth() + '%'}"
     class="card__progress"
   ></div>
+
   <div
     *ngIf="isInProgress() "
     class="card__progress card__progress__background"
   ></div>
+
+  <div class="card__watched" *ngIf="this.episode?.watched">
+    <icon class="icon--small" iconName="checkmark" />
+  </div>
+</div>
+
+<div class="card__content prevent-select">
+  <p class="card__title">{{this.episode?.title}}</p>
 </div>

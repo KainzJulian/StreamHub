@@ -24,6 +24,30 @@ $base-height: 5px;
   position: relative;
   overflow: hidden;
 
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    gap: $gap--mid;
+  }
+
+  &__title {
+    font-size: $text-size--mid;
+    margin-top: $gap--xsmall;
+
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    line-clamp: 2;
+    text-wrap: wrap;
+
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
   &::before {
     content: "";
     background-image: var(--thumbnail-path);
@@ -56,37 +80,6 @@ $base-height: 5px;
     }
   }
 
-  &__title {
-    overflow-y: hidden;
-    text-overflow: ellipsis;
-
-    backdrop-filter: $blur--small;
-    background-color: $downlight--transparent;
-
-    padding: $gap--small;
-
-    border-radius: $radius--small;
-
-    visibility: hidden;
-
-    margin-top: $gap--mid;
-
-    text-wrap: wrap;
-
-    &__text {
-      text-align: center;
-
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 8;
-
-      line-clamp: 8;
-
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-
   &:hover {
     .card__title,
     .card__episode {
@@ -114,6 +107,24 @@ $base-height: 5px;
       width: 100%;
       background-color: grey;
       z-index: 1;
+    }
+  }
+
+  &__watched {
+    position: absolute;
+    bottom: $gap--mid;
+
+    z-index: 999;
+
+    background-color: $downlight--transparent;
+    backdrop-filter: $blur--mid;
+
+    padding: 8px;
+
+    border-radius: $radius--small;
+
+    p {
+      font-size: $text-size--small;
     }
   }
 }
