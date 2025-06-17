@@ -289,16 +289,13 @@ def updateWatchedFlag(series_id: str) -> Response[bool]:
             raise Exception("not working here")
 
         for i in range(len(episodeList)):
-            if episodeList[i] == False or episodeList[i]["watched"] == None:
+            if episodeList[i]["watched"] == False or episodeList[i]["watched"] == None:
                 watched = False
 
         seriesCollection.find_one_and_update(
             {"id": series_id}, {"$set": {"watched": watched}}
         )
 
-        print("test")
-
         return Response.Success(True)
     except Exception as e:
-        raise e
-        # return Response.Error(e)
+        return Response.Error(e)

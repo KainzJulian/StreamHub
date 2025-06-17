@@ -163,10 +163,6 @@ def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
             {"id": media_id}, {"$set": {"durationWatched": time_in_seconds}}
         )
 
-        if media != None:
-            seriesRoute.updateWatchedFlag(media["seriesID"]).data
-            return Response.Success(True)
-
         if media == None:
             media = movieCollection.find_one_and_update(
                 {"id": media_id}, {"$set": {"durationWatched": time_in_seconds}}
@@ -178,7 +174,11 @@ def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
         if media["duration"] * 0.9 <= time_in_seconds:
             setWatchedFlag(media_id)
 
+            if media["type"] == "Episode":
+                seriesRoute.updateWatchedFlag(media["seriesID"]).data
+
         return Response.Success(True)
+
     except Exception as e:
         return Response.Error(e)
 
