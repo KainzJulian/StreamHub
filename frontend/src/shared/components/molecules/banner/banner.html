@@ -8,14 +8,13 @@
       {{this.getMediaAsEpisode()?.episode}}
     </p>
   </div>
-  <!-- TODO: Update so one side is black and the other has the image so it looks better -->
 
   <p class="banner__title">{{this.media?.title}}</p>
   <p class="banner__description">{{this.media?.description}}</p>
 
   <div class="banner__group">
     <base-button (onClick)="this.playMedia()" class="banner__button">
-      <p class="button__text">Play</p></base-button
+      <p class="button__text">{{this.buttonText}}</p></base-button
     >
 
     <genre-list [genres]="this.media?.genreList"></genre-list>

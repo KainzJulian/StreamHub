@@ -30,6 +30,7 @@ export class Banner implements AfterViewInit {
   @ViewChild('img') img!: ElementRef;
 
   public src = signal<string | null>(null);
+  @Input() buttonText: string = '';
 
   constructor(
     private elRef: ElementRef,

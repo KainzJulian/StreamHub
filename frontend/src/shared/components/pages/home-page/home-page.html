@@ -1,5 +1,9 @@
 <home-template>
-  <banner *ngIf="this.currentMedia()" [media]="this.currentMedia()"></banner>
+  <banner
+    [buttonText]="'Continue ' + this.currentMedia()?.getMediaType()"
+    *ngIf="this.currentMedia()"
+    [media]="this.currentMedia()"
+  ></banner>
 
   <!-- TODO: Only 10 of each type will be diplayed on the far right there should be a button when clicked it opens a site with all cards -->
   <media-card-list
