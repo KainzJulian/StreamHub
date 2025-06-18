@@ -1,5 +1,9 @@
 <home-template>
-  <banner *ngIf="this.media() != null" [media]="this.media()"></banner>
+  <banner
+    buttonText="Watch"
+    *ngIf="this.media() != null"
+    [media]="this.media()"
+  ></banner>
 
   <media-card-list
     class="grid"
