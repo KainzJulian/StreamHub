@@ -10,6 +10,8 @@ import {
 import { MediaRoutes } from '../../../../utils/apiRoutes';
 import { Media } from '../../../types/media';
 import { MediaService } from '../../../services/media.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'media-template',
@@ -26,14 +28,27 @@ export class MediaTemplate implements OnInit, OnDestroy {
 
   isPlaying = false;
 
-  constructor(private mediaService: MediaService) {}
+  routeSub!: Subscription;
+
+  constructor(
+    private mediaService: MediaService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnDestroy(): void {
-    window.addEventListener('beforeunload', this.onPauseVideo);
+    this.routeSub.unsubscribe();
   }
 
   ngOnInit(): void {
-    window.addEventListener('beforeunload', this.onPauseVideo);
+    this.routeSub = this.route.params.subscribe(() => {
+      this.onPauseVideo();
+    });
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload() {
+    this.onPauseVideo();
+    return true;
   }
 
   onPauseVideo() {
@@ -51,8 +66,6 @@ export class MediaTemplate implements OnInit, OnDestroy {
 
   onLoadMetadata() {
     this.mediaService.getWatchTime(this.media?.id)?.subscribe((response) => {
-      console.log(response);
-
       if (this.video) this.video.nativeElement.currentTime = response.data;
     });
   }
