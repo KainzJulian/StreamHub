@@ -44,26 +44,30 @@ export class SeriesPage implements OnInit {
     public mediaService: MediaService,
     private mediaRouterService: MediaRouterService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    console.log('Constructor Init');
+  }
 
   ngOnInit(): void {
-    const seriesID = this.route.snapshot.paramMap.get('seriesID');
-    const episodeID = this.route.snapshot.paramMap.get('episodeID');
+    this.route.params.subscribe((params) => {
+      const seriesID = params['seriesID'];
+      const episodeID = params['episodeID'];
 
-    if (seriesID == null || episodeID == null)
-      throw new Error('No ID specified');
+      if (seriesID == null || episodeID == null)
+        throw new Error('No ID specified');
 
-    this.mediaService.getSeries(seriesID).subscribe((response) => {
-      this.currentSeries.set(new Series(response.data));
+      this.mediaService.getSeries(seriesID).subscribe((response) => {
+        this.currentSeries.set(new Series(response.data));
 
-      const episode = this.currentSeries()?.episodeList.find(
-        (episode) => episode.id == episodeID
-      );
+        const episode = this.currentSeries()?.episodeList.find(
+          (episode) => episode.id == episodeID
+        );
 
-      if (episode) {
-        this.currentEpisode.set(episode);
-        this.currentSeason.set(episode.season);
-      }
+        if (episode) {
+          this.currentEpisode.set(episode);
+          this.currentSeason.set(episode.season);
+        }
+      });
     });
   }
 
