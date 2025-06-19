@@ -12,27 +12,36 @@
   padding: $gap--xxlarge;
 }
 
-.container-test {
-  height: auto;
-  width: auto;
-  position: absolute;
-  display: flex;
-
-  z-index: -1;
-}
-
-.test {
+.thumbnail {
   display: block;
   position: absolute;
 
   height: 100%;
+
   inset: 0;
 
-  box-shadow: inset 20px 20px 20px black;
-
   filter: brightness(60%);
-  margin: auto;
+  margin-right: auto;
+  margin-left: auto;
+
+  mask-image: linear-gradient(to bottom, $color-primary 70%, transparent 100%),
+    linear-gradient(to right, $color-primary 70%, transparent 100%),
+    linear-gradient(to left, $color-primary 70%, transparent 100%),
+    linear-gradient(to top, $color-primary 70%, transparent 100%);
+  mask-composite: intersect;
+
+  -webkit-mask-image: linear-gradient(
+      to bottom,
+      $color-primary 70%,
+      transparent 100%
+    ),
+    linear-gradient(to right, $color-primary 70%, transparent 100%),
+    linear-gradient(to left, $color-primary 70%, transparent 100%),
+    linear-gradient(to top, $color-primary 70%, transparent 100%);
+
+  -webkit-mask-composite: intersect;
 }
+// Episode time is only saved when pressing pause but not when switching to another tab without pausing
 
 :host(.hide-button) {
   .banner {
