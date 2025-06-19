@@ -12,6 +12,8 @@
   padding: $gap--xxlarge;
 }
 
+$color-percent: 90%;
+
 .thumbnail {
   display: block;
   position: absolute;
@@ -20,24 +22,27 @@
 
   inset: 0;
 
-  filter: brightness(60%);
   margin-right: auto;
   margin-left: auto;
 
-  mask-image: linear-gradient(to bottom, $color-primary 70%, transparent 100%),
-    linear-gradient(to right, $color-primary 70%, transparent 100%),
-    linear-gradient(to left, $color-primary 70%, transparent 100%),
-    linear-gradient(to top, $color-primary 70%, transparent 100%);
+  mask-image: linear-gradient(
+      to bottom,
+      $color-primary $color-percent,
+      transparent 100%
+    ),
+    linear-gradient(to right, $color-primary $color-percent, transparent 100%),
+    linear-gradient(to left, $color-primary $color-percent, transparent 100%),
+    linear-gradient(to top, $color-primary $color-percent, transparent 100%);
   mask-composite: intersect;
 
   -webkit-mask-image: linear-gradient(
       to bottom,
-      $color-primary 70%,
+      $color-primary $color-percent,
       transparent 100%
     ),
-    linear-gradient(to right, $color-primary 70%, transparent 100%),
-    linear-gradient(to left, $color-primary 70%, transparent 100%),
-    linear-gradient(to top, $color-primary 70%, transparent 100%);
+    linear-gradient(to right, $color-primary $color-percent, transparent 100%),
+    linear-gradient(to left, $color-primary $color-percent, transparent 100%),
+    linear-gradient(to top, $color-primary $color-percent, transparent 100%);
 
   -webkit-mask-composite: intersect;
 }
