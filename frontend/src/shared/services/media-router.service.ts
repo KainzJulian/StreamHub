@@ -3,13 +3,12 @@ import { Router } from '@angular/router';
 import { Media } from '../types/media';
 import { Episode } from '../types/seriesEpisode';
 import { MediaService } from './media.service';
+import { LibraryListType } from '../types/libraryListType';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MediaRouterService {
-  private route: string = '';
-
   constructor(private router: Router, private mediaService: MediaService) {}
 
   public openMediaPlayer(media: Media) {
@@ -39,5 +38,9 @@ export class MediaRouterService {
 
   openEditPage(id: string) {
     this.router.navigate(['/edit', id]);
+  }
+
+  openLibraryPage(type: LibraryListType) {
+    this.router.navigate(['/library', type]);
   }
 }

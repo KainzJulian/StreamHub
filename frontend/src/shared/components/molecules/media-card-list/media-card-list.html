@@ -4,4 +4,12 @@
   @for (media of this.mediaList; track $index) {
   <media-card [title]="media.title" [media]="media"></media-card>
   }
+
+  <base-button
+    *ngIf="this.onShowAllClicked.observed"
+    (onClick)="this.showAllClicked()"
+    class="media-list__button"
+  >
+    <p>Show All</p>
+  </base-button>
 </div>

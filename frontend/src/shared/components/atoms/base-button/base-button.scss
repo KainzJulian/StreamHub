@@ -64,12 +64,12 @@
 
 :host(.dropdown__list__button) {
   button {
+    cursor: pointer;
+
     background-color: rgba(0, 0, 0, 0);
 
     border: none;
     color: $text-color--light;
-
-    cursor: pointer;
 
     height: 100%;
     width: 300px;
@@ -97,6 +97,23 @@
 
     &:hover {
       background-color: $color-accent--hover;
+    }
+  }
+}
+
+:host(.media-list__button) {
+  button {
+    cursor: pointer;
+
+    height: 100%;
+    width: 100px;
+
+    background-color: transparent;
+    border: none;
+    padding: $gap--mid;
+
+    &:hover {
+      background-color: $color-primary--hover;
     }
   }
 }

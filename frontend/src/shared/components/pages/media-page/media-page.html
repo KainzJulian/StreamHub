@@ -6,7 +6,8 @@
   ></banner>
 
   <media-card-list
-    class="grid"
+    (onShowAllClicked)="this.showAllMedia()"
+    class="list"
     [mediaList]="this.mediaList()"
   ></media-card-list>
 </home-template>

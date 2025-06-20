@@ -5,8 +5,8 @@
     [media]="this.currentMedia()"
   ></banner>
 
-  <!-- TODO: Only 10 of each type will be diplayed on the far right there should be a button when clicked it opens a site with all cards -->
   <media-card-list
+    (onShowAllClicked)="this.showAllRecWatched()"
     class="list"
     *ngIf="this.watchHistory() != null && this.watchHistory()?.length != 0"
     [mediaList]="this.watchHistory()"
@@ -14,6 +14,7 @@
   ></media-card-list>
 
   <media-card-list
+    (onShowAllClicked)="this.showAllHighestRated()"
     class="list"
     *ngIf="this.highestRatedList()"
     [mediaList]="this.highestRatedList()"
@@ -21,6 +22,7 @@
   ></media-card-list>
 
   <media-card-list
+    (onShowAllClicked)="this.showAllMoviesSeries()"
     class="list"
     *ngIf="this.mediaList()"
     [mediaList]="this.mediaList()"
