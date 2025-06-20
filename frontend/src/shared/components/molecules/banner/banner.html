@@ -1,15 +1,17 @@
-<img class="thumbnail" *ngIf="src() !== null" [src]="src()" />
+<div>
+  <img class="thumbnail" *ngIf="src() !== null" [src]="src()" />
+</div>
 
 <div class="banner__content">
   <div *ngIf="this.media && this.seriesInfo">
-    <p class="banner__title">{{this.seriesInfo.title}}</p>
+    <p class="banner__episode-title">{{this.seriesInfo.title}}</p>
     <p>
       Season {{this.getMediaAsEpisode()?.season}} Episode
       {{this.getMediaAsEpisode()?.episode}}
     </p>
   </div>
 
-  <p class="banner__title">{{this.media?.title}}</p>
+  <p class="banner__series-title">{{this.media?.title}}</p>
   <p class="banner__description">{{this.media?.description}}</p>
 
   <div class="banner__group">
