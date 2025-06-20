@@ -176,6 +176,16 @@ export class SeriesPage implements OnInit {
   eventName(event: KeyboardEvent) {
     const key = event.key;
 
+    if ((event.ctrlKey || event.metaKey) && key === 'ArrowLeft') {
+      event.preventDefault();
+      this.navigateToAdjacentEpisode(-1);
+    }
+
+    if ((event.ctrlKey || event.metaKey) && key === 'ArrowRight') {
+      event.preventDefault();
+      this.navigateToAdjacentEpisode(1);
+    }
+
     switch (key) {
       case 'MediaTrackNext':
         this.navigateToAdjacentEpisode(1);
