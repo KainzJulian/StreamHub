@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Series } from '../../../types/series';
 import { MediaService } from '../../../services/media.service';
 import { Movie } from '../../../types/movie';
+import { MediaRouterService } from '../../../services/media-router.service';
 
 @Component({
   selector: 'media-page',
@@ -20,30 +21,35 @@ export class MediaPage {
   public mediaList = signal<Media[]>([]);
   public media = signal<Media | null>(null);
 
+  private type!: 'series' | 'movies';
+
   constructor(
     private route: ActivatedRoute,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private mediaRouteService: MediaRouterService
   ) {
     this.route.data.subscribe((data) => {
-      const type = data['type'];
+      this.type = data['type'];
 
-      if (type === 'series')
+      if (!this.type) throw new Error('Type is not defined');
+
+      if (this.type === 'series')
         this.mediaService
           .getRandomSeries(1)
           .subscribe((response) => this.media.set(response.data[0]));
-      else if (type === 'movies')
+      else if (this.type === 'movies')
         this.mediaService
           .getRandomMovie(1)
           .subscribe((response) => this.media.set(response.data[0]));
 
-      this.mediaService.getMediaList(type).subscribe((response) => {
+      this.mediaService.getMediaList(this.type).subscribe((response) => {
         if (!response.success) throw new Error(response.error);
 
         const mediaList: Media[] = [];
 
         response.data.forEach((media) => {
-          if (type === 'series') mediaList.push(new Series(media));
-          if (type === 'movies') mediaList.push(new Movie(media));
+          if (this.type === 'series') mediaList.push(new Series(media));
+          if (this.type === 'movies') mediaList.push(new Movie(media));
         });
 
         this.mediaList.set(mediaList);
@@ -54,5 +60,9 @@ export class MediaPage {
         }
       });
     });
+  }
+
+  showAllMedia() {
+    this.mediaRouteService.openLibraryPage(this.type);
   }
 }

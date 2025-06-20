@@ -6,6 +6,7 @@ import { MoviePage } from '../shared/components/pages/movie-page/movie-page';
 import { SeriesPage } from '../shared/components/pages/series-page/series-page';
 import { SearchPage } from '../shared/components/pages/search-page/search-page';
 import { EditPage } from '../shared/components/pages/edit-page/edit-page';
+import { MediaLibrary } from '../shared/components/pages/media-library/media-library';
 
 export const routes: Routes = [
   {
@@ -45,5 +46,9 @@ export const routes: Routes = [
   {
     path: 'edit/:id',
     component: EditPage,
+  },
+  {
+    path: 'library/:type',
+    component: MediaLibrary,
   },
 ];

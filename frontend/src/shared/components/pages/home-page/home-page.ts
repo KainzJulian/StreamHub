@@ -8,9 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Episode } from '../../../types/seriesEpisode';
 import { Movie } from '../../../types/movie';
 import { Series } from '../../../types/series';
-
-// TODO: remove current Search and make an own site for it where it shows all series and movies
-// in header there is an input field and a search icon when entering input field open new site
+import { MediaRouterService } from '../../../services/media-router.service';
 
 @Component({
   selector: 'home-page',
@@ -26,7 +24,10 @@ export class HomePage implements OnInit {
   public watchHistory = signal<Media[] | null>(null);
   public mediaList = signal<Media[] | null>(null);
 
-  constructor(private mediaService: MediaService) {}
+  constructor(
+    private mediaService: MediaService,
+    private mediaRouter: MediaRouterService
+  ) {}
 
   ngOnInit(): void {
     this.mediaService.getCurrentMedia().subscribe((response) => {
@@ -85,5 +86,17 @@ export class HomePage implements OnInit {
 
       this.mediaList.set(mediaList);
     });
+  }
+
+  showAllRecWatched() {
+    this.mediaRouter.openLibraryPage('recWatched');
+  }
+
+  showAllHighestRated() {
+    this.mediaRouter.openLibraryPage('highRated');
+  }
+
+  showAllMoviesSeries() {
+    this.mediaRouter.openLibraryPage('moviesSeries');
   }
 }
