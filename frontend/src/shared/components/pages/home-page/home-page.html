@@ -1,6 +1,6 @@
 <home-template>
   <banner
-    [buttonText]="'Continue ' + this.currentMedia()?.getMediaType()"
+    [buttonText]="'Continue ' + this.currentMedia()?.type"
     *ngIf="this.currentMedia()"
     [media]="this.currentMedia()"
   ></banner>
