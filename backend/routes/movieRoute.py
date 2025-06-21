@@ -179,7 +179,10 @@ def setRating(movie_id: str, rating: int) -> Response[str]:
 @movieRouter.get("/random/{count}")
 def getRandomMovies(count: int) -> Response[list[Movie]]:
 
-    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": False}}]
+    if count == 0:
+        pipeline = [{"$project": {"_id": False}}]
+    else:
+        pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": False}}]
 
     try:
         movieList = list(movieCollection.aggregate(pipeline))
