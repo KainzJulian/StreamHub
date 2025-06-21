@@ -39,9 +39,9 @@ export class MediaCard implements OnChanges {
 
     let mediaType: 'movies' | 'series' | 'episodes' = 'series';
 
-    if (this.media.getMediaType() === 'Movie') mediaType = 'movies';
+    if (this.media.type === 'Movie') mediaType = 'movies';
 
-    if (this.media.getMediaType() === 'Episode') mediaType = 'episodes';
+    if (this.media.type === 'Episode') mediaType = 'episodes';
 
     this.updateProgressBar(this.media.durationWatched, this.media.duration);
 

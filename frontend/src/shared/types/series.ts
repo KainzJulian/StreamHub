@@ -4,7 +4,7 @@ import { Episode } from './seriesEpisode';
 export class Series extends Media {
   episodeList: Episode[] = [];
 
-  override type: string;
+  override readonly type: string;
 
   constructor(data: Partial<Series>) {
     super(data);
@@ -30,10 +30,6 @@ export class Series extends Media {
     });
 
     return array;
-  }
-
-  public override getMediaType(): string {
-    return 'Series';
   }
 
   getFirstEpisodeOfSeason(season: number): Episode {
