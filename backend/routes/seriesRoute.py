@@ -227,7 +227,11 @@ def setRating(series_id: str, rating: int) -> Response[str]:
 
 @seriesRouter.get("/random/{count}")
 def getRandomSeries(count: int) -> Response[list[Series]]:
-    pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": 0}}]
+
+    if count == 0:
+        pipeline = [{"$project": {"_id": False}}]
+    else:
+        pipeline = [{"$sample": {"size": count}}, {"$project": {"_id": False}}]
 
     try:
         seriesList = list(seriesCollection.aggregate(pipeline))

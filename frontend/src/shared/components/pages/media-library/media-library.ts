@@ -27,16 +27,28 @@ export class MediaLibrary {
         case 'highRated':
           this.mediaService.getHighestRated(0).subscribe((response) => {
             this.media.set(response.data);
-            console.log(this.media());
           });
           break;
         case 'movies':
+          this.mediaService.getMediaList('movies').subscribe((response) => {
+            this.media.set(response.data);
+          });
           break;
         case 'moviesSeries':
+          this.mediaService.getRandomMediaList(0).subscribe((response) => {
+            this.media.set(response.data);
+            console.log(response);
+          });
           break;
         case 'recWatched':
+          this.mediaService.getWatchHistory(0).subscribe((response) => {
+            this.media.set(response.data);
+          });
           break;
         case 'series':
+          this.mediaService.getMediaList('series').subscribe((response) => {
+            this.media.set(response.data);
+          });
           break;
 
         default:
