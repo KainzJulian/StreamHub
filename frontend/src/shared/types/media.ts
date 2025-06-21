@@ -11,6 +11,9 @@ export abstract class Media {
   rating: number | null;
   watched: boolean;
 
+  durationWatched: number;
+  duration: number;
+
   abstract type: string;
 
   constructor(data: Partial<Media>) {
@@ -21,6 +24,8 @@ export abstract class Media {
     this.rating = data.rating ?? null;
     this.isComplete = data.isComplete ?? true;
     this.watched = data.watched ?? false;
+    this.duration = data.duration ?? 0;
+    this.durationWatched = data.durationWatched ?? 0;
   }
 
   public abstract getMediaType(): string;

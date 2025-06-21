@@ -54,9 +54,6 @@ def exists(episode_id: str) -> Response[bool]:
     return Response.Success(True)
 
 
-# watched flag will not be set when watching all series it will be set when watching only one see star trek lower deck
-
-
 @episodeRouter.get("/{episode_id}/thumbnail_banner")
 def getThumbnailBanner(episode_id: str):
 
@@ -152,3 +149,13 @@ def removeEpisode(id: str):
         episodesCollection.find_one_and_delete({"id": id})
     except Exception as e:
         raise e
+
+
+@episodeRouter.post("/count")
+def getCountBySeries(series_id: str) -> Response[int]:
+    try:
+        count = episodesCollection.count_documents({"seriesID": series_id})
+        return Response.Success(count)
+
+    except Exception as e:
+        return Response.Error(e)

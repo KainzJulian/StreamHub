@@ -1,6 +1,7 @@
 import time
 import scandir
 from dotenv import find_dotenv, load_dotenv
+from routes import seriesRoute
 from utils.create_series_from_path import createSeriesFromPath
 from utils.get_env import getENV
 from utils.save_to_db import (
@@ -18,14 +19,16 @@ def saveFilesToDB() -> None:
 
     start_time = time.time()
 
-    uploadMoviesToDB(moviesPath)
+    # uploadMoviesToDB(moviesPath)
 
-    createSeriesFromPath(seriesPath)
+    # createSeriesFromPath(seriesPath)
 
     print("Adding Episodes to Series...")
 
-    for name in scandir.listdir(seriesPath):
-        uploadEpisodesToSeries(seriesPath, name)
+    # for name in scandir.listdir(seriesPath):
+    #     uploadEpisodesToSeries(seriesPath, name)
+
+    seriesRoute.updateDurationInSeries()
 
     print("Done")
 

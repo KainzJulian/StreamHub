@@ -10,8 +10,6 @@ import { Media } from '../../../types/media';
 import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { MediaService } from '../../../services/media.service';
-import { Movie } from '../../../types/movie';
-import { Episode } from '../../../types/seriesEpisode';
 import { Icon } from '../icon/icon';
 
 @Component({
@@ -41,15 +39,11 @@ export class MediaCard implements OnChanges {
 
     let mediaType: 'movies' | 'series' | 'episodes' = 'series';
 
-    if (this.media instanceof Movie) {
-      mediaType = 'movies';
-      this.updateProgressBar(this.media.durationWatched, this.media.duration);
-    }
+    if (this.media.getMediaType() === 'Movie') mediaType = 'movies';
 
-    if (this.media instanceof Episode) {
-      mediaType = 'episodes';
-      this.updateProgressBar(this.media.durationWatched, this.media.duration);
-    }
+    if (this.media.getMediaType() === 'Episode') mediaType = 'episodes';
+
+    this.updateProgressBar(this.media.durationWatched, this.media.duration);
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',

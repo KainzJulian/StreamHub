@@ -29,7 +29,12 @@ def createSeriesFromPath(
         if exists.data:
             continue
 
-        series = Series(id=id, title=i, type="Series", mediaPath=seriesPathString)
+        series = Series(
+            id=id,
+            title=i,
+            type="Series",
+            mediaPath=seriesPathString,
+        )
         seriesRoute.addSeries(series)
 
     print("Done")
