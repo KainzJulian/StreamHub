@@ -174,9 +174,6 @@ def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
         if media["duration"] * 0.9 <= time_in_seconds:
             setWatchedFlag(media_id)
 
-            if media["type"] == "Episode":
-                seriesRoute.updateWatchedFlag(media["seriesID"]).data
-
         return Response.Success(True)
 
     except Exception as e:
@@ -186,18 +183,20 @@ def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
 @mediaRouter.post("/{media_id}/watched")
 def setWatchedFlag(media_id: str) -> Response[bool]:
     try:
+
+        episode = episodesCollection.find_one({"id": media_id}, {"watched": True})
+
         media = episodesCollection.find_one_and_update(
             {"id": media_id}, {"$set": {"watched": True, "durationWatched": 0}}
         )
 
+        # Checks whether the episode has already been watched => Does not count again
+        if media != None and episode != None and episode["watched"] != True:
+            seriesRoute.updateDurationWatched(media["seriesID"])
+
         if media == None:
             media = movieCollection.find_one_and_update(
                 {"id": media_id}, {"$set": {"watched": True, "durationWatched": 0}}
-            )
-
-        if media == None:
-            media = seriesCollection.find_one_and_update(
-                {"id": media_id}, {"$set": {"watched": True}}
             )
 
         if media == None:

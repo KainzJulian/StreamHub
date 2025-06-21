@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 from pymongo import DESCENDING
 from sympy import false
 
+from routes import episodeRoute
 from classes.episode import Episode
 from utils.save_to_db import uploadEpisodesToSeries
 from utils.get_thumbnail_paths import getThumbnailPaths
@@ -24,7 +25,7 @@ cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 
 
 @seriesRouter.get("/")
-def getAllSeries():
+def getAllSeries() -> Response[list[Series]]:
     try:
         seriesList = list(seriesCollection.find({}, {"_id": 0}))
         return Response.Success(seriesList)
@@ -265,37 +266,75 @@ def getHighestRatedSeries(limit: int) -> Response[list[Series]]:
 
 
 @seriesRouter.post("/{series_id}/watched")
-def updateWatchedFlag(series_id: str) -> Response[bool]:
-
-    series = seriesCollection.find_one({"id": series_id}, {"watched": True})
-
-    if series != None and series["watched"] == True:
-        return Response.Success(False)
-
-    watched = True
+def updateWatchedFlag(series_id: str, flag: bool) -> Response[bool]:
 
     try:
+        seriesCollection.find_one_and_update(
+            {"id": series_id}, {"$set": {"watched": flag}}
+        )
+        return Response.Success(True)
 
-        series = getSeriesWithEpisodesByID(series_id).data
+    except Exception as e:
+        return Response.Error(e)
 
-        if series == None:
-            return Response.Error(
-                Exception("No Series with the given id found: ID=" + series_id)
-            )
 
-        if isinstance(series, dict):
-            episodeList = list(series["episodeList"])
-        else:
-            raise Exception("not working here")
-
-        for i in range(len(episodeList)):
-            if episodeList[i]["watched"] == False or episodeList[i]["watched"] == None:
-                watched = False
+@seriesRouter.post("/{series_id}/duration")
+def updateDuration(series_id: str, duration: int) -> Response[bool]:
+    try:
 
         seriesCollection.find_one_and_update(
-            {"id": series_id}, {"$set": {"watched": watched}}
+            {"id": series_id}, {"$set": {"duration": duration}}
         )
 
         return Response.Success(True)
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@seriesRouter.post("/{series_id}/duration_watched")
+def updateDurationWatched(series_id: str) -> Response[bool]:
+    try:
+
+        series = seriesCollection.find_one_and_update(
+            {"id": series_id}, {"$inc": {"durationWatched": 1}}
+        )
+
+        if (
+            episodeRoute.getCountBySeries(series_id).data
+            <= series["durationWatched"] + 1
+        ):
+            return updateWatchedFlag(series_id, True)
+
+        return Response.Success(False)
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@seriesRouter.post("/update_duration")
+def updateDurationInSeries() -> Response[bool]:
+    try:
+
+        series = getAllSeries().data
+
+        if series == None:
+            raise Exception("No Series Found")
+
+        idList: list[str] = []
+
+        for i in series:
+            if isinstance(i, dict):
+                idList.append(i["id"])
+
+        for id in idList:
+            count = episodeRoute.getCountBySeries(id)
+            if count.data == None:
+                continue
+
+            updateDuration(id, count.data)
+
+        return Response.Success(True)
+
     except Exception as e:
         return Response.Error(e)

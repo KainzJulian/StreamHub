@@ -13,9 +13,10 @@ class Media(BaseModel):
 
     type: str = ""
 
-    # When there will be more episodes in the future
-    # Or more movies of the same franchise
     isComplete: bool = True
+
+    durationWatched: int = 0
+    duration: int = 0
 
     rating: int | None = None
 

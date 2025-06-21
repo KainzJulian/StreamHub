@@ -8,7 +8,4 @@ class Episode(Media):
     episode: int | None = None
     season: int
 
-    durationWatched: int = 0
-    duration: int
-
     seriesID: str

@@ -116,7 +116,7 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
             episodeRoute.addEpisode(
                 Episode(
                     id=episodeID,
-                    mediaPath=mediaPathString + ".mp4",  # series/1/1.mp4
+                    mediaPath=mediaPathString + ".mp4",
                     episode=episode,
                     season=season,
                     duration=getVideoLengthInSeconds(f"{root}/{mediaPath[-1]}.mp4"),
@@ -141,3 +141,7 @@ def getVideoLengthInSeconds(path: str) -> int:
         if track.track_type == "Video":
             return int(float(track.duration) / 1000)
     return 0
+
+
+def updateDurationInSeries():
+    pass
