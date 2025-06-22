@@ -204,12 +204,21 @@ def addMovie(movie: Movie):
 
 
 @movieRouter.get("/search/{query}")
-def searchMovies(query: str) -> Response[list[Movie]]:
+def searchMovies(query: str, genres: list[str]) -> Response[list[Movie]]:
+
+    pipe = {"title": {"$regex": query, "$options": "i"}}
+
+    if genres != []:
+        pipe = {
+            "title": {"$regex": query, "$options": "i"},
+            "genreList": {"$all": genres},
+        }
 
     try:
         movieList = list(
             movieCollection.find(
-                {"title": {"$regex": query, "$options": "i"}}, {"_id": False}
+                pipe,
+                {"_id": False},
             )
         )
         return Response.Success(movieList)
