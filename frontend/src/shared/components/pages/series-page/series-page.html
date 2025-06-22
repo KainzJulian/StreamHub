@@ -7,10 +7,13 @@
   >
     <div class="title" header>
       <p class="title__series">{{this.currentSeries()?.title}}</p>
-      <p class="title__season">Season {{this.currentSeason()}}</p>
-      <p class="title__episode">Episode {{this.currentEpisode()?.episode}}</p>
+      <p class="title__episode-season-info">
+        Season {{this.currentSeason()}} Episode
+        {{this.currentEpisode()?.episode}}
+      </p>
       <p class="title__episode-title">{{this.currentEpisode()?.title}}</p>
     </div>
+
     <div info>
       <div class="episode-next-prev">
         <base-button
@@ -26,8 +29,6 @@
           <p>Next Episode</p>
         </base-button>
       </div>
-
-      <div class="status"><p>Status: {{getStatus()}}</p></div>
 
       <div class="season-selection">
         <div
@@ -62,6 +63,17 @@
             }
           </div>
         </div>
+      </div>
+
+      <div class="status">
+        <p>Status</p>
+        <p>{{getStatus()}}</p>
+      </div>
+      <div
+        class="description"
+        *ngIf="this.currentEpisode()?.description !== null && this.currentEpisode()?.description !== ''"
+      >
+        <p>{{this.currentEpisode()?.description}}</p>
       </div>
 
       <div class="episode-selection">

@@ -52,7 +52,7 @@ export class HomePage implements OnInit {
     const mediaList: Media[] = [];
 
     this.mediaService.getHighestRated(10).subscribe((response) => {
-      response.data.forEach((item) => {
+      response.data.slice(0, 15).forEach((item) => {
         if (item.type == 'Movie') mediaList.push(new Movie(item));
         if (item.type == 'Series') mediaList.push(new Series(item));
       });
@@ -65,7 +65,7 @@ export class HomePage implements OnInit {
     const mediaList: Media[] = [];
 
     this.mediaService.getWatchHistory(20).subscribe((response) => {
-      response.data.forEach((item) => {
+      response.data.slice(0, 15).forEach((item) => {
         if (item.type == 'Movie') mediaList.push(new Movie(item));
         if (item.type == 'Episode') mediaList.push(new Episode(item));
       });
@@ -79,7 +79,7 @@ export class HomePage implements OnInit {
     const mediaList: Media[] = [];
 
     this.mediaService.getRandomMediaList(20).subscribe((response) => {
-      response.data.forEach((item) => {
+      response.data.slice(0, 15).forEach((item) => {
         if (item.type == 'Movie') mediaList.push(new Movie(item));
         if (item.type == 'Series') mediaList.push(new Series(item));
       });

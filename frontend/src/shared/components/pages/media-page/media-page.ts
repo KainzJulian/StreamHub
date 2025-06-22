@@ -47,7 +47,7 @@ export class MediaPage {
 
         const mediaList: Media[] = [];
 
-        response.data.forEach((media) => {
+        response.data.slice(0, 15).forEach((media) => {
           if (this.type === 'series') mediaList.push(new Series(media));
           if (this.type === 'movies') mediaList.push(new Movie(media));
         });
