@@ -9,12 +9,8 @@
     font-size: $text-size--xbig;
   }
 
-  &__season {
+  &__episode-season-info {
     margin-top: $gap--small;
-  }
-
-  &__episode {
-    margin-top: $gap--xsmall;
   }
 
   &__episode-title {
@@ -59,7 +55,30 @@
 
 .status {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
 
+  justify-content: center;
+  align-items: center;
+
+  margin-top: $gap--xlarge;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  margin-top: $gap--xlarge;
+  margin-bottom: $gap--xlarge;
+
+  & p {
+    width: 50%;
+    text-align: center;
+  }
+}
+
+.episode-selection {
   margin-top: $gap--xlarge;
 }

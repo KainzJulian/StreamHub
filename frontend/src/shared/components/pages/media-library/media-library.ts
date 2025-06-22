@@ -21,7 +21,6 @@ export class MediaLibrary {
   ) {
     this.route.paramMap.subscribe((param) => {
       const type = param.get('type');
-      console.log(type);
 
       switch (type) {
         case 'highRated':
@@ -37,7 +36,6 @@ export class MediaLibrary {
         case 'moviesSeries':
           this.mediaService.getRandomMediaList(0).subscribe((response) => {
             this.media.set(response.data);
-            console.log(response);
           });
           break;
         case 'recWatched':
