@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { BackendResponse } from '../types/response';
 import { CurrentMedia } from '../types/currentMedia';
 import { Movie } from '../types/movie';
+import { MediaGenre } from '../types/genre';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +58,7 @@ export class MediaService {
     const media = new CurrentMedia({ mediaID: id });
 
     this.http.post<BackendResponse<boolean>>(path, media).subscribe((req) => {
-      console.log('Data:', req.data);
+      if (req.error) throw new Error(req.error);
     });
   }
 
@@ -132,8 +133,14 @@ export class MediaService {
     return this.http.get<BackendResponse<Series[]>>(SeriesRoutes.RANDOM(limit));
   }
 
-  public getSearch(input: string): Observable<BackendResponse<Media[]>> {
-    return this.http.get<BackendResponse<Media[]>>(MediaRoutes.SEARCH(input));
+  public getSearch(
+    input: string,
+    genres: MediaGenre[]
+  ): Observable<BackendResponse<Media[]>> {
+    return this.http.post<BackendResponse<Media[]>>(
+      MediaRoutes.SEARCH(input),
+      genres
+    );
   }
 
   public getWatchTime(

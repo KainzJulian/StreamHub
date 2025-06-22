@@ -35,3 +35,11 @@
     width: 100%;
   }
 }
+
+.genre-group {
+  display: flex;
+  gap: $gap--small;
+
+  margin-top: $gap--small;
+  margin-bottom: $gap--large;
+}

@@ -19,7 +19,19 @@
           autofocus
         />
       </div>
+
+      <div class="genre-group">
+        @for (item of this.getAllGenres(); track $index) {
+        <genre
+          (onClick)="this.addGenreToList($event, input.value)"
+          class="hover-effect"
+          [genre]="item"
+          [ngClass]="{active: this.isGenreActive(item)}"
+        ></genre>
+        }
+      </div>
     </div>
+
     <div class="search__result">
       <media-card-list
         class="grid"

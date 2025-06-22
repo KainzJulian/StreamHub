@@ -102,15 +102,16 @@ def getRandomMedia(limit: int) -> Response[list[Media]]:
         return Response.Error(e)
 
 
-@mediaRouter.get("/search/{query}")
-def search(query: str) -> Response[list[Series | Movie]]:
+@mediaRouter.post("/search/{query}")
+def search(query: str, genres: list[str]) -> Response[list[Series | Movie]]:
 
     print(query)
+    print(genres)
 
     try:
 
-        series = seriesRoute.searchSeries(query).data
-        movies = movieRoute.searchMovies(query).data
+        series = seriesRoute.searchSeries(query, genres).data
+        movies = movieRoute.searchMovies(query, genres).data
 
         if not series:
             series = []

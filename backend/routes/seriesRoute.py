@@ -242,11 +242,21 @@ def getRandomSeries(count: int) -> Response[list[Series]]:
 
 
 @seriesRouter.get("/search/{query}")
-def searchSeries(query: str) -> Response[list[Series]]:
+def searchSeries(query: str, genres: list[str]) -> Response[list[Series]]:
+
+    pipe = {"title": {"$regex": query, "$options": "i"}}
+
+    if genres != []:
+        pipe = {
+            "title": {"$regex": query, "$options": "i"},
+            "genreList": {"$all": genres},
+        }
+
     try:
         seriesList = list(
             seriesCollection.find(
-                {"title": {"$regex": query, "$options": "i"}}, {"_id": 0}
+                pipe,
+                {"_id": False},
             )
         )
         return Response.Success(seriesList)

@@ -16,20 +16,22 @@ import { CommonModule } from '@angular/common';
 import { BaseButton } from '../../atoms/base-button/base-button';
 import { Icon } from '../../atoms/icon/icon';
 import { MediaRouterService } from '../../../services/media-router.service';
+import { MediaGenre } from '../../../types/genre';
+import { Genre } from '../../atoms/genre/genre';
 
 @Component({
   selector: 'search-page',
   standalone: true,
-  imports: [CommonModule, HomeTemplate, MediaCardList, BaseButton, Icon],
+  imports: [CommonModule, HomeTemplate, MediaCardList, BaseButton, Icon, Genre],
   templateUrl: './search-page.html',
   styleUrl: './search-page.scss',
 })
 export class SearchPage implements OnInit {
-  public input: string = '';
-
   @ViewChild('input') inputElement!: ElementRef;
 
   public mediaList = signal<Media[] | null>(null);
+
+  private genreList = new Set<MediaGenre>();
 
   constructor(
     private route: ActivatedRoute,
@@ -50,22 +52,24 @@ export class SearchPage implements OnInit {
   public setMediaList(input: string) {
     if (this.checkInput(input)) return;
 
-    this.mediaService.getSearch(input).subscribe((response) => {
-      console.log(response);
+    this.mediaService
+      .getSearch(input, Array.from(this.genreList.values()))
+      .subscribe((response) => {
+        console.log(response);
 
-      const mediaList: Media[] = [];
+        const mediaList: Media[] = [];
 
-      response.data.forEach((element) => {
-        const type = element.type;
-        if (type === 'Movie') mediaList.push(new Movie(element));
-        if (type === 'Series') mediaList.push(new Series(element));
+        response.data.forEach((element) => {
+          const type = element.type;
+          if (type === 'Movie') mediaList.push(new Movie(element));
+          if (type === 'Series') mediaList.push(new Series(element));
+        });
+
+        this.mediaRoute.openSearch(input);
+        this.inputElement.nativeElement.value = input;
+        this.mediaList.set(mediaList);
+        console.log('medialist', mediaList);
       });
-
-      this.mediaRoute.openSearch(input);
-      this.inputElement.nativeElement.value = input;
-      this.mediaList.set(mediaList);
-      console.log('medialist', mediaList);
-    });
   }
 
   checkInput(input: string): boolean {
@@ -74,5 +78,22 @@ export class SearchPage implements OnInit {
     if (trimmed.indexOf('/') !== -1) return true;
 
     return false;
+  }
+
+  isGenreActive(genre: string): boolean {
+    const genreType = genre as MediaGenre;
+    return this.genreList.has(genreType);
+  }
+
+  addGenreToList(genre: string, input: string) {
+    const genreType = genre as MediaGenre;
+    if (this.isGenreActive(genre)) this.genreList.delete(genreType);
+    else this.genreList.add(genreType);
+
+    this.setMediaList(input);
+  }
+
+  getAllGenres(): string[] {
+    return Object.values(MediaGenre);
   }
 }

@@ -40,6 +40,8 @@ textarea {
 
 .genre-group {
   display: flex;
+  gap: $gap--small;
+
   @include margin-vertical();
 }
 
