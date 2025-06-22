@@ -42,24 +42,50 @@ export class MediaPage {
           .getRandomMovie(1)
           .subscribe((response) => this.media.set(response.data[0]));
 
-      this.mediaService.getMediaList(this.type).subscribe((response) => {
-        if (!response.success) throw new Error(response.error);
+      if (this.type === 'series') {
+        this.mediaService.getRandomSeries(15).subscribe((response) => {
+          if (!response.success) throw new Error(response.error);
 
-        const mediaList: Media[] = [];
-
-        response.data.slice(0, 15).forEach((media) => {
-          if (this.type === 'series') mediaList.push(new Series(media));
-          if (this.type === 'movies') mediaList.push(new Movie(media));
+          this.updateMediaList(response.data, this.type);
         });
+      }
 
-        this.mediaList.set(mediaList);
+      if (this.type === 'movies') {
+        this.mediaService.getRandomMovie(15).subscribe((response) => {
+          if (!response.success) throw new Error(response.error);
 
-        if (this.mediaList().length == 0) {
-          console.error('No Media Was found');
-          return;
-        }
-      });
+          this.updateMediaList(response.data, this.type);
+        });
+      }
+
+      // this.mediaService.getMediaList(this.type).subscribe((response) => {
+      //   if (!response.success) throw new Error(response.error);
+
+      //   const mediaList: Media[] = [];
+
+      //   response.data.slice(0, 15).forEach((media) => {
+      //     if (this.type === 'series') mediaList.push(new Series(media));
+      //     if (this.type === 'movies') mediaList.push(new Movie(media));
+      //   });
+
+      //   this.mediaList.set(mediaList);
+
+      //   if (this.mediaList().length == 0) {
+      //     console.error('No Media Was found');
+      //     return;
+      //   }
+      // });
     });
+  }
+
+  updateMediaList(mediaList: Media[], type: 'series' | 'movies' = 'series') {
+    const help = mediaList.map((media) => {
+      if (type === 'series') return new Series(media);
+      if (type === 'movies') return new Movie(media);
+      throw new Error('Type does not exist: ' + type);
+    });
+
+    this.mediaList.set(help);
   }
 
   showAllMedia() {
