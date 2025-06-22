@@ -33,48 +33,27 @@ export class MediaPage {
 
       if (!this.type) throw new Error('Type is not defined');
 
-      if (this.type === 'series')
+      if (this.type === 'series') {
         this.mediaService
           .getRandomSeries(1)
           .subscribe((response) => this.media.set(response.data[0]));
-      else if (this.type === 'movies')
-        this.mediaService
-          .getRandomMovie(1)
-          .subscribe((response) => this.media.set(response.data[0]));
 
-      if (this.type === 'series') {
         this.mediaService.getRandomSeries(15).subscribe((response) => {
           if (!response.success) throw new Error(response.error);
 
           this.updateMediaList(response.data, this.type);
         });
-      }
+      } else if (this.type === 'movies') {
+        this.mediaService
+          .getRandomMovie(1)
+          .subscribe((response) => this.media.set(response.data[0]));
 
-      if (this.type === 'movies') {
         this.mediaService.getRandomMovie(15).subscribe((response) => {
           if (!response.success) throw new Error(response.error);
 
           this.updateMediaList(response.data, this.type);
         });
       }
-
-      // this.mediaService.getMediaList(this.type).subscribe((response) => {
-      //   if (!response.success) throw new Error(response.error);
-
-      //   const mediaList: Media[] = [];
-
-      //   response.data.slice(0, 15).forEach((media) => {
-      //     if (this.type === 'series') mediaList.push(new Series(media));
-      //     if (this.type === 'movies') mediaList.push(new Movie(media));
-      //   });
-
-      //   this.mediaList.set(mediaList);
-
-      //   if (this.mediaList().length == 0) {
-      //     console.error('No Media Was found');
-      //     return;
-      //   }
-      // });
     });
   }
 
