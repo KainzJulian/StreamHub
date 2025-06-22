@@ -24,29 +24,33 @@ export class MediaLibrary {
 
       switch (type) {
         case 'highRated':
-          this.mediaService.getHighestRated(0).subscribe((response) => {
-            this.media.set(response.data);
-          });
+          this.mediaService
+            .getHighestRated(0)
+            .subscribe((response) => this.media.set(response.data));
           break;
+
         case 'movies':
-          this.mediaService.getMediaList('movies').subscribe((response) => {
-            this.media.set(response.data);
-          });
+          this.mediaService
+            .getRandomMovie(0)
+            .subscribe((response) => this.media.set(response.data));
           break;
+
         case 'moviesSeries':
-          this.mediaService.getRandomMediaList(0).subscribe((response) => {
-            this.media.set(response.data);
-          });
+          this.mediaService
+            .getRandomMediaList(0)
+            .subscribe((response) => this.media.set(response.data));
           break;
+
         case 'recWatched':
-          this.mediaService.getWatchHistory(0).subscribe((response) => {
-            this.media.set(response.data);
-          });
+          this.mediaService
+            .getWatchHistory(0)
+            .subscribe((response) => this.media.set(response.data));
           break;
+
         case 'series':
-          this.mediaService.getMediaList('series').subscribe((response) => {
-            this.media.set(response.data);
-          });
+          this.mediaService
+            .getRandomSeries(0)
+            .subscribe((response) => this.media.set(response.data));
           break;
 
         default:
