@@ -19,14 +19,14 @@ def saveFilesToDB() -> None:
 
     start_time = time.time()
 
-    # uploadMoviesToDB(moviesPath)
+    uploadMoviesToDB(moviesPath)
 
-    # createSeriesFromPath(seriesPath)
+    createSeriesFromPath(seriesPath)
 
     print("Adding Episodes to Series...")
 
-    # for name in scandir.listdir(seriesPath):
-    #     uploadEpisodesToSeries(seriesPath, name)
+    for name in scandir.listdir(seriesPath):
+        uploadEpisodesToSeries(seriesPath, name)
 
     seriesRoute.updateDurationInSeries()
 

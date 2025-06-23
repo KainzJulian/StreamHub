@@ -16,6 +16,7 @@ import { BackendResponse } from '../types/response';
 import { CurrentMedia } from '../types/currentMedia';
 import { Movie } from '../types/movie';
 import { MediaGenre } from '../types/genre';
+import { HttpRequestHandler } from '../types/APIMethodService';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,11 @@ export class MediaService {
   public currentEpisode = signal<Episode | null>(null);
   public currentSeason = signal<number>(1);
 
-  constructor(private http: HttpClient) {}
+  private apiService!: HttpRequestHandler;
+
+  constructor(private http: HttpClient) {
+    this.apiService = new HttpRequestHandler(http);
+  }
 
   public getMediaList(
     type: 'series' | 'movies'
@@ -34,128 +39,95 @@ export class MediaService {
     const route =
       type === 'series' ? SeriesRoutes.SERIES_ALL : MovieRoutes.MOVIES;
 
-    return this.http.get<BackendResponse<Media[]>>(route);
+    return this.apiService.get(route);
   }
 
   public getSeries(seriesID: string): Observable<BackendResponse<Series>> {
-    return this.http.get<BackendResponse<Series>>(
-      SeriesRoutes.SERIES(seriesID)
-    );
+    return this.apiService.get(SeriesRoutes.SERIES(seriesID));
   }
 
   public getEpisode(episodeID: string): Observable<BackendResponse<Episode>> {
-    return this.http.get<BackendResponse<Episode>>(
-      EpisodeRoutes.Episode(episodeID)
-    );
+    return this.apiService.get(EpisodeRoutes.Episode(episodeID));
   }
 
   public getMovie(movieID: string): Observable<BackendResponse<Movie>> {
-    return this.http.get<BackendResponse<Movie>>(MovieRoutes.MOVIE(movieID));
+    return this.apiService.get(MovieRoutes.MOVIE(movieID));
   }
 
   public setCurrentMedia(id: string = '') {
     const path = CurrentMediaRoutes.SET_CURRENT_MEDIA;
     const media = new CurrentMedia({ mediaID: id });
 
-    this.http.post<BackendResponse<boolean>>(path, media).subscribe((req) => {
-      if (req.error) throw new Error(req.error);
-    });
+    this.apiService.post(path, media);
   }
 
   public getCurrentMedia(): Observable<
     BackendResponse<{ type: string; media: Media }>
   > {
-    return this.http.get<BackendResponse<{ type: string; media: Media }>>(
-      CurrentMediaRoutes.CURRENT_MEDIA
-    );
+    return this.apiService.get(CurrentMediaRoutes.CURRENT_MEDIA);
   }
 
   public getHighestRatedMovies(
     limit: number
   ): Observable<BackendResponse<Movie[]>> {
-    return this.http.get<BackendResponse<Movie[]>>(
-      MovieRoutes.HIGHEST_RATED(limit)
-    );
+    return this.apiService.get(MovieRoutes.HIGHEST_RATED(limit));
   }
 
   public getHighestRatedSeries(
     limit: number
   ): Observable<BackendResponse<Series[]>> {
-    return this.http.get<BackendResponse<Series[]>>(
-      SeriesRoutes.HIGHEST_RATED(limit)
-    );
+    return this.apiService.get(SeriesRoutes.HIGHEST_RATED(limit));
   }
 
   public getWatchHistory(limit: number): Observable<BackendResponse<Media[]>> {
-    return this.http.get<BackendResponse<Media[]>>(
-      WatchHistoryRoutes.GET_HISTORY(limit)
-    );
+    return this.apiService.get(WatchHistoryRoutes.GET_HISTORY(limit));
   }
 
   public addToWatchHistory(media: Media) {
-    this.http
-      .post<BackendResponse<boolean>>(
-        WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, media.type),
-        null
-      )
-      .subscribe((response) => {
-        console.warn('response of addToWatchHistory', response);
-      });
+    this.apiService.post(
+      WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, media.type)
+    );
   }
 
   public getHighestRated(limit: number): Observable<BackendResponse<Media[]>> {
-    return this.http.get<BackendResponse<Media[]>>(
-      MediaRoutes.HIGHEST_RATED(limit)
-    );
+    return this.apiService.get(MediaRoutes.HIGHEST_RATED(limit));
   }
 
   public getMedia(
     id: string
   ): Observable<BackendResponse<Episode | Movie | Series>> {
-    return this.http.get<BackendResponse<Episode | Movie | Series>>(
-      MediaRoutes.MEDIA(id)
-    );
+    return this.apiService.get(MediaRoutes.MEDIA(id));
   }
 
   public getRandomMediaList(
     limit: number
   ): Observable<BackendResponse<Media[]>> {
-    return this.http.get<BackendResponse<Media[]>>(
-      MediaRoutes.RANDOM_MEDIA_LIST(limit)
-    );
+    return this.apiService.get(MediaRoutes.RANDOM_MEDIA_LIST(limit));
   }
 
   public getRandomMovie(limit: number): Observable<BackendResponse<Media[]>> {
-    return this.http.get<BackendResponse<Movie[]>>(MovieRoutes.RANDOM(limit));
+    return this.apiService.get(MovieRoutes.RANDOM(limit));
   }
 
   public getRandomSeries(limit: number): Observable<BackendResponse<Media[]>> {
-    return this.http.get<BackendResponse<Series[]>>(SeriesRoutes.RANDOM(limit));
+    return this.apiService.get(SeriesRoutes.RANDOM(limit));
   }
 
   public getSearch(
     input: string,
     genres: MediaGenre[]
   ): Observable<BackendResponse<Media[]>> {
-    return this.http.post<BackendResponse<Media[]>>(
-      MediaRoutes.SEARCH(input),
-      genres
-    );
+    return this.apiService.post(MediaRoutes.SEARCH(input), genres);
   }
 
   public getWatchTime(
     id: string | undefined
   ): Observable<BackendResponse<number>> {
     if (!id) throw new Error('Provided ID is undefined');
-    return this.http.get<BackendResponse<number>>(
-      MediaRoutes.GET_TIME_WATCHED(id)
-    );
+    return this.apiService.get<number>(MediaRoutes.GET_TIME_WATCHED(id));
   }
 
-  updateData(media: Media): Observable<BackendResponse<boolean>> {
-    return this.http.put<BackendResponse<boolean>>(
-      MediaRoutes.PUT_DATA(media.id),
-      media
-    );
+  public updateData(media: Media): Observable<BackendResponse<boolean>> {
+    return this.apiService.put(MediaRoutes.PUT_DATA(media.id), media);
   }
 }
