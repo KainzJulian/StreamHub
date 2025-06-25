@@ -58,7 +58,7 @@ export class MediaService {
     const path = CurrentMediaRoutes.SET_CURRENT_MEDIA;
     const media = new CurrentMedia({ mediaID: id });
 
-    this.apiService.post(path, media);
+    this.apiService.post<boolean>(path, media).subscribe();
   }
 
   public getCurrentMedia(): Observable<
@@ -84,9 +84,9 @@ export class MediaService {
   }
 
   public addToWatchHistory(media: Media) {
-    this.apiService.post(
-      WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, media.type)
-    );
+    this.apiService
+      .post(WatchHistoryRoutes.ADD_HISTORY_ITEM(media.id, media.type))
+      .subscribe();
   }
 
   public getHighestRated(limit: number): Observable<BackendResponse<Media[]>> {

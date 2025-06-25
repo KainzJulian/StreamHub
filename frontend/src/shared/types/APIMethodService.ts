@@ -13,10 +13,7 @@ export class HttpRequestHandler {
       .pipe(HttpRequestHandler.checkBackendResponse<T>());
   }
 
-  post<T>(
-    url: string,
-    body: unknown = undefined
-  ): Observable<BackendResponse<T>> {
+  post<T>(url: string, body: unknown = null): Observable<BackendResponse<T>> {
     return this.http
       .post<BackendResponse<T>>(url, body)
       .pipe(HttpRequestHandler.checkBackendResponse<T>());
