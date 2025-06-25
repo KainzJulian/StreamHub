@@ -54,6 +54,9 @@ def removeFromWatchHistory(media_id: str):
 
 @watchHistoryRouter.post("/add/{media_id}")
 def addToWatchHistory(media_id: str, media_type: str) -> Response[bool]:
+
+    print("Added to watchHistory: " + media_id + " with type: " + media_type)
+
     try:
 
         id = getLastWatchedMediaID()
