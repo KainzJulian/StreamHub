@@ -19,14 +19,15 @@
       <div class="movie__description">
         <p>{{this.currentMovie()?.description}}</p>
       </div>
-    </div>
 
-    <div class="movie__others">
-      <media-card-list
-        mediaListTitle="Similar Movies"
-        [mediaList]="this.similarMovies()"
-      >
-      </media-card-list>
+      <div class="movie__others">
+        <media-card-list
+          class="list"
+          mediaListTitle="Similar Movies"
+          [mediaList]="this.similarMovies()"
+        >
+        </media-card-list>
+      </div>
     </div>
   </media-template>
 </home-template>
