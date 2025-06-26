@@ -33,7 +33,7 @@ def uploadMoviesToDB(fullPath: str):
 
             movieName = os.path.splitext(file)[0]
 
-            mediaPathString = f"{relativePathString}/{movieFranchise}/{movieName}"  # movies/moviename/1
+            mediaPathString = f"{relativePathString}/{movieFranchise}/{movieName}"
             id = str(uuid5(uuid.NAMESPACE_DNS, mediaPathString))
 
             exists: bool = False

@@ -1,4 +1,6 @@
 import os
+from uuid import uuid5
+import uuid
 from PIL import Image
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
@@ -246,6 +248,61 @@ def getHighestRatedMovies(limit: int) -> Response[list[Movie]]:
             .sort("rating", DESCENDING)
             .limit(limit)
         )
+        return Response.Success(movies)
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+@movieRouter.get("/{movie_id}/similar")
+def getSimilarMovies(movie_id: str) -> Response[list[Movie]]:
+
+    movies: list[Movie] = []
+
+    try:
+
+        movie = movieCollection.find_one(
+            {"id": movie_id}, {"_id": False, "mediaPath": True}
+        )
+
+        if movie == None:
+            return Response.Error(
+                Exception("No Movie with provided ID found: " + movie_id)
+            )
+
+        folderPath = moviesPath + "/" + movie["mediaPath"].split("/")[-2]
+
+        files: list[str] = []
+
+        for filename in os.listdir(folderPath):
+            if filename.endswith(".mp4"):
+                files.append(
+                    os.path.join(folderPath, filename)
+                    .replace("\\", "/")
+                    .split("/")[-3:]
+                )
+
+        ids: list[str] = []
+
+        for file in files:
+            id = uuid5(
+                uuid.NAMESPACE_DNS,
+                file[0] + "/" + file[1] + "/" + os.path.splitext(file[-1])[0],
+            )
+
+            ids.append(str(id))
+
+        movies: list[Movie] = []
+
+        for id in ids:
+
+            help = movieCollection.find_one({"id": id}, {"_id": False})
+
+            if help == None:
+                return Response.Error(Exception("ID not found: " + id))
+
+            movies.append(help)
+
         return Response.Success(movies)
 
     except Exception as e:
