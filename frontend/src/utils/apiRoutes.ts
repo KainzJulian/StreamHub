@@ -9,6 +9,8 @@ export const MovieRoutes = {
     `${BASE_URL}/movies/${movieID}/percent_watched`,
   HIGHEST_RATED: (limit: number) => `${BASE_URL}/movies/highest_rated/${limit}`,
   RANDOM: (limit: number) => `${BASE_URL}/movies/random/${limit}`,
+  GET_SIMILAR_MOVIES: (movieID: string) =>
+    `${BASE_URL}/movies/${movieID}/similar`,
 };
 
 export const SeriesRoutes = {
