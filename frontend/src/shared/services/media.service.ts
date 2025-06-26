@@ -58,7 +58,7 @@ export class MediaService {
     const path = CurrentMediaRoutes.SET_CURRENT_MEDIA;
     const media = new CurrentMedia({ mediaID: id });
 
-    this.apiService.post<boolean>(path, media).subscribe();
+    this.apiService.post(path, media).subscribe();
   }
 
   public getCurrentMedia(): Observable<
@@ -124,10 +124,16 @@ export class MediaService {
     id: string | undefined
   ): Observable<BackendResponse<number>> {
     if (!id) throw new Error('Provided ID is undefined');
-    return this.apiService.get<number>(MediaRoutes.GET_TIME_WATCHED(id));
+    return this.apiService.get(MediaRoutes.GET_TIME_WATCHED(id));
   }
 
   public updateData(media: Media): Observable<BackendResponse<boolean>> {
     return this.apiService.put(MediaRoutes.PUT_DATA(media.id), media);
+  }
+
+  public getSimilarMovies(
+    movieID: string
+  ): Observable<BackendResponse<Movie[]>> {
+    return this.apiService.get(MovieRoutes.GET_SIMILAR_MOVIES(movieID));
   }
 }
