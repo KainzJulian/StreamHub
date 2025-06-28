@@ -23,6 +23,7 @@ export class MediaCard implements OnChanges {
   @Input() media: Media | null = null;
 
   public progressBarWidth = signal<number>(0);
+  @Input() isSelected: boolean = false;
 
   constructor(
     private elRef: ElementRef,

@@ -164,3 +164,7 @@ $base-height: 5px;
 
   padding: $gap--mid;
 }
+
+.selected {
+  @include selectedItem();
+}

@@ -37,6 +37,8 @@ export class HomePage implements OnInit {
       const mediaType = data.type;
       const media = response.data.media;
 
+      if (media === null) return;
+
       if (mediaType == 'episode') this.currentMedia.set(new Episode(media));
       if (mediaType == 'movie') this.currentMedia.set(new Movie(media));
 
