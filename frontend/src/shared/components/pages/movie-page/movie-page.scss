@@ -24,9 +24,39 @@
 
     margin: $gap--xlarge auto $gap--xxlarge auto;
   }
+
+  &__others {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .rating {
   margin-left: auto;
   padding-left: $gap--small;
+}
+
+.media-list {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: left;
+
+  gap: $gap--small;
+
+  width: 100%;
+
+  padding: $gap--small $gap--large $gap--large $gap--large;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.media-list {
+  &__title {
+    font-size: $text-size--big;
+    padding-top: $gap--xlarge;
+    padding-left: $gap--large;
+    padding-bottom: $gap--small;
+  }
 }

@@ -20,13 +20,18 @@
         <p>{{this.currentMovie()?.description}}</p>
       </div>
 
-      <div class="movie__others">
-        <media-card-list
-          class="list"
-          mediaListTitle="Similar Movies"
-          [mediaList]="this.similarMovies()"
-        >
-        </media-card-list>
+      <div class="movie__others" *ngIf="displaySimilarMovies()">
+        <p class="media-list__title">Similar Movies</p>
+
+        <div class="media-list">
+          @for (media of this.similarMovies(); track $index) {
+          <media-card
+            [isSelected]="media.id === this.currentMovie()?.id"
+            [title]="media.title"
+            [media]="media"
+          ></media-card>
+          }
+        </div>
       </div>
     </div>
   </media-template>

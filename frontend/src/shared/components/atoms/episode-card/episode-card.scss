@@ -130,12 +130,11 @@ $base-height: 5px;
 }
 
 .show-info {
+  @include selectedItem();
   .card__title,
   .card__episode {
     visibility: visible;
   }
-  transition: outline $transition--fast ease;
-  outline: 3px solid $highlight--transparent;
 }
 
 .content {

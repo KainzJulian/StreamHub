@@ -129,3 +129,8 @@ body {
 
   padding: $gap--small $gap--mid $gap--small $gap--mid;
 }
+
+@mixin selectedItem {
+  transition: outline $transition--fast ease;
+  outline: 3px solid $highlight--transparent;
+}
