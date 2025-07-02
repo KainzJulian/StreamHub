@@ -41,6 +41,18 @@ $color-primary--hover: #131313;
 $color-secondary--hover: rgb(110, 110, 110);
 $color-accent--hover: rgb(189, 189, 189);
 
+$breakpoints: (
+  "sm": 480px,
+  "md": 1024px,
+  "lg": 1920px,
+);
+
+@mixin respond($breakpoint) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
 p {
   margin: 0;
   padding: 0;
