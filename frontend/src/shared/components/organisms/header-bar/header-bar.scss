@@ -1,22 +1,30 @@
 @import "@styles";
 
 :host {
-  background-color: $downlight--transparent;
-  backdrop-filter: $blur--mid;
-
   width: 100%;
-  height: $gap--xxlarge;
 
   box-sizing: border-box;
   padding: $gap--xsmall;
 
   position: absolute;
-  top: 0px;
 
   display: flex;
   flex-direction: row;
 
   z-index: 9999;
+
+  bottom: 0px;
+  height: $gap--xxlarge;
+
+  background-color: $color-primary;
+
+  @include respond(md) {
+    height: $gap--xxlarge;
+    top: 0px;
+
+    background-color: $downlight--transparent;
+    backdrop-filter: $blur--mid;
+  }
 }
 
 .button-group {
@@ -25,8 +33,12 @@
   height: 100%;
 
   &__router {
-    margin-left: 120px;
-    gap: $gap--xlarge;
+    gap: $gap--small;
+
+    @include respond(md) {
+      margin-left: 120px;
+      gap: $gap--xlarge;
+    }
   }
 
   &__operater {
@@ -44,4 +56,12 @@
 
 p {
   font-size: $text-size--big;
+}
+
+input {
+  display: none;
+
+  @include respond(sm) {
+    display: block;
+  }
 }
