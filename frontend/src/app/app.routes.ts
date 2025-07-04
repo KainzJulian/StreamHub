@@ -44,6 +44,10 @@ export const routes: Routes = [
     component: SearchPage,
   },
   {
+    path: 'search',
+    component: SearchPage,
+  },
+  {
     path: 'edit/:id',
     component: EditPage,
   },

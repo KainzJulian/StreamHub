@@ -40,9 +40,6 @@ export class SearchPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const input = this.route.snapshot.paramMap.get('input');
-    if (input === null) throw new Error('Search is empty');
-
     this.route.params.subscribe((params) => {
       const search = params['input'];
       this.setMediaList(search);
@@ -51,6 +48,8 @@ export class SearchPage implements OnInit {
 
   public setMediaList(input: string) {
     if (this.checkInput(input)) return;
+
+    console.log(input);
 
     this.mediaService
       .getSearch(input, Array.from(this.genreList.values()))
@@ -73,6 +72,8 @@ export class SearchPage implements OnInit {
   }
 
   checkInput(input: string): boolean {
+    if (input === '') return true;
+
     const trimmed = input.trim();
     if (trimmed === '') return true;
     if (trimmed.indexOf('/') !== -1) return true;

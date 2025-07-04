@@ -6,7 +6,7 @@
 
   margin-top: $gap--large;
 
-  padding: $gap--xxlarge;
+  padding: $gap--xxlarge $gap--large $gap--xxlarge $gap--large;
 
   display: flex;
   flex-direction: column;
@@ -37,9 +37,17 @@
 }
 
 .genre-group {
-  display: flex;
+  display: grid;
   gap: $gap--small;
+  width: 100%;
+
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  @include respond(md) {
+    display: flex;
+  }
 
   margin-top: $gap--small;
   margin-bottom: $gap--large;
+
+  overflow: scroll;
 }
