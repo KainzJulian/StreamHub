@@ -8,8 +8,6 @@
 
   display: block;
   position: relative;
-
-  // padding: $gap--xxlarge;
 }
 
 $color-percent: 95%;
@@ -67,10 +65,19 @@ $color-percent: 95%;
     flex-direction: column;
     gap: $gap--large;
 
-    padding-left: $gap--xxlarge;
-    padding-bottom: $gap--xxlarge;
+    padding-left: $gap--xlarge;
+    padding-bottom: $gap--xlarge;
 
-    background: linear-gradient(to left, transparent 0%, $color-primary 100%);
+    @include respond(sm) {
+      padding-left: $gap--xxlarge;
+      padding-bottom: $gap--xxlarge;
+    }
+
+    background: linear-gradient(to left, transparent 0%, $color-primary 75%);
+
+    @include respond(sm) {
+      background: linear-gradient(to left, transparent 0%, $color-primary 100%);
+    }
   }
 
   &__series-title {
@@ -84,7 +91,12 @@ $color-percent: 95%;
   &__rating {
     position: absolute;
     right: $gap--large;
-    bottom: $gap--large;
+    bottom: 0px;
+
+    @include respond(sm) {
+      right: $gap--large;
+      bottom: $gap--large;
+    }
 
     width: 32px;
     height: 32px;
@@ -101,7 +113,11 @@ $color-percent: 95%;
   }
 
   &__description {
-    width: 40%;
+    width: 70%;
+
+    @include respond(sm) {
+      width: 40%;
+    }
   }
 
   &__complete {
