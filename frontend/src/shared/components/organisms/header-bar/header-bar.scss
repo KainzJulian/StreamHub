@@ -61,7 +61,7 @@ p {
 input {
   display: none;
 
-  @include respond(sm) {
+  @include respond(md) {
     display: block;
   }
 }

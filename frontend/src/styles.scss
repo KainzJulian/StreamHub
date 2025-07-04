@@ -76,6 +76,14 @@ body {
   }
 }
 
+body {
+  padding-bottom: $gap--xxlarge;
+
+  @include respond(md) {
+    padding-top: $gap--xxlarge;
+  }
+}
+
 * {
   box-sizing: border-box;
 
@@ -88,7 +96,7 @@ body {
 }
 
 .circle {
-  background-color: rgb(200, 0, 0);
+  background-color: rgb(244, 0, 0);
 
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 50%;

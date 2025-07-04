@@ -32,10 +32,10 @@
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     grid-template-rows: auto;
 
-    gap: $gap--xsmall;
+    column-gap: $gap--large;
     row-gap: $gap--xlarge;
 
-    padding: $gap--small $gap--large $gap--large $gap--large;
+    justify-items: center;
   }
 }
 
