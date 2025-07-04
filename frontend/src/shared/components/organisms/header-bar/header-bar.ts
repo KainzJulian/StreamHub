@@ -21,7 +21,6 @@ export class HeaderBar {
   constructor(private mediaRouter: MediaRouterService) {}
 
   openSearch(input: string) {
-    if (input === '') return;
     this.mediaRouter.openSearch(input);
   }
 

@@ -30,11 +30,15 @@
 .button-group {
   display: flex;
   flex-direction: row;
+
   height: 100%;
+  width: 100%;
+
+  gap: $gap--small;
+
+  justify-content: center;
 
   &__router {
-    gap: $gap--small;
-
     @include respond(md) {
       margin-left: 120px;
       gap: $gap--xlarge;
@@ -42,7 +46,9 @@
   }
 
   &__operater {
-    margin-left: auto;
+    @include respond(sm) {
+      margin-left: auto;
+    }
   }
 }
 
@@ -60,6 +66,7 @@ p {
 
 input {
   display: none;
+  visibility: none;
 
   @include respond(md) {
     display: block;
