@@ -8,15 +8,17 @@
     [media]="this.currentMovie()"
     [videoSource]="getVideoSource()"
   >
-    <div class="movie__title" header>
+    <div class="movie movie__title" header>
       <p>{{this.currentMovie()?.title}}</p>
     </div>
+
     <div class="movie__info" info>
-      <div>
+      <div class="movie">
         <genre-list [genres]="this.currentMovie()?.genreList"></genre-list>
         <p class="prevent-select rating">{{this.currentMovie()?.rating}}</p>
       </div>
-      <div class="movie__description">
+
+      <div class="movie movie__description">
         <p>{{this.currentMovie()?.description}}</p>
       </div>
 
