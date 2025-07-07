@@ -41,6 +41,26 @@
   }
 }
 
+:host(.width--300) {
+  button {
+    width: 300px;
+
+    @include respond(md) {
+      width: 300px;
+    }
+  }
+}
+
+:host(.width--150) {
+  button {
+    width: 150px;
+
+    @include respond(md) {
+      width: 300px;
+    }
+  }
+}
+
 :host(.dropdown__button) {
   button {
     background-color: $downlight--transparent;
@@ -51,7 +71,6 @@
     cursor: pointer;
 
     height: 100%;
-    width: 300px;
 
     padding: $gap--small $gap--large $gap--small $gap--large;
 

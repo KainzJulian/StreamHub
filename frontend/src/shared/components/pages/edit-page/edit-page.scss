@@ -1,4 +1,5 @@
 @import "@styles";
+
 @mixin margin-vertical() {
   margin-top: $gap--small;
   margin-bottom: $gap--large;
@@ -11,10 +12,20 @@
   gap: $gap--xxlarge;
 
   align-items: center;
+
+  margin-top: $gap--xxlarge;
+
+  @include respond(md) {
+    margin-top: $gap--small;
+  }
 }
 
 .input-group {
-  width: 70%;
+  width: 90%;
+
+  @include respond(md) {
+    width: 70%;
+  }
 }
 
 .button-group {
@@ -41,8 +52,15 @@ textarea {
 }
 
 .genre-group {
-  display: flex;
   gap: $gap--small;
+  display: grid;
+  width: 100%;
+
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+
+  @include respond(md) {
+    display: flex;
+  }
 
   @include margin-vertical();
 }

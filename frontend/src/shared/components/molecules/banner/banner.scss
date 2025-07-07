@@ -73,9 +73,7 @@ $color-percent: 95%;
       padding-bottom: $gap--xxlarge;
     }
 
-    @include respond(sm) {
-      background: linear-gradient(to left, transparent 0%, $color-primary 100%);
-    }
+    background: linear-gradient(to left, transparent 0%, $color-primary 100%);
   }
 
   &__series-title {

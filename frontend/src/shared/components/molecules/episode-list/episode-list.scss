@@ -11,6 +11,8 @@
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-template-rows: auto;
 
+  justify-items: center;
+
   gap: $gap--xsmall;
   row-gap: $gap--xlarge;
 

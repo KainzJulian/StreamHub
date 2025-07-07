@@ -9,6 +9,8 @@
   height: auto;
 
   background-color: $highlight--transparent;
+
+  white-space: nowrap;
 }
 
 :host(.hover-effect) {
