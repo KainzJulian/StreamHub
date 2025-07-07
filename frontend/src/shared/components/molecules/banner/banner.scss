@@ -73,8 +73,6 @@ $color-percent: 95%;
       padding-bottom: $gap--xxlarge;
     }
 
-    background: linear-gradient(to left, transparent 0%, $color-primary 75%);
-
     @include respond(sm) {
       background: linear-gradient(to left, transparent 0%, $color-primary 100%);
     }

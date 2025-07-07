@@ -6,6 +6,12 @@
   width: 100%;
   height: auto;
   display: block;
+
+  margin-top: $gap--large;
+
+  @include respond(md) {
+    margin-top: 0px;
+  }
 }
 
 :host(.full-width) {
@@ -16,7 +22,7 @@
 
 .videoPlayer {
   aspect-ratio: 16 / 9;
-  width: 80%;
+  width: 90%;
   background-color: black;
 
   text-align: center;
@@ -29,9 +35,17 @@
 
   margin-top: $gap--xlarge;
   margin-bottom: $gap--large;
+
+  @include respond(md) {
+    width: 80%;
+  }
 }
 
 .info {
-  width: 80%;
+  width: 100%;
   margin: auto;
+
+  @include respond(md) {
+    width: 80%;
+  }
 }

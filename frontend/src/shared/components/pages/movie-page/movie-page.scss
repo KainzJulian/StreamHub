@@ -1,5 +1,11 @@
 @import "@styles";
 
+div.movie {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .movie {
   &__title {
     text-align: center;
@@ -12,6 +18,13 @@
   &__info {
     display: flex;
     flex-direction: column;
+    width: 100%;
+
+    margin: auto;
+
+    @include respond(md) {
+      width: 100%;
+    }
 
     div {
       display: flex;
@@ -19,8 +32,12 @@
   }
 
   &__description {
-    width: 70%;
+    width: 100%;
     height: auto;
+
+    @include respond(md) {
+      width: 70%;
+    }
 
     margin: $gap--xlarge auto $gap--xxlarge auto;
   }
