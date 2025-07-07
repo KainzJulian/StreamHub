@@ -73,6 +73,7 @@ export class SearchPage implements OnInit {
 
   checkInput(input: string): boolean {
     if (input === '') return true;
+    if (input === undefined) return true;
 
     const trimmed = input.trim();
     if (trimmed === '') return true;
