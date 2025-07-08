@@ -231,7 +231,7 @@ def searchMovies(query: str, genres: list[str]) -> Response[list[Movie]]:
 
 def removeMovie(id: str):
 
-    if not cleanupOrphanedMedia:
+    if cleanupOrphanedMedia == "false":
         return
 
     try:

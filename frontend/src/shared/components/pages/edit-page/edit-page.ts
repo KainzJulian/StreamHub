@@ -15,6 +15,9 @@ import { Media } from '../../../types/media';
 import { MediaService } from '../../../services/media.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Episode } from '../../../types/seriesEpisode';
+import { Movie } from '../../../types/movie';
+import { Series } from '../../../types/series';
 
 @Component({
   selector: 'edit-page',
@@ -54,16 +57,24 @@ export class EditPage {
       this.complete = data.isComplete;
       this.rating = data.rating ?? 0;
 
-      data.genreList?.forEach((genre) => {
-        this.genreList.add(genre);
-      });
-
-      console.log(this.genreList);
+      if (data.type === 'Episode') {
+        this.mediaService.getEpisode(data.id).subscribe((response) => {
+          this.mediaService
+            .getSeries(response.data.seriesID)
+            .subscribe((response) => {
+              this.addGenresToList(response.data.genreList);
+            });
+        });
+      } else {
+        this.addGenresToList(data.genreList);
+      }
     });
   }
 
-  checkMediaType(type: string): boolean {
-    return this.media()?.type === type;
+  private addGenresToList(data: MediaGenre[] | null) {
+    data?.forEach((genre) => {
+      this.genreList.add(genre);
+    });
   }
 
   onCancelPressed() {

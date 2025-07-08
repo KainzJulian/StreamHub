@@ -142,7 +142,7 @@ def addEpisode(episode: Episode) -> Response[str]:
 
 
 def removeEpisode(id: str):
-    if not cleanupOrphanedMedia:
+    if cleanupOrphanedMedia == "false":
         return
 
     try:

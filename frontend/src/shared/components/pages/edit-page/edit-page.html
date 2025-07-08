@@ -19,22 +19,20 @@
       cols="100"
     ></textarea>
 
-    <ng-container *ngIf="!this.checkMediaType('Episode')">
-      <p>Genres</p>
-      <div class="genre-group">
-        @for (item of this.getAllGenres(); track $index) {
-        <genre
-          (onClick)="this.addGenreToList($event)"
-          class="hover-effect"
-          [genre]="item"
-          [ngClass]="{active: this.isGenreActive(item)}"
-        ></genre>
-        }
-      </div>
+    <p>Genres</p>
+    <div class="genre-group">
+      @for (item of this.getAllGenres(); track $index) {
+      <genre
+        (onClick)="this.addGenreToList($event)"
+        class="hover-effect"
+        [genre]="item"
+        [ngClass]="{active: this.isGenreActive(item)}"
+      ></genre>
+      }
+    </div>
 
-      <p>Complete</p>
-      <input [(ngModel)]="complete" type="checkbox" placeholder="Complete" />
-    </ng-container>
+    <p>Complete</p>
+    <input [(ngModel)]="complete" type="checkbox" placeholder="Complete" />
 
     <p>Rating</p>
     <input

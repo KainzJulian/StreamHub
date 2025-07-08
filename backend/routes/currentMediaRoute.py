@@ -17,7 +17,6 @@ from routes.episodeRoute import removeEpisode
 
 currentMediaRouter = APIRouter(prefix="/current_media", tags=["currentMedia"])
 mediaPath = getENV("MEDIA_PATH")
-cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 
 
 @currentMediaRouter.get("/get")

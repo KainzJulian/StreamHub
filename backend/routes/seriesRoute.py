@@ -21,7 +21,6 @@ seriesRouter = APIRouter(prefix="/series", tags=["series"])
 
 seriesPath = getENV("MEDIA_PATH") + "/series"
 mediaPath = getENV("MEDIA_PATH")
-cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 
 
 @seriesRouter.get("/")
