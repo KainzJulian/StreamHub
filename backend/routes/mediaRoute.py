@@ -243,12 +243,34 @@ def updateData(media_id: str, media: Media) -> Response[bool]:
         }
     }
 
+    if media.type == "Episode":
+        pipelineSet = {
+            "$set": {
+                "title": media.title,
+                "description": media.description,
+                "isComplete": media.isComplete,
+                "rating": media.rating,
+            }
+        }
+
     try:
 
         updatedDocument: bool = False
 
         if media.type == "Episode":
+
+            seriesID = episodesCollection.find_one({"id": media_id}, {"seriesID": True})
+
+            print(seriesID)
+
+            if seriesID == None:
+                raise Exception("Episode is not linked to Series")
+
             episodesCollection.update_one({"id": media_id}, pipelineSet)
+            seriesCollection.update_one(
+                {"id": seriesID}, {"$set": {"genreList": media.genreList}}
+            )
+
             updatedDocument = True
 
         if media.type == "Series":

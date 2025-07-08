@@ -10,7 +10,6 @@ from utils.save_to_db import (
 )
 
 
-load_dotenv(find_dotenv(".env"))
 seriesPath = getENV("MEDIA_PATH") + "/series"
 moviesPath = getENV("MEDIA_PATH") + "/movies"
 
