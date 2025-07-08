@@ -34,7 +34,11 @@
   height: 100%;
   width: 100%;
 
-  gap: $gap--small;
+  gap: none;
+
+  @include respond(sm) {
+    gap: $gap--small;
+  }
 
   justify-content: center;
 
@@ -69,6 +73,11 @@ input {
   visibility: none;
 
   @include respond(md) {
+    width: 150px;
     display: block;
   }
+}
+
+.search {
+  display: flex;
 }

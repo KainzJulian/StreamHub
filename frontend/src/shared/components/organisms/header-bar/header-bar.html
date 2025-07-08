@@ -32,7 +32,7 @@
     </base-button>
   </ng-container>
 
-  <ng-container *ngIf="showSearch">
+  <div class="search" *ngIf="showSearch">
     <base-button (onClick)="this.openSearch(input.value)" class="header__icon">
       <icon iconName="search" alt="Search" />
     </base-button>
@@ -45,5 +45,5 @@
       placeholder="Search..."
       maxlength="100"
     />
-  </ng-container>
+  </div>
 </div>
