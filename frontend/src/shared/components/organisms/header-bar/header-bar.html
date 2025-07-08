@@ -32,7 +32,11 @@
     </base-button>
   </ng-container>
 
-  <div class="search" *ngIf="showSearch">
+  <div
+    [ngClass]="{'margin-left': !showEditButton}"
+    class="search"
+    *ngIf="showSearch"
+  >
     <base-button (onClick)="this.openSearch(input.value)" class="header__icon">
       <icon iconName="search" alt="Search" />
     </base-button>
