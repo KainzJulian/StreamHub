@@ -102,29 +102,52 @@ def getRandomMedia(limit: int) -> Response[list[Media]]:
         return Response.Error(e)
 
 
-@mediaRouter.post("/search/{query}")
-def search(query: str, genres: list[str]) -> Response[list[Series | Movie]]:
+@mediaRouter.post("/search")
+def searchWithGenres(genres: list[str]) -> Response[list[Series | Movie]]:
 
-    print(query)
-    print(genres)
+    if len(genres) == 0:
+        return Response.Success([])
 
     try:
-
-        series = seriesRoute.searchSeries(query, genres).data
-        movies = movieRoute.searchMovies(query, genres).data
-
-        if not series:
-            series = []
-
-        if not movies:
-            movies = []
-
-        mediaList = series + movies
-
-        return Response.Success(mediaList)
+        return Response.Success(getSearchedMediaList("", genres))
 
     except Exception as e:
         return Response.Error(e)
+
+
+@mediaRouter.post("/search/{query}")
+def searchWithQueryGenres(
+    query: str, genres: list[str]
+) -> Response[list[Series | Movie]]:
+
+    try:
+        return Response.Success(getSearchedMediaList(query, genres))
+
+    except Exception as e:
+        return Response.Error(e)
+
+
+def getSearchedMediaList(query, genres):
+    seriesResponse = seriesRoute.searchSeries(query, genres)
+    moviesResponse = movieRoute.searchMovies(query, genres)
+
+    if seriesResponse.error != None:
+        raise Exception(seriesResponse.error)
+
+    if moviesResponse.error != None:
+        raise Exception(moviesResponse.error)
+
+    series = seriesResponse.data
+    movies = moviesResponse.data
+
+    if not series:
+        series = []
+
+    if not movies:
+        movies = []
+
+    mediaList = series + movies
+    return mediaList
 
 
 def mergeMovieSeriesLists(

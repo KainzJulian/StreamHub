@@ -36,7 +36,7 @@ export class SearchPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private mediaService: MediaService,
-    private mediaRoute: MediaRouterService
+    private mediaRoute: MediaRouterService,
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +72,7 @@ export class SearchPage implements OnInit {
   }
 
   checkInput(input: string): boolean {
-    if (input === '') return true;
+    if (input === '') return false;
     if (input === undefined) return true;
 
     const trimmed = input.trim();
