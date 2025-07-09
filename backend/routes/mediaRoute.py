@@ -191,7 +191,6 @@ def setWatchedFlag(media_id: str) -> Response[bool]:
             {"id": media_id}, {"$set": {"watched": True, "durationWatched": 0}}
         )
 
-        # Checks whether the episode has already been watched => Does not count again
         if media != None and episode != None and episode["watched"] != True:
             seriesRoute.updateDurationWatched(media["seriesID"])
 
@@ -259,16 +258,16 @@ def updateData(media_id: str, media: Media) -> Response[bool]:
 
         if media.type == "Episode":
 
-            seriesID = episodesCollection.find_one({"id": media_id}, {"seriesID": True})
+            episode = episodesCollection.find_one({"id": media_id}, {"seriesID": True})
 
-            print(seriesID)
+            print(episode)
 
-            if seriesID == None:
+            if episode == None:
                 raise Exception("Episode is not linked to Series")
 
             episodesCollection.update_one({"id": media_id}, pipelineSet)
             seriesCollection.update_one(
-                {"id": seriesID}, {"$set": {"genreList": media.genreList}}
+                {"id": episode["seriesID"]}, {"$set": {"genreList": media.genreList}}
             )
 
             updatedDocument = True
