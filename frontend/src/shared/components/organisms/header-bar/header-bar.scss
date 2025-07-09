@@ -34,13 +34,16 @@
   height: 100%;
   width: 100%;
 
-  gap: none;
+  gap: 0px;
+  justify-content: center;
+
+  @include respond(md) {
+    justify-content: start;
+  }
 
   @include respond(sm) {
     gap: $gap--small;
   }
-
-  justify-content: center;
 
   &__router {
     @include respond(md) {
