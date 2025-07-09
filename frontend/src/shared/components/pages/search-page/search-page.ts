@@ -40,22 +40,16 @@ export class SearchPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      const search = params['input'];
-      this.setMediaList(search);
-    });
+    const search = this.route.snapshot.paramMap.get('input');
+    if (search !== null && search !== '') this.setMediaList(search);
   }
 
   public setMediaList(input: string) {
     if (this.checkInput(input)) return;
 
-    console.log(input);
-
     this.mediaService
       .getSearch(input, Array.from(this.genreList.values()))
       .subscribe((response) => {
-        console.log(response);
-
         const mediaList: Media[] = [];
 
         response.data.forEach((element) => {
@@ -67,16 +61,14 @@ export class SearchPage implements OnInit {
         this.mediaRoute.openSearch(input);
         this.inputElement.nativeElement.value = input;
         this.mediaList.set(mediaList);
-        console.log('medialist', mediaList);
       });
   }
 
   checkInput(input: string): boolean {
-    if (input === '') return false;
     if (input === undefined) return true;
+    if (input === '') return false;
 
     const trimmed = input.trim();
-    if (trimmed === '') return true;
     if (trimmed.indexOf('/') !== -1) return true;
 
     return false;

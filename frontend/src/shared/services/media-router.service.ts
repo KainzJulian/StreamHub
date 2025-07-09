@@ -9,7 +9,10 @@ import { LibraryListType } from '../types/libraryListType';
   providedIn: 'root',
 })
 export class MediaRouterService {
-  constructor(private router: Router, private mediaService: MediaService) {}
+  constructor(
+    private router: Router,
+    private mediaService: MediaService,
+  ) {}
 
   public openMediaPlayer(media: Media) {
     let route: string = '';
