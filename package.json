@@ -4,8 +4,10 @@
   "scripts": {
     "frontend": "cd ./frontend && ng serve",
     "backend": "cd ./backend && npm run start",
-    "mongo": "docker-compose up mongo --build",
-    "app": "npm run frontend & npm run backend & npm run mongo"
+    "mongo": "docker-compose up mongo --build"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "eslint-plugin-storybook": "^9.0.16"
+  }
 }
