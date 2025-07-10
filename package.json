@@ -7,8 +7,5 @@
     "mongo": "docker-compose up mongo --build",
     "app": "npm run frontend & npm run backend & npm run mongo"
   },
-  "private": true,
-  "devDependencies": {
-    "eslint-plugin-storybook": "^9.0.16"
-  }
+  "private": true
 }
