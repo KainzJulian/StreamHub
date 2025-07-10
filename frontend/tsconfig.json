@@ -3,6 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "types": ["node"],
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -21,7 +22,6 @@
     "lib": ["ES2022", "dom"],
     "checkJs": true,
     "paths": {
-      "@styles": ["./src/styles.scss"],
       "@atoms": ["./src/shared/components/atoms"],
       "@molecules": ["./src/shared/components/molecules"],
       "@organisms": ["./src/shared/components/organisms"],

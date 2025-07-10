@@ -13,5 +13,6 @@ export default [
   {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
+  ...storybook.configs["flat/recommended"],
   ...storybook.configs["flat/recommended"]
 ];
