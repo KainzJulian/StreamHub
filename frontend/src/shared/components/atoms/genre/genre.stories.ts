@@ -3,19 +3,29 @@ import { Genre } from './genre';
 
 const meta: Meta<Genre> = {
   component: Genre,
+  args: {
+    genre: 'Action',
+  },
 };
 
 export default meta;
 
-type Story = StoryObj<Genre>;
-
-export const Primary: Story = {
+export const Primary: StoryObj<Genre> = {
   args: {
     genre: 'Action',
   },
-  render: (args) => ({
-    props: args,
-    template: `<genre />`,
-  }),
-  name: 'I am the primary',
+
+  // render: (args) => ({
+  //   props: args,
+  //   template: `<genre />`,
+  // }),
+
+  parameters: {
+    test: {
+      test: 'hi',
+      test2: 'hi2',
+    },
+  },
+
+  name: 'Genre',
 };

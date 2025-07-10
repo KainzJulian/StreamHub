@@ -84,7 +84,8 @@
             "browserTarget": "StreamHub:build",
             "compodoc": true,
             "compodocArgs": ["-e", "json", "-d", "."],
-            "port": 6006
+            "port": 6006,
+            "styles": ["src/styles.scss"]
           }
         },
         "build-storybook": {
@@ -94,7 +95,8 @@
             "browserTarget": "StreamHub:build",
             "compodoc": true,
             "compodocArgs": ["-e", "json", "-d", "."],
-            "outputDir": "storybook-static"
+            "outputDir": "storybook-static",
+            "styles": ["src/styles.scss"]
           }
         }
       }

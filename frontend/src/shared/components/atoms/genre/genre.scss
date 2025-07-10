@@ -1,4 +1,4 @@
-@import "../../../../styles.scss";
+@import "@styles";
 
 :host {
   border-radius: $radius--large;
@@ -7,6 +7,8 @@
 
   width: auto;
   height: auto;
+
+  display: inline-block;
 
   background-color: $highlight--transparent;
 

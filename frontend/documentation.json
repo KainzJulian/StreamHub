@@ -3499,7 +3499,7 @@
         },
         {
             "name": "Genre",
-            "id": "component-Genre-d8cc6c39cf083792ed599dff97853e71237a4acac022663e02603f3195f30b3ed18cd250ea9f2040add62f3e4c99496949282144c722c72c30698353ed22f94f",
+            "id": "component-Genre-f921d8d8fdcd3067e7770af5090ea6c328bc0cdf39dc969121fb1e40f5ae2160aa9df3288ccb23da99c9eb4a18a05c3d33a9618db095141a02e7db852d9b61e5",
             "file": "src/shared/components/atoms/genre/genre.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3519,7 +3519,7 @@
                     "name": "genre",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 11,
+                    "line": 14,
                     "type": "string",
                     "decorators": []
                 }
@@ -3530,7 +3530,7 @@
                     "defaultValue": "new EventEmitter<string>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 13,
+                    "line": 16,
                     "type": "EventEmitter"
                 }
             ],
@@ -3542,7 +3542,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 15,
+                    "line": 18,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -3556,7 +3556,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'genre',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './genre.html',\r\n  styleUrl: './genre.scss',\r\n})\r\nexport class Genre {\r\n  @Input() genre?: string;\r\n\r\n  @Output() onClick = new EventEmitter<string>();\r\n\r\n  onGenreClicked() {\r\n    if (!this.genre)\r\n      throw new Error('onGenreClicked not triggered: this.genre is undefined');\r\n\r\n    this.onClick.emit(this.genre);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'genre',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './genre.html',\r\n  styleUrl: './genre.scss',\r\n})\r\n/**\r\n * test\r\n */\r\nexport class Genre {\r\n  @Input() genre?: string;\r\n\r\n  @Output() onClick = new EventEmitter<string>();\r\n\r\n  onGenreClicked() {\r\n    if (!this.genre)\r\n      throw new Error('onGenreClicked not triggered: this.genre is undefined');\r\n\r\n    this.onClick.emit(this.genre);\r\n  }\r\n}\r\n",
             "styleUrl": "./genre.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
