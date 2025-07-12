@@ -34,8 +34,7 @@ export class EpisodeCard implements OnInit {
   constructor(
     private elRef: ElementRef,
     private mediaRouterService: MediaRouterService,
-    private route: ActivatedRoute,
-    private mediaService: MediaService
+    private route: ActivatedRoute
   ) {
     this.seriesID = this.route.snapshot.paramMap.get('seriesID');
   }

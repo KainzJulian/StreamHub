@@ -12,7 +12,7 @@ export class Genre {
 
   @Output() onClick = new EventEmitter<string>();
 
-  public onGenreClicked() {
+  onGenreClicked() {
     if (!this.genre)
       throw new Error('onGenreClicked not triggered: this.genre is undefined');
 

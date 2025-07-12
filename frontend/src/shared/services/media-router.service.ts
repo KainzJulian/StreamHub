@@ -9,12 +9,9 @@ import { LibraryListType } from '../types/libraryListType';
   providedIn: 'root',
 })
 export class MediaRouterService {
-  constructor(
-    private router: Router,
-    private mediaService: MediaService,
-  ) {}
+  constructor(private router: Router) {}
 
-  public openMediaPlayer(media: Media) {
+  openMediaPlayer(media: Media) {
     let route: string = '';
 
     if (media instanceof Episode) route = `/series/${media.seriesID}/player`;
@@ -26,12 +23,12 @@ export class MediaRouterService {
     this.router.navigate([route, media.id]);
   }
 
-  public openSeriesPlayer(seriesID: string, id: string) {
+  openSeriesPlayer(seriesID: string, id: string) {
     if (seriesID == null) return;
     this.router.navigate([`/series/${seriesID}/player`, id]);
   }
 
-  public openMoviePlayer(id: string) {
+  openMoviePlayer(id: string) {
     this.router.navigate(['/movie/player', id]);
   }
 

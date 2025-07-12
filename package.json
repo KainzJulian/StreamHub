@@ -4,7 +4,9 @@
   "scripts": {
     "frontend": "cd ./frontend && ng serve",
     "backend": "cd ./backend && npm run start",
-    "mongo": "docker-compose up mongo --build"
+    "mongo": "docker-compose up mongo --build",
+    "storybook": "cd ./frontend && ng run StreamHub:storybook",
+    "build-storybook": "cd ./frontend && ng run StreamHub:build-storybook"
   },
   "private": true,
   "devDependencies": {
