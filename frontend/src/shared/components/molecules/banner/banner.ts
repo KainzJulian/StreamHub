@@ -14,6 +14,7 @@ import { GenreList } from '../genre-list/genre-list';
 import { MediaService } from '../../../services/media.service';
 import { Series } from '../../../types/series';
 import { Episode } from '../../../types/seriesEpisode';
+import { environment } from '../../../../environment';
 
 @Component({
   selector: 'banner',
@@ -57,13 +58,8 @@ export class Banner implements AfterViewInit {
       }
     }
     this.src.set(
-      `http://localhost:8000/api/${type}/${this.media?.id}/thumbnail_banner`
+      `http://${environment.backend.IP}:${environment.backend.PORT}/api/${type}/${this.media?.id}/thumbnail_banner`
     );
-
-    // this.elRef.nativeElement.style.setProperty(
-    //   '--thumbnail-path',
-    //   `url("http://localhost:8000/api/${type}/${this.media?.id}/thumbnail_banner")`
-    // );
   }
 
   playMedia() {

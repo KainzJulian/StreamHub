@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:8000/api';
+import { environment } from '../environment';
+
+const BASE_URL = `http://${environment.backend.IP}:${environment.backend.PORT}/api`;
 
 export const MovieRoutes = {
   MOVIES: `${BASE_URL}/movies`,

@@ -74,6 +74,8 @@ body {
   &::-webkit-scrollbar-track {
     border-radius: $radius--mid;
   }
+
+  // touch-action: none;
 }
 
 body {

@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MediaService } from '../../../services/media.service';
 import { Icon } from '../icon/icon';
+import { environment } from '../../../../environment';
 
 @Component({
   selector: 'episode-card',
@@ -48,7 +49,7 @@ export class EpisodeCard implements OnInit {
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',
-      `url("http://localhost:8000/api/episodes/${this.episode?.id}/thumbnail_preview")`
+      `url("http://${environment.backend.IP}:${environment.backend.PORT}/api/episodes/${this.episode?.id}/thumbnail_preview")`
     );
   }
 

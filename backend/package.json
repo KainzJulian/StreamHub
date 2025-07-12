@@ -2,7 +2,7 @@
   "name": "stream-hub",
   "version": "0.0.0",
   "scripts": {
-    "start": "uvicorn main:app --reload",
+    "start": "uvicorn main:app --reload --host 10.0.0.5 --port 4201",
     "test": "pytest -s"
   },
   "private": true,

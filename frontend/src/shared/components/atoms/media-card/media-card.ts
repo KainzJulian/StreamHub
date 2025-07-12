@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MediaRouterService } from '../../../services/media-router.service';
 import { MediaService } from '../../../services/media.service';
 import { Icon } from '../icon/icon';
+import { environment } from '../../../../environment';
 
 @Component({
   selector: 'media-card',
@@ -48,7 +49,7 @@ export class MediaCard implements OnChanges {
 
     this.elRef.nativeElement.style.setProperty(
       '--thumbnail-path',
-      `url("http://localhost:8000/api/${mediaType}/${this.media?.id}/thumbnail_preview")`
+      `url("http://${environment.backend.IP}:${environment.backend.PORT}/api/${mediaType}/${this.media?.id}/thumbnail_preview")`
     );
   }
 
