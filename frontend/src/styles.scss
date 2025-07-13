@@ -12,6 +12,7 @@ $gap--large: 16px;
 $gap--mid: 12px;
 $gap--small: 8px;
 $gap--xsmall: 4px;
+$gap--xxsmall: 2px;
 
 $transition--slower: 1.6s;
 $transition--slow: 0.8s;
@@ -74,12 +75,12 @@ body {
   &::-webkit-scrollbar-track {
     border-radius: $radius--mid;
   }
-
-  // touch-action: none;
 }
 
 body {
   padding-bottom: $gap--xxlarge;
+
+  overscroll-behavior: contain;
 
   @include respond(md) {
     padding-top: $gap--xxlarge;

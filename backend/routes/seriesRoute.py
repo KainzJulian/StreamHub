@@ -189,8 +189,8 @@ def getThumbnail(series_id: str):
             return None
 
         image = Image.open(originalThumbnailPath)
-        image.thumbnail((400, 600))
-        image.save(previewThumbnailPath)
+        image.thumbnail((350, 500))
+        image.save(previewThumbnailPath, quality=60)
 
         response = FileResponse(
             previewThumbnailPath,

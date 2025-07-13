@@ -8,6 +8,7 @@
   display: block;
 
   margin-top: $gap--large;
+  margin-bottom: $gap--xlarge;
 
   @include respond(md) {
     margin-top: 0px;

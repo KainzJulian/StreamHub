@@ -9,11 +9,16 @@
     font-size: 20px;
     cursor: pointer;
 
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: $gap--small;
+    padding-right: $gap--small;
 
     height: 100%;
     width: auto;
+
+    @include respond(sm) {
+      padding-left: $gap--large;
+      padding-right: $gap--large;
+    }
 
     &:hover {
       transition: all $transition--fast;

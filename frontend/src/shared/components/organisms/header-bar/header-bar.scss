@@ -4,16 +4,16 @@
   width: 100%;
 
   box-sizing: border-box;
-  padding: $gap--xsmall;
+  padding: $gap--xxsmall;
 
-  position: absolute;
+  position: fixed;
+  bottom: 0px;
 
   display: flex;
   flex-direction: row;
 
   z-index: 9999;
 
-  bottom: 0px;
   height: $gap--xxlarge;
 
   background-color: $color-primary;
