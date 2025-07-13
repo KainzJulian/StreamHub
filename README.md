@@ -56,7 +56,7 @@ npm run backend
 npm run frontend
 ```
 
-To access the application, open your web browser and navigate to `http://localhost:4200` for the frontend and `http://localhost:8000` for the backend API.
+To access the application, open your web browser and navigate to `http://10.0.0.5:4200` for the frontend and `http://10.0.0.5:4201` for the backend API.
 
 ## Required Folder Structure for Media Path
 
@@ -91,7 +91,7 @@ If the episode does not have a thumbnail, the series thumbnail will be used as a
 
 ## Features
 
-- Movie and series streaming with episode thumbnails.
+- Movie and series streaming with thumbnails.
 - Thumbnail support
 - Video playback
 - Season and episode grouping for series
@@ -104,7 +104,7 @@ If the episode does not have a thumbnail, the series thumbnail will be used as a
 - Requires specific folder structure for media files to work correctly.
 - The application is designed for personal use and may not be suitable for production environments without further enhancements and security measures.
 
-# MIT License
+## MIT License
 
 Copyright (c) 2025 KainzJulian
 

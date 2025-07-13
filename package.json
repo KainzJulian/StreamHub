@@ -2,7 +2,7 @@
   "name": "stream-hub",
   "version": "0.0.0",
   "scripts": {
-    "frontend": "cd ./frontend && ng serve --host 10.0.0.5",
+    "frontend": "cd ./frontend && npm run start",
     "backend": "cd ./backend && npm run start",
     "mongo": "docker-compose up mongo --build",
     "storybook": "cd ./frontend && ng run StreamHub:storybook",
