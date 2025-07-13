@@ -16,7 +16,7 @@ movieRouter = APIRouter(prefix="/movies", tags=["movie"])
 
 moviesPath = getENV("MEDIA_PATH") + "/movies"
 mediaPath = getENV("MEDIA_PATH")
-cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
+removeOrphanedMedia = getENV("REMOVE_ORPHANED_MEDIA")
 
 
 @movieRouter.get("/")
@@ -231,7 +231,7 @@ def searchMovies(query: str, genres: list[str]) -> Response[list[Movie]]:
 
 def removeMovie(id: str):
 
-    if cleanupOrphanedMedia == "false":
+    if removeOrphanedMedia == "false":
         return
 
     try:

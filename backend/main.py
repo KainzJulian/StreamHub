@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-instantiateDataOnStartup = getENV("INSTANTIADE_DATA_ON_START_UP")
+instantiateDataOnStartup = getENV("INSTANTIATE_DATA_ON_START_UP")
 
 if instantiateDataOnStartup == "true":
     app.add_event_handler("startup", saveFilesToDB)

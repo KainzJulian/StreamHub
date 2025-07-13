@@ -12,7 +12,7 @@ from classes.episode import Episode
 
 episodeRouter = APIRouter(prefix="/episodes", tags=["episode"])
 mediaPath = getENV("MEDIA_PATH")
-cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
+removeOrphanedMedia = getENV("REMOVE_ORPHANED_MEDIA")
 
 
 @episodeRouter.get("/")
@@ -146,7 +146,7 @@ def addEpisode(episode: Episode) -> Response[str]:
 
 
 def removeEpisode(id: str):
-    if cleanupOrphanedMedia == "false":
+    if removeOrphanedMedia == "false":
         return
 
     try:

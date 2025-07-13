@@ -24,7 +24,7 @@ seriesRouter = APIRouter(prefix="/series", tags=["series"])
 
 seriesPath = getENV("MEDIA_PATH") + "/series"
 mediaPath = getENV("MEDIA_PATH")
-cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
+removeOrphanedMedia = getENV("REMOVE_ORPHANED_MEDIA")
 
 
 @seriesRouter.get("/")
@@ -45,7 +45,7 @@ def removeOrphanedSeries():
         seriesCollection.find({}, {"_id": False, "id": True, "mediaPath": True})
     )
 
-    if cleanupOrphanedMedia == "false":
+    if removeOrphanedMedia == "false":
         return
 
     for series in seriesList:
