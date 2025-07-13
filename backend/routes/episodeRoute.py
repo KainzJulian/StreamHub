@@ -29,6 +29,10 @@ def getAllEpisodesBySeriesID(series_id: str) -> Response[list[Episode]]:
         return Response.Error(e)
 
 
+def deleteAllEpisodesBySeriesID(seriesID: str) -> None:
+    episodesCollection.delete_many({"seriesID": seriesID})
+
+
 @episodeRouter.get("/{episode_id}/episode")
 def getEpisodeByID(episode_id: str) -> Response[Episode]:
     try:

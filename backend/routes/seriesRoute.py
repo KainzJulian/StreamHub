@@ -14,23 +14,45 @@ from classes.response import Response
 from database import seriesCollection
 from database import episodesCollection
 from classes.series import Series
-from routes.episodeRoute import removeEpisode
+from routes.episodeRoute import (
+    deleteAllEpisodesBySeriesID,
+    removeEpisode,
+)
 
 seriesRouter = APIRouter(prefix="/series", tags=["series"])
 
 
 seriesPath = getENV("MEDIA_PATH") + "/series"
 mediaPath = getENV("MEDIA_PATH")
+cleanupOrphanedMedia = getENV("CLEANUP_ORPHANED_MEDIA")
 
 
 @seriesRouter.get("/")
 def getAllSeries() -> Response[list[Series]]:
     try:
+        removeOrphanedSeries()
+
         seriesList = list(seriesCollection.find({}, {"_id": 0}))
+
         return Response.Success(seriesList)
 
     except Exception as e:
         return Response.Error(e)
+
+
+def removeOrphanedSeries():
+    seriesList = list(
+        seriesCollection.find({}, {"_id": False, "id": True, "mediaPath": True})
+    )
+
+    if cleanupOrphanedMedia == "false":
+        return
+
+    for series in seriesList:
+        if not os.path.exists(mediaPath + "/" + series["mediaPath"]):
+            id = series["id"]
+            seriesCollection.find_one_and_delete({"id": id})
+            deleteAllEpisodesBySeriesID(id)
 
 
 @seriesRouter.get("/{series_id}/exists")
