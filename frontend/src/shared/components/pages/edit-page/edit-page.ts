@@ -15,9 +15,6 @@ import { Media } from '../../../types/media';
 import { MediaService } from '../../../services/media.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Episode } from '../../../types/seriesEpisode';
-import { Movie } from '../../../types/movie';
-import { Series } from '../../../types/series';
 
 @Component({
   selector: 'edit-page',
@@ -75,6 +72,10 @@ export class EditPage {
     data?.forEach((genre) => {
       this.genreList.add(genre);
     });
+  }
+
+  checkMediaType(type: string): boolean {
+    return this.media()?.type == type;
   }
 
   onCancelPressed() {

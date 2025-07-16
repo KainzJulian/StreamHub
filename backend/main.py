@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from regex import T
 from utils.get_env import getENV
 from routes.watchHistoryRoute import watchHistoryRouter
-from utils import saveFilesToDB
+from utils import saveFilesToDB, checkPaths
 from routes.seriesRoute import seriesRouter
 from routes.episodeRoute import episodeRouter
 from routes.movieRoute import movieRouter
@@ -22,6 +22,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+checkPaths()
 
 instantiateDataOnStartup = getENV("INSTANTIATE_DATA_ON_START_UP")
 
