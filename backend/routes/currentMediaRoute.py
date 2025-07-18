@@ -17,6 +17,7 @@ from routes.episodeRoute import removeEpisode
 
 currentMediaRouter = APIRouter(prefix="/current_media", tags=["currentMedia"])
 mediaPath = getENV("MEDIA_PATH")
+removeOrphanedMedia = getENV("REMOVE_ORPHANED_MEDIA")
 
 
 @currentMediaRouter.get("/get")
@@ -133,7 +134,9 @@ def getMediaPath(id: str) -> str:
         if os.path.exists(path):
             return path
 
-        removeEpisode(id)
+        if removeOrphanedMedia == "true":
+            removeEpisode(id)
+
         raise HTTPException(
             status_code=500, detail="No Episode Video File found for path: " + path
         )
@@ -146,8 +149,9 @@ def getMediaPath(id: str) -> str:
 
         if os.path.exists(path):
             return path
+        if removeOrphanedMedia == "false":
+            removeMovie(id)
 
-        removeMovie(id)
         raise HTTPException(
             status_code=500, detail="No Movie Video File found for path: " + path
         )

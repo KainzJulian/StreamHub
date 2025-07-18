@@ -146,8 +146,6 @@ def addEpisode(episode: Episode) -> Response[str]:
 
 
 def removeEpisode(id: str):
-    if removeOrphanedMedia == "false":
-        return
 
     try:
         episodesCollection.find_one_and_delete({"id": id})

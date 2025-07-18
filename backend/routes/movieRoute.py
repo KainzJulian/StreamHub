@@ -26,9 +26,10 @@ def getAllMovies() -> Response[list[Movie]]:
             movieCollection.find({}, {"_id": False, "id": True, "mediaPath": True})
         )
 
-        for movie in movieList:
-            if not os.path.exists(mediaPath + "/" + movie["mediaPath"]):
-                removeMovie(movie["id"])
+        if removeOrphanedMedia != "false":
+            for movie in movieList:
+                if not os.path.exists(mediaPath + "/" + movie["mediaPath"]):
+                    removeMovie(movie["id"])
 
         movieList = list(movieCollection.find({}, {"_id": False}))
 
@@ -230,9 +231,6 @@ def searchMovies(query: str, genres: list[str]) -> Response[list[Movie]]:
 
 
 def removeMovie(id: str):
-
-    if removeOrphanedMedia == "false":
-        return
 
     try:
         movieCollection.find_one_and_delete({"id": id})

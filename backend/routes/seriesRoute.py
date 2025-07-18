@@ -120,9 +120,10 @@ def getSeriesWithEpisodesByID(series_id: str) -> Response[Series]:
                 Exception("No Series found with the ID: " + series_id)
             )
 
-        for episode in episodeList:
-            if not os.path.exists(mediaPath + "/" + episode["mediaPath"]):
-                removeEpisode(episode["id"])
+        if removeOrphanedMedia == "true":
+            for episode in episodeList:
+                if not os.path.exists(mediaPath + "/" + episode["mediaPath"]):
+                    removeEpisode(episode["id"])
 
         seriesCursor = seriesCollection.aggregate(pipeline)
         series = next(seriesCursor, None)

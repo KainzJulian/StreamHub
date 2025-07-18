@@ -77,12 +77,10 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
     relativePathString = "/".join(relativePath)
 
     for root, _, files in scandir.walk(fullPath + "/" + seriesName):
-
         if len(files) == 0:
             continue
 
         season = root.replace("\\", "/").split("/")[-1]
-
         for file in files:
 
             if not file.endswith(".mp4"):

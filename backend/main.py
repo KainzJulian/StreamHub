@@ -1,10 +1,14 @@
+import asyncio
+from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from regex import T
+from utils.mediaChangeHandler import (
+    MediaChangeHandler,
+)
 from utils.get_env import getENV
 from routes.watchHistoryRoute import watchHistoryRouter
-from utils import saveFilesToDB, checkPaths
+from utils import saveFilesToDB
 from routes.seriesRoute import seriesRouter
 from routes.episodeRoute import episodeRouter
 from routes.movieRoute import movieRouter
@@ -23,14 +27,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-checkPaths()
+mediaPath = getENV("MEDIA_PATH")
+
+if not Path(mediaPath).exists():
+    raise Exception("No Media Folder found in Path: " + mediaPath)
+
 
 instantiateDataOnStartup = getENV("INSTANTIATE_DATA_ON_START_UP")
 
 if instantiateDataOnStartup == "true":
     app.add_event_handler("startup", saveFilesToDB)
 
-print("Docs: http://127.0.0.1:8000/docs#/")
+
+mediaChangeHandler = MediaChangeHandler(mediaPath)
+
+app.add_event_handler(
+    "startup", lambda: asyncio.create_task(mediaChangeHandler.watch_for_changes())
+)
+
+
+print("Docs: http://10.0.0.5:4201/docs#/")
 
 routes = [
     seriesRouter,
