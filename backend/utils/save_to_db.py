@@ -1,4 +1,5 @@
 import re
+import time
 from pymediainfo import MediaInfo
 import os
 from uuid import uuid5
@@ -134,11 +135,28 @@ def extractEpisodeNumber(name: str) -> int | None:
 
 
 def getVideoLengthInSeconds(path: str) -> int:
-    media_info = MediaInfo.parse(path)
-    for track in media_info.tracks:
-        if track.track_type == "Video":
-            return int(float(track.duration) / 1000)
-    return 0
+    max_retries = 5
+    delay = 0.5
+
+    mediaPath = path.replace("\\", "/")
+
+    if mediaPath == "":
+        mediaPath = path
+
+    for attempt in range(max_retries):
+        try:
+            media_info = MediaInfo.parse(mediaPath)
+            for track in media_info.tracks:
+                if track.track_type == "Video":
+                    return int(float(track.duration) / 1000)
+            return 0
+        except RuntimeError as e:
+            print(f"⚠️ Attempt {attempt + 1} failed: {e}")
+            time.sleep(delay)
+
+    raise RuntimeError(
+        f"Failed to parse video info after {max_retries} attempts: {mediaPath}"
+    )
 
 
 def updateDurationInSeries():

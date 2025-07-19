@@ -1,4 +1,5 @@
 import os
+import re
 from uuid import uuid5
 import uuid
 from PIL import Image
@@ -236,6 +237,15 @@ def removeMovie(id: str):
         movieCollection.find_one_and_delete({"id": id})
     except Exception as e:
         raise e
+
+
+def removeMovieByPath(path: str):
+    print(path)
+    movies = movieCollection.find({"mediaPath": {"$regex": re.escape(path)}}).to_list()
+    print(movies)
+
+    for movie in movies:
+        movieCollection.find_one_and_delete({"id": movie["id"]})
 
 
 @movieRouter.get("/highest_rated/{limit}")

@@ -4,7 +4,7 @@ import os
 from watchfiles import Change, awatch
 from utils.create_series_from_path import createSeriesFromPath
 from utils.save_to_db import uploadEpisodesToSeries, uploadMoviesToDB
-from utils.removeFromDB import removeEpisode, removeMovie
+from utils.removeFromDB import removeEpisode, removeMovie, removeMovieFolder
 from utils.get_env import getENV
 
 mediaPath = getENV("MEDIA_PATH")
@@ -40,13 +40,25 @@ class MediaChangeHandler:
                 isInSeriesPath = relativePathArray[0] == "series"
                 isInMoviesPath = relativePathArray[0] == "movies"
 
-                print(relativePathArray)
-
                 isEpisode = isFile and isMP4File and isInSeriesPath
                 isMovie = isFile and isMP4File and isInMoviesPath
                 isMovieFolder = isFolder and isInMoviesPath
                 isSeries = isFolder and isInSeriesPath and len(relativePathArray) == 2
                 isSeason = isFolder and isInSeriesPath and len(relativePathArray) == 3
+
+                if changeType == Change.added:
+                    print("ADD")
+
+                if changeType == Change.deleted:
+                    print("DELETE")
+
+                if changeType == Change.deleted and isMovieFolder:
+                    self.removeMovieFolder(changedPath)
+                    continue
+
+                if changeType == Change.added and isMovieFolder:
+                    self.addMovieFolder(changedPath)
+                    continue
 
                 if changeType == Change.deleted and isSeries:
                     self.removeSeries(changedPath)
@@ -72,10 +84,6 @@ class MediaChangeHandler:
                     self.addMovie(changedPath)
                     continue
 
-                if changeType == Change.deleted and isMovieFolder:
-                    self.removeMovieFolder(changedPath)
-                    continue
-
     def removeEpisode(self, path: str):
         print("remove - Episode")
         removeEpisode(self.getRelativePath(path))
@@ -99,9 +107,11 @@ class MediaChangeHandler:
 
     def removeMovieFolder(self, path: str):
         print("remove - MovieFolder")
+        removeMovieFolder(path)
 
     def addMovieFolder(self, path: str):
         print("add - MovieFolder")
+        path = "/".join(path.split("\\")[:-1])
         uploadMoviesToDB(path)
 
     def removeSeries(self, path: str):
@@ -109,7 +119,7 @@ class MediaChangeHandler:
 
     def addSeries(self, path: str):
         print("add - Series")
-        createSeriesFromPath(path)
+        createSeriesFromPath(path.replace("\\", "/"))
 
     def addSeason(self, path: str):
         print("add - Season")
