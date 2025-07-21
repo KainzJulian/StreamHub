@@ -1,9 +1,5 @@
-import os
 from uuid import uuid5, NAMESPACE_DNS
-
-from pyparsing import replaceHTMLEntity
-import scandir
-from routes import episodeRoute, movieRoute
+from routes import episodeRoute, movieRoute, seriesRoute
 
 
 def removeEpisode(relPath: str):
@@ -12,7 +8,6 @@ def removeEpisode(relPath: str):
     episodeRoute.removeEpisode(id)
 
 
-# movies/movie/MovieName.mp4
 def removeMovie(relPath: str):
     newPath = relPath.split(".mp4")[0].replace("\\", "/")
     id = str(uuid5(NAMESPACE_DNS, newPath))
@@ -20,16 +15,19 @@ def removeMovie(relPath: str):
 
 
 def removeSeries(relPath: str):
-    pass
+    path = "/".join(relPath.replace("\\", "/").split("/")[-2:])
+    print(path)
+    seriesRoute.removeSeriesByPath(path)
 
 
 def removeSeason(relPath: str):
-    pass
+    print(relPath)
 
 
 def removeMovieFolder(relPath: str):
 
     path = "/".join(relPath.replace("\\", "/").split("/")[-2:]) + "/"
+
     movieRoute.removeMovieByPath(path)
 
     print("removeMovieFolder")

@@ -2,6 +2,7 @@ import math
 from random import choice
 from typing import TypedDict
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 from pymongo import DESCENDING
 
 from routes import seriesRoute
@@ -193,7 +194,7 @@ def updateTimeWatched(media_id: str, time_in_seconds: int) -> Response[bool]:
             )
 
         if media == None:
-            return Response.Error(Exception("No media with the id found: " + media_id))
+            raise Exception("No media with the id found: " + media_id)
 
         if media["duration"] * 0.9 <= time_in_seconds:
             setWatchedFlag(media_id)

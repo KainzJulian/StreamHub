@@ -54,8 +54,12 @@ export class MediaTemplate implements OnInit, OnDestroy {
   onPauseVideo() {
     const time = this.video?.nativeElement.currentTime;
     const id = this.media?.id;
-    if (id && time)
-      navigator.sendBeacon(MediaRoutes.SET_TIME_WATCHED(id, Math.floor(time)));
+
+    if (id && time) {
+      this.mediaService.setTime(id, Math.floor(time)).subscribe((response) => {
+        console.log('response :>> ', response);
+      });
+    }
   }
 
   onPlayVideo() {

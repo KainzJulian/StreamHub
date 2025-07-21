@@ -4,7 +4,13 @@ import os
 from watchfiles import Change, awatch
 from utils.create_series_from_path import createSeriesFromPath
 from utils.save_to_db import uploadEpisodesToSeries, uploadMoviesToDB
-from utils.removeFromDB import removeEpisode, removeMovie, removeMovieFolder
+from utils.removeFromDB import (
+    removeEpisode,
+    removeMovie,
+    removeMovieFolder,
+    removeSeason,
+    removeSeries,
+)
 from utils.get_env import getENV
 
 mediaPath = getENV("MEDIA_PATH")
@@ -64,6 +70,10 @@ class MediaChangeHandler:
                     self.removeSeries(changedPath)
                     continue
 
+                if changeType == Change.added and isSeries:
+                    self.addSeries(changedPath)
+                    continue
+
                 if changeType == Change.deleted and isSeason:
                     self.removeSeason(changedPath)
                     continue
@@ -116,17 +126,22 @@ class MediaChangeHandler:
 
     def removeSeries(self, path: str):
         print("remove - Series")
+        removeSeries(path)
 
     def addSeries(self, path: str):
         print("add - Series")
-        createSeriesFromPath(path.replace("\\", "/"))
+        path = "/".join(path.split("\\")[:-1])
+        createSeriesFromPath(path)
 
     def addSeason(self, path: str):
         print("add - Season")
-        # uploadEpisodesToSeries
+        seriesName = self.getRelativePath(path).split("\\")[1]
+        path = "/".join(path.split("\\")[:-3])
+        uploadEpisodesToSeries(path, seriesName)
 
     def removeSeason(self, path: str):
         print("remove - Season")
+        removeSeason(path)
 
     def getRelativePath(self, path: str) -> str:
 

@@ -136,4 +136,13 @@ export class MediaService {
   ): Observable<BackendResponse<Movie[]>> {
     return this.apiService.get(MovieRoutes.GET_SIMILAR_MOVIES(movieID));
   }
+
+  public setTime(
+    id: string,
+    timeInSeconds: number
+  ): Observable<BackendResponse<boolean>> {
+    return this.apiService.post(
+      MediaRoutes.SET_TIME_WATCHED(id, timeInSeconds)
+    );
+  }
 }

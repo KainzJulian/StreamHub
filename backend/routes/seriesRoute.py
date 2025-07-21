@@ -1,12 +1,11 @@
 import os
+import re
 from PIL import Image
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pymongo import DESCENDING
-from sympy import false
 
 from routes import episodeRoute
-from classes.episode import Episode
 from utils.save_to_db import uploadEpisodesToSeries
 from utils.get_thumbnail_paths import getThumbnailPaths
 from utils.get_env import getENV
@@ -53,6 +52,18 @@ def removeOrphanedSeries():
             id = series["id"]
             seriesCollection.find_one_and_delete({"id": id})
             deleteAllEpisodesBySeriesID(id)
+
+
+def removeSeriesByPath(path: str):
+    series = seriesCollection.find_one_and_delete(
+        {"mediaPath": {"$regex": re.escape(path)}}
+    )
+    print(series)
+
+    if series == None:
+        raise Exception("No Series found")
+
+    episodeRoute.deleteAllEpisodesBySeriesID(series["id"])
 
 
 @seriesRouter.get("/{series_id}/exists")

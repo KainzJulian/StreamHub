@@ -81,7 +81,17 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
         if len(files) == 0:
             continue
 
-        season = root.replace("\\", "/").split("/")[-1]
+        seasonFolder = root.replace("\\", "/").split("/")[-1]
+
+        seasonMatch = re.match(r"(\d+)\s*-\s*(.+)", seasonFolder)
+
+        season = 0
+
+        if seasonMatch:
+            season = int(seasonMatch.group(1))
+        else:
+            season = seasonFolder
+
         for file in files:
 
             if not file.endswith(".mp4"):
@@ -89,7 +99,7 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
 
             episodeName = os.path.splitext(file)[0]
 
-            mediaPathString = f"{relativePathString}/{season}/{episodeName}"
+            mediaPathString = f"{relativePathString}/{seasonFolder}/{episodeName}"
 
             episodeID = str(uuid5(uuid.NAMESPACE_DNS, mediaPathString))
             exists = episodeRoute.exists(episodeID)
