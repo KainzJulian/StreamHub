@@ -21,7 +21,8 @@ def removeSeries(relPath: str):
 
 
 def removeSeason(relPath: str):
-    print(relPath)
+    path = "/".join(relPath.replace("\\", "/").split("/")[-3:])
+    episodeRoute.removeEpisodesByPath(path)
 
 
 def removeMovieFolder(relPath: str):

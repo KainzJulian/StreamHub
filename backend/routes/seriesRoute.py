@@ -58,7 +58,6 @@ def removeSeriesByPath(path: str):
     series = seriesCollection.find_one_and_delete(
         {"mediaPath": {"$regex": re.escape(path)}}
     )
-    print(series)
 
     if series == None:
         raise Exception("No Series found")

@@ -1,6 +1,7 @@
 from pathlib import Path
 from enum import Enum
 import os
+from numpy import full
 from watchfiles import Change, awatch
 from utils.create_series_from_path import createSeriesFromPath
 from utils.save_to_db import uploadEpisodesToSeries, uploadMoviesToDB
@@ -52,47 +53,41 @@ class MediaChangeHandler:
                 isSeries = isFolder and isInSeriesPath and len(relativePathArray) == 2
                 isSeason = isFolder and isInSeriesPath and len(relativePathArray) == 3
 
+                if changeType == Change.deleted and isMovieFolder:
+                    self.removeMovieFolder(changedPath)
+
+                if changeType == Change.added and isMovie:
+                    self.addMovie(changedPath)
+
                 if changeType == Change.added:
                     print("ADD")
 
                 if changeType == Change.deleted:
                     print("DELETE")
 
-                if changeType == Change.deleted and isMovieFolder:
-                    self.removeMovieFolder(changedPath)
-                    continue
-
-                if changeType == Change.added and isMovieFolder:
-                    self.addMovieFolder(changedPath)
-                    continue
-
                 if changeType == Change.deleted and isSeries:
                     self.removeSeries(changedPath)
-                    continue
-
-                if changeType == Change.added and isSeries:
-                    self.addSeries(changedPath)
-                    continue
 
                 if changeType == Change.deleted and isSeason:
                     self.removeSeason(changedPath)
-                    continue
 
                 if changeType == Change.deleted and isEpisode:
                     self.removeEpisode(changedPath)
-                    continue
 
-                if changeType == Change.added and isEpisode:
-                    self.addEpisode(changedPath)
-                    continue
+                if changeType == Change.added and isMovieFolder:
+                    self.addMovieFolder(changedPath)
 
                 if changeType == Change.deleted and isMovie:
                     self.removeMovie(changedPath)
-                    continue
 
-                if changeType == Change.added and isMovie:
-                    self.addMovie(changedPath)
-                    continue
+                if changeType == Change.added and isSeries:
+                    self.addSeries(changedPath)
+
+                if changeType == Change.added and isSeason:
+                    self.addSeason(changedPath)
+
+                if changeType == Change.added and isEpisode:
+                    self.addEpisode(changedPath)
 
     def removeEpisode(self, path: str):
         print("remove - Episode")
@@ -130,13 +125,18 @@ class MediaChangeHandler:
 
     def addSeries(self, path: str):
         print("add - Series")
-        path = "/".join(path.split("\\")[:-1])
-        createSeriesFromPath(path)
+        seriesPath = "/".join(path.split("\\")[:-1])
+
+        seriesName = self.getRelativePath(path).split("\\")[1]
+        fullPath = "/".join(path.split("\\")[:-1])
+
+        createSeriesFromPath(seriesPath)
+        uploadEpisodesToSeries(fullPath, seriesName)
 
     def addSeason(self, path: str):
         print("add - Season")
         seriesName = self.getRelativePath(path).split("\\")[1]
-        path = "/".join(path.split("\\")[:-3])
+        path = "/".join(path.split("\\")[:-2])
         uploadEpisodesToSeries(path, seriesName)
 
     def removeSeason(self, path: str):
@@ -149,9 +149,3 @@ class MediaChangeHandler:
             return str(Path(path).relative_to(mediaPath))
         except ValueError:
             raise Exception("Folder not found: " + mediaPath)
-
-    # Media\series\newSerie
-    # Media\series\newSerie\1
-    # Media\series\newSerie\1\Episode.mp4
-    # Media\movies\newMovie
-    # Media\movies\newMovie\movieName.mp4

@@ -1,4 +1,5 @@
 import os
+import re
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
 from PIL import Image
@@ -31,6 +32,18 @@ def getAllEpisodesBySeriesID(series_id: str) -> Response[list[Episode]]:
 
 def deleteAllEpisodesBySeriesID(seriesID: str) -> None:
     episodesCollection.delete_many({"seriesID": seriesID})
+
+
+def removeEpisodesByPath(path: str):
+    episodes = episodesCollection.find(
+        {"mediaPath": {"$regex": re.escape(path)}}
+    ).to_list()
+
+    if episodes == None:
+        return
+
+    for episode in episodes:
+        removeEpisode(episode["id"])
 
 
 @episodeRouter.get("/{episode_id}/episode")
