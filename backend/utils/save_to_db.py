@@ -6,6 +6,7 @@ from uuid import uuid5
 import uuid
 import scandir
 
+from routes import seriesRoute
 from database import movieCollection
 from routes import episodeRoute
 from classes.episode import Episode
@@ -77,6 +78,8 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
     relativePath.append(seriesName)
     relativePathString = "/".join(relativePath)
 
+    seriesID = str(uuid5(uuid.NAMESPACE_DNS, relativePathString))
+
     for root, _, files in scandir.walk(fullPath + "/" + seriesName):
         if len(files) == 0:
             continue
@@ -120,7 +123,6 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
                 episode = extractEpisodeNumber(episodeName)
 
             mediaPath = mediaPathString.split("/")
-            seriesID = str(uuid5(uuid.NAMESPACE_DNS, relativePathString))
 
             episodeRoute.addEpisode(
                 Episode(
@@ -134,6 +136,9 @@ def uploadEpisodesToSeries(fullPath: str, seriesName: str) -> None:
                     type="Episode",
                 )
             )
+    count = episodeRoute.getCountBySeries(seriesID)
+    if count.data:
+        seriesRoute.updateDuration(seriesID, count.data)
 
 
 def extractEpisodeNumber(name: str) -> int | None:
@@ -161,7 +166,7 @@ def getVideoLengthInSeconds(path: str) -> int:
                     return int(float(track.duration) / 1000)
             return 0
         except RuntimeError as e:
-            print(f"⚠️ Attempt {attempt + 1} failed: {e}")
+            print(f"Attempt {attempt + 1} failed: {e}")
             time.sleep(delay)
 
     raise RuntimeError(

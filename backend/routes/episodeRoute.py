@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
 from PIL import Image
 
+from routes import seriesRoute
 from utils.get_thumbnail_paths import getThumbnailPaths
 from utils.get_env import getENV
 from classes.response import Response
@@ -32,6 +33,9 @@ def getAllEpisodesBySeriesID(series_id: str) -> Response[list[Episode]]:
 
 def deleteAllEpisodesBySeriesID(seriesID: str) -> None:
     episodesCollection.delete_many({"seriesID": seriesID})
+
+    episodeCount = episodesCollection.count_documents({"seriesID": seriesID})
+    seriesRoute.updateDuration(seriesID, episodeCount)
 
 
 def removeEpisodesByPath(path: str):
@@ -161,7 +165,12 @@ def addEpisode(episode: Episode) -> Response[str]:
 def removeEpisode(id: str):
 
     try:
-        episodesCollection.find_one_and_delete({"id": id})
+        episode = episodesCollection.find_one_and_delete({"id": id})
+
+        episodeCount = episodesCollection.count_documents(
+            {"seriesID": episode["seriesID"]}
+        )
+        seriesRoute.updateDuration(episode["seriesID"], episodeCount)
     except Exception as e:
         raise e
 

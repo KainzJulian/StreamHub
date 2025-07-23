@@ -3,6 +3,7 @@ from enum import Enum
 import os
 from numpy import full
 from watchfiles import Change, awatch
+from routes import seriesRoute
 from utils.create_series_from_path import createSeriesFromPath
 from utils.save_to_db import uploadEpisodesToSeries, uploadMoviesToDB
 from utils.removeFromDB import (
