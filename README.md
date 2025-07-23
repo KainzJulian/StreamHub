@@ -95,6 +95,7 @@ If the episode does not have a thumbnail, the series thumbnail will be used as a
 - Thumbnail support
 - Video playback
 - Season and episode grouping for series
+- File Monitoring for adding, removing and renaming files and folders in series / movies folder
 
 ## Known Issues or Limitations
 
@@ -103,6 +104,7 @@ If the episode does not have a thumbnail, the series thumbnail will be used as a
 - Only `.jpg` image files are supported for thumbnails.
 - Requires specific folder structure for media files to work correctly.
 - The application is designed for personal use and may not be suitable for production environments without further enhancements and security measures.
+- When renaming file / folder it will delete and reinstantiates the file / folder on the database => certain data will be lost
 
 ## MIT License
 
