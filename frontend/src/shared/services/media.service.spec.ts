@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MediaService } from './series.service';
+import { MediaService } from './media.service';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('SeriesService', () => {
+describe('MediaService', () => {
   let service: MediaService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [provideHttpClientTesting(), MediaService],
+    });
     service = TestBed.inject(MediaService);
   });
 
