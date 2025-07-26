@@ -6,7 +6,9 @@
     "backend": "cd ./backend && npm run start",
     "mongo": "docker-compose up mongo --build",
     "storybook": "cd ./frontend && ng run StreamHub:storybook",
-    "build-storybook": "cd ./frontend && ng run StreamHub:build-storybook"
+    "build-storybook": "cd ./frontend && ng run StreamHub:build-storybook",
+    "frontend:test": "cd ./frontend && npm test",
+    "backend:test": "cd ./backend && npm test"
   },
   "private": true,
   "devDependencies": {
