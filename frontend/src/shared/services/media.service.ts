@@ -29,7 +29,7 @@ export class MediaService {
 
   private apiService!: HttpRequestHandler;
 
-  constructor(private http: HttpClient) {
+  constructor(http: HttpClient) {
     this.apiService = new HttpRequestHandler(http);
   }
 
