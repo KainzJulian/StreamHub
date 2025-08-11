@@ -27,8 +27,8 @@ export const SeriesRoutes = {
 };
 
 export const EpisodeRoutes = {
-  Episodes: (seriesID: string) => `${BASE_URL}/episode?series_id=${seriesID}`,
-  Episode: (episodeID: string) => `${BASE_URL}/episodes/${episodeID}/episode`,
+  EPISODES: (seriesID: string) => `${BASE_URL}/episode?series_id=${seriesID}`,
+  EPISODE: (episodeID: string) => `${BASE_URL}/episodes/${episodeID}/episode`,
 
   THUMBNAIL: (episodeID: string) =>
     `${BASE_URL}/episodes/${episodeID}/thumbnail`,

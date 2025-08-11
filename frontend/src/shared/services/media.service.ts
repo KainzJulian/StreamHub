@@ -27,7 +27,7 @@ export class MediaService {
   public currentEpisode = signal<Episode | null>(null);
   public currentSeason = signal<number>(1);
 
-  private apiService!: HttpRequestHandler;
+  public apiService!: HttpRequestHandler;
 
   constructor(http: HttpClient) {
     this.apiService = new HttpRequestHandler(http);
@@ -47,7 +47,7 @@ export class MediaService {
   }
 
   public getEpisode(episodeID: string): Observable<BackendResponse<Episode>> {
-    return this.apiService.get(EpisodeRoutes.Episode(episodeID));
+    return this.apiService.get(EpisodeRoutes.EPISODE(episodeID));
   }
 
   public getMovie(movieID: string): Observable<BackendResponse<Movie>> {
