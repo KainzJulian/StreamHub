@@ -8,9 +8,8 @@ describe('BaseButton', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BaseButton]
-    })
-    .compileComponents();
+      imports: [BaseButton],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BaseButton);
     component = fixture.componentInstance;
@@ -19,5 +18,18 @@ describe('BaseButton', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit onClick when clicked', () => {
+    const spy = jest.spyOn(component.onClick, 'emit');
+
+    const button: HTMLButtonElement =
+      fixture.nativeElement.querySelector('button');
+
+    expect(button).not.toBeNull();
+
+    button.click();
+
+    expect(spy).toHaveBeenCalled();
   });
 });
