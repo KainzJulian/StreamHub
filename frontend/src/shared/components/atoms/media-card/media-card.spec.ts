@@ -59,6 +59,125 @@ describe('MediaCard', () => {
       expect(() => component.openPlayer()).toThrow('Media not set');
     });
 
-    it('should ', () => {});
+    it('should set currentMedia and call openMediaPlayer', () => {
+      fixture.detectChanges();
+      component.openPlayer();
+
+      expect(mediaServiceMock.currentMedia()).toBe(component.media);
+      expect(mediaRouterServiceMock.openMediaPlayer).toHaveBeenCalledWith(
+        component.media
+      );
+    });
+  });
+
+  describe('isInProgress', () => {
+    it.each([
+      [-1, false],
+      [0, false],
+      [50, true],
+      [100, false],
+      [120, false],
+    ])('should return %i when progressBarWidth is %o', (width, expected) => {
+      component.progressBarWidth.set(width);
+      expect(component.isInProgress()).toBe(expected);
+    });
+  });
+
+  describe('HTML rendering', () => {
+    it('should render selected class when isSelected is true', () => {
+      component.isSelected = true;
+      fixture.detectChanges();
+
+      const thumbnail = fixture.nativeElement.querySelector('.selected');
+      expect(thumbnail).not.toBeNull();
+    });
+
+    it('should not render selected class when isSelected is false', () => {
+      component.isSelected = false;
+      fixture.detectChanges();
+
+      const thumbnail = fixture.nativeElement.querySelector('.selected');
+      expect(thumbnail).toBeNull();
+    });
+
+    it('should render rating when it is not null', () => {
+      component.media = { ...mockMovie, rating: 30 };
+      fixture.detectChanges();
+
+      const rating = fixture.nativeElement.querySelector('.card__rating');
+      expect(rating).not.toBeNull();
+    });
+
+    it('should not render rating when it is null', () => {
+      component.media = { ...mockMovie, rating: null };
+      fixture.detectChanges();
+
+      const rating = fixture.nativeElement.querySelector('.card__rating');
+      expect(rating).toBeNull();
+    });
+
+    it('should not render an indicator circle when the media is complete', () => {
+      component.media = { ...mockMovie, isComplete: true };
+      fixture.detectChanges();
+
+      const rating = fixture.nativeElement.querySelector(
+        '.card__complete.circle'
+      );
+      expect(rating).toBeNull();
+    });
+
+    it('should render an indicator circle when the media is complete', () => {
+      component.media = { ...mockMovie, isComplete: false };
+      fixture.detectChanges();
+
+      const rating = fixture.nativeElement.querySelector(
+        '.card__complete.circle'
+      );
+      expect(rating).not.toBeNull();
+    });
+
+    it('should render card progress and the background when it is in progress', () => {
+      jest.spyOn(component, 'isInProgress').mockReturnValue(true);
+      fixture.detectChanges();
+
+      const cardProgressBackground = fixture.nativeElement.querySelector(
+        '.card__progress.card__progress__background'
+      );
+      expect(cardProgressBackground).not.toBeNull();
+
+      const cardProgress =
+        fixture.nativeElement.querySelector('.card__progress');
+      expect(cardProgress).not.toBeNull();
+    });
+
+    it('should not render card progress and the background when it is in progress', () => {
+      jest.spyOn(component, 'isInProgress').mockReturnValue(false);
+      fixture.detectChanges();
+
+      const cardProgressBackground = fixture.nativeElement.querySelector(
+        '.card__progress.card__progress__background'
+      );
+      expect(cardProgressBackground).toBeNull();
+
+      const cardProgress =
+        fixture.nativeElement.querySelector('.card__progress');
+      expect(cardProgress).toBeNull();
+    });
+
+    it('should render a checkmark when the media is watched', () => {
+      component.media = { ...mockMovie, watched: true };
+      fixture.detectChanges();
+
+      const cardWatched = fixture.nativeElement.querySelector('.card__watched');
+      expect(cardWatched).not.toBeNull();
+    });
+
+    it('should render a checkmark when the media is watched', () => {
+      component.media = { ...mockMovie, watched: false };
+      fixture.detectChanges();
+
+      const cardWatched = fixture.nativeElement.querySelector('.card__watched');
+      expect(cardWatched).toBeNull();
+    });
   });
 });
