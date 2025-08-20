@@ -34,13 +34,12 @@ export class Banner implements AfterViewInit {
   @Input() buttonText: string = '';
 
   constructor(
-    private elRef: ElementRef,
     private mediaRouterService: MediaRouterService,
     private mediaService: MediaService
   ) {}
 
   ngAfterViewInit(): void {
-    if (!this.media?.id) throw new Error('Media ID not set');
+    if (!this.media) throw new Error('Media ID not set');
 
     const mediaType = this.media.type;
     let type = '';
@@ -57,8 +56,9 @@ export class Banner implements AfterViewInit {
           );
       }
     }
+
     this.src.set(
-      `http://${environment.backend.IP}:${environment.backend.PORT}/api/${type}/${this.media?.id}/thumbnail_banner`
+      `http://${environment.backend.IP}:${environment.backend.PORT}/api/${type}/${this.media.id}/thumbnail_banner`
     );
   }
 
